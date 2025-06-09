@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+     문제: 버튼을 클릭하면 "마우스 버튼을 눌렀다"라는 메시지로 변경되고, 
+     버튼을 떼면 "마우스 버튼에서 손을 뗐다"라는 메시지로 변경되는 이벤트를 작성하시오.
+    
+    -->
+    
+    <button id="btn" onmousedown="mouseDown()" onmouseup="mouseUp()">클릭하세용</button>
+
+    <script>
+        let $btn = document.querySelector("#btn");
+        function mouseDown(){
+            $btn.innerText = "버튼누름ㅋ";
+        }
+
+        function mouseUp(){
+            $btn.innerText = "버튼뗌ㅋ";
+        }
+    </script>
+
+</body>
+</html>

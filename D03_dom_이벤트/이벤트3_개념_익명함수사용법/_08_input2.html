@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        [개념] 이벤트 종류
+            (4) input
+                1) <input> 또는 <textarea> 요소의 값이 변경될 때 발생하는 이벤트이다.
+                2) change와 유사하나 input은 내용이 변경된 직후 이벤트가 발생한다.
+    -->          
+
+    <input type="range" id="range">
+    <p id="result"></p>
+
+    <script>
+        let $element = document.querySelector("#range");
+        $element.addEventListener("input", function() {
+            document.querySelector("#result").innerText = $element.value;
+        });
+    </script>
+
+</body>
+</html>

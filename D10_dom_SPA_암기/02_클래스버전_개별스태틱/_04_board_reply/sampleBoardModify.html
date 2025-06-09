@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, tr, td {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        #content-boardModify {
+            margin: 0 auto;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <table id="content-boardModify">
+        <tr>
+            <td colspan="6" id="title"><h1>게시판 정보</h1></td>
+        </tr>
+        <tr>
+            <td>번호</td>
+            <td></td>
+            <td>작성자</td>
+            <td></td>
+            <td>작성일</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>제목</td>
+            <td><input type="text" id="input-boardTitle"></td>
+            <td colspan="3">조회수</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td colspan="5">
+                <textarea rows="10" cols="50" id="textarea-boardContent"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6" id="boardPro">
+                <button id="button-boardReplyPage">수정하기</button>
+                <button id="button-boardListPage">목록으로</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

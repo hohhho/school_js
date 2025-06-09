@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .replyList, .removeList {
+            border: 1px solid black;
+            width: 500px;
+        }
+        .removeList {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>
+                댓글 <input id="reply" type="text">
+                <button onclick="addReply()">등록</button>
+            </td>
+        </tr>
+    </table>
+
+    <table id="list" border="1">
+    </table>
+
+    <script>
+        function addReply() {
+            // <table id="list" border="1">
+            let $list = document.querySelector("#list");
+
+            let value = document.querySelector("#reply").value;
+            if(value == "") {
+                alert("댓글을 입력해주세요.");
+                return;
+            }
+            let tr = document.createElement("tr");
+            
+            // 답글 추가하기
+            let td = document.createElement("td");
+            td.setAttribute("class", "replyList");
+            // td.classList = "replyList";
+            td.innerText = value;
+            tr.append(td);
+
+            // 삭제 버튼 추가하기
+            td = document.createElement("td");
+            let delSpan = document.createElement("span");
+            delSpan.innerText = "X";
+            delSpan.setAttribute("class", "removeList");
+            delSpan.addEventListener("click", delReply);
+            td.append(delSpan);
+           
+            tr.append(td);
+            $list.append(tr);
+
+            document.querySelector("#reply").value = "";
+            document.querySelector("#reply").focus();
+        }
+
+        function delReply() {
+            let $list = document.querySelector("#list");
+            let removeList = document.querySelectorAll(".removeList");
+            for(let i=0; i < removeList.length; i++) {
+                if(this == removeList[i]) {
+                    //            tr.remove()
+                    $list.children[i].remove();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

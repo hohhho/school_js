@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+       focus 와 blur를 사용한 이벤트를 만드시오. 
+       addEventListener 를 사용하시오.
+    -->    
+    
+    <input type="text" id="myInput">
+ 
+    <script>
+
+        let $element = document.querySelector("#myInput");
+
+        $element.addEventListener("focus", focusFunction);
+        $element.addEventListener("blur", blurFunction);
+
+        function focusFunction() {
+            $element.style.background = "lightgray";
+        }
+        
+        function blurFunction() {
+            $element.style.background = "";
+        }
+    </script>
+
+</body>
+</html>

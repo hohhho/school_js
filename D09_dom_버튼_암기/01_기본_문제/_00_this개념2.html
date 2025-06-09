@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1" onclick="func1(this)">onclick의 this</button>
+    <button id="btn2">addEventListener의 this1</button>
+    <button id="btn3">addEventListener의 this2</button>
+
+    <script>
+        // onclick의 경우 this를 인자로 전달받아 사용
+        function func1(e){
+            alert(e.innerText);
+        }
+
+        // addEventListener 방법 1 : this 사용
+        document.querySelector("#btn2").addEventListener("click",func2);
+        function func2(){
+            alert(this.innerText);
+        }
+
+        // addEventListener 방법 2 : e.target 사용 (e.target == this)
+        document.querySelector("#btn3").addEventListener("click",func3);
+        function func3(e){
+            console.log(this);
+            console.log(e.target);
+            alert(e.target.innerText);
+        }
+
+    </script>
+</body>
+</html>

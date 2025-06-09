@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        let exp = /^[A-Za-z0-9_\-]{6,16}$/;
+        /*  
+            [ 아이디 정규식 ]
+             해당 정규식은 6자에서 16자 사이의 영문자, 숫자, 밑줄(_) 또는 하이픈(-)
+             으로만 이루어진 문자열을 검사합니다.
+        */
+        
+        let value = "abcdefg";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+        value = "abcd_-";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+        value = "!abcd";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "ab22c3d";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+    </script>
+</body>
+</html>

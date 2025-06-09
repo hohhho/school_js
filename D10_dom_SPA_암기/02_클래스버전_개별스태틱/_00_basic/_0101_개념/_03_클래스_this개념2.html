@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        class Fruit {
+            // name = "";
+            // price = 0;
+
+            start() {
+                // 함수 안에서 this.을 붙여 클래스 변수를 생성할 수 있다.
+                this.name = "";
+                this.price = 0;
+                
+            }
+
+            printInfo() {
+                console.log(this.name + " : " + this.price);
+            }
+        }
+
+        let apple = new Fruit();
+        apple.name = "사과";
+        apple.price = 1000;
+        apple.printInfo();
+        
+
+    </script>
+
+</body>
+</html>

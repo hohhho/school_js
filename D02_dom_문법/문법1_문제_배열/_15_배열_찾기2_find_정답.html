@@ -1,0 +1,25 @@
+<script>
+
+    /*
+        다음결과를 예측하시오.
+    */
+
+    /*
+        [정답]
+            undefined
+    */
+
+    let userList = [
+        {name: "Mike", age: 30},
+        {name: "Jane", age: 27},
+        {name: "Tom", age: 10},
+        {name: "anna", age: 5}
+    ];
+
+    let result2 = userList.find((user) => {
+        return user.age < 3;
+    });
+    document.write(result2); 
+
+
+</script>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <button id="btn" onmousedown="downEvent()" onmouseup="upEvent()">버튼</button>
+    <script>
+        let $btn = document.querySelector("#btn");
+        
+        function downEvent() {
+            $btn.innerText = "마우스 버튼을 눌렀다.";
+        }
+        function upEvent() {
+            $btn.innerText = "그리고 마우스 버튼에서 손을 뗐다.";
+        }
+    </script>
+
+</body>
+</html>

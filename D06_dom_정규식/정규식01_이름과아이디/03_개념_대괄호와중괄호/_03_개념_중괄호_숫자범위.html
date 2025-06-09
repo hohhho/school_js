@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            {} 중괄호
+            1. 중괄호는 정규식에서 특정 패턴의 반복 횟수를 지정하는 데 사용됩니다.
+               예를 들어, {2}는 앞의 패턴이 정확히 2번 반복되어야 함을 의미합니다.
+            2. 또한 {n,m}과 같이 사용하여 n번 이상 m번 이하의 반복을 의미할 수도 있습니다.
+        */  
+
+
+        let exp = /^[abc]{2,4}$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [abc]       : 'a', 'b' 또는 'c' 중 하나의 문자와 매칭됩니다.
+            (3) {2, 4}      : 'a' 또는 'b' 또는 'c' 중에서 2번에서 4번까지 반복됨을 의미합니다.
+            (4) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 전체 문자열이 'a', 'b', 'c'로 구성된 문자 중 2~4자의 문자열과 매칭됩니다.
+        */
+        
+        let value = "abc";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "abcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "cb";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "bbb";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+    </script>
+</body>
+</html>

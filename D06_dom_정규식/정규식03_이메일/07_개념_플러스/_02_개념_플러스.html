@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^ab+$/; 
+        /*  
+            정규식 설명:
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [A-Za-z0-9] :     :
+                1) 'A'부터 'Z'까지의 대문자
+                2) 'a'부터 'z'까지의 소문자
+                3) '0'부터 '9'까지의 숫자 중 하나와 매칭됨을 나타냅니다.
+            (3) +           : + 앞에 있는 패턴이 1번 이상 반복됨을 의미합니다.
+            (4) $           : 문자열의 끝을 나타냅니다.
+        */
+
+
+        let value = "ab";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "abab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "ababab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "abc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "a";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+    </script>
+</body>
+</html>

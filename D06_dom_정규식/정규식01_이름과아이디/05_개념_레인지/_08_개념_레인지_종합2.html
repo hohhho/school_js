@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^[a-c]{2}-[0-9]{2}$/;
+
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [a-c]{2}    : 'a', 'b', 'c' 중 2개의 문자와 매칭
+            (3) [0-9]{2}    : '0', '1', ..., '9' 중 2개의 숫자와 매칭
+            (4) -           : 중간에 하이픈(-)이 포함된 패턴을 매칭합니다.
+            (5) $           : 문자열의 끝을 나타냅니다.
+
+            - 이 정규식은 처음 두 글자는 'a', 'b', 'c' 중에서 2개의 문자로 이루어짐
+            - 그 뒤에 하이픈(-)이 반드시 포함됨
+            - 마지막 두 글자는 '0'부터 '9' 사이의 숫자 2개로 이루어짐
+        */
+        
+        let value = "ab-12";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t  
+
+        value = "ac-34";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t         
+
+        value = "a1-23";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f        
+
+        value = "ab12";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f       
+
+    </script>
+</body>
+</html>

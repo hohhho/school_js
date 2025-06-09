@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마켓컬리</title>
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+
+    <style>
+    .box {
+        width: 240px;
+    }
+    .box .img-wrap {
+        /*이미지가 커졌을때 외각을 보이지 않게 한다. */
+        overflow: hidden;
+    }
+    .img-scale {
+        width: 100%; height: auto;
+    }
+    .box img:hover {
+        transform: scale(1.2, 1.2); 
+        transition-duration: 0.5s;
+    }
+    .box img {
+        transition-duration: 0.3s;
+    }
+
+    .slidewrap{
+        width: 100%;
+        height: 370px;
+
+        position: relative;
+        overflow: hidden;
+
+    }
+    .slides{
+        display: flex;
+
+    }
+    .slide{
+        width: 100%;
+        height: 370px;
+
+        flex: 0 0 100%;
+        display: flex;     
+        overflow: hidden;
+    }
+    </style>
+
+</head>
+<body>
+    <div align="center">
+        <table width="1050px">
+            <tr height="50px">
+                <td width="800px"></td>
+                <td align="center"><a href="#" style="text-decoration: none;color: black; font-size: 13px;">회원가입</a></td>
+                <td align="center"> | </td>
+                <td align="center"><a href="#" style="text-decoration: none;color: black; font-size: 13px;">로그인</a></td>
+                <td align="center"> | </td>
+                <td align="center"><a href="#" style="text-decoration: none;color: black; font-size: 13px;">고객센터</a></td>
+            </tr>
+        </table>
+    </div>
+    <div align="center">
+        <table width="1050px">
+            <tr height="50px">
+                <td><a href="index.html"><img src="img/logo.svg"></a></td>
+                <td><a href="index.html" style="text-decoration: none; color: #5F0080; font-weight: bold;">마켓컬리</a></td>
+                <td width="600px"><input type="text" placeholder="검색어를 입력해주세요" style="border: 1px solid #5F0080; width: 350px; height: 35px; border-radius: 3.5px;"></td>
+                <td><img src="img/location.svg"></td>
+                <td><img src="img/heart.svg"></td>
+                <td><img src="img/cart.svg"></td>
+            </tr>
+        </table>
+    </div>
+    <div align="center">
+        <table width="1050px">
+            <tr height="50px">
+                <td width="250px"><a href="#" style="text-decoration: none; color: black; font-weight: bold;">신상품</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color: black; font-weight: bold;">베스트</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color: black; font-weight: bold;">알뜰쇼핑</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color: black; font-weight: bold;">특가/혜택</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color: black; font-weight: bold;">샛별·하루배송안내</a></td>
+            </tr>
+        </table>
+    </div>
+    
+    <div>
+        <div class="slidewrap">
+            <div class="slides">
+                <div class="slide"><img src="img/banner01.png" ></div>
+                <div class="slide"><img src="img/banner02.png" ></div>
+                <div class="slide"><img src="img/banner03.png" ></div>
+                <div class="slide"><img src="img/banner01.png" ></div>
+                <div class="slide"><img src="img/banner02.png" ></div>
+                <div class="slide"><img src="img/banner03.png" ></div>
+            </div>
+        </div>
+    </div>
+
+    <div align="center">
+        <table width="1050px">
+            <tr>
+                <td align="center" style="font-size: 25px; font-weight: bold;">지금 가장 많이 담는 특가 🧐 ></td>
+            </tr>
+            <tr height="50px">
+                <td align="center" style="font-size: 15px; color: gray;">컬리 추천 특가템, 최대 30%</td>
+            </tr>
+        </table>
+        
+        <table width="1050px">
+            <tr>
+                <td>
+                    <div class="box">
+                        <div class="img-wrap">
+                            <img src="img/10.jpg" width="240px">
+                        </div>
+                    </div>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <div class="box">
+                        <div class="img-wrap">
+                            <img src="img/10.jpg" width="240px">
+                        </div>
+                    </div>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <div class="box">
+                        <div class="img-wrap">
+                            <img src="img/10.jpg" width="240px">
+                        </div>
+                    </div>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <div class="box">
+                        <div class="img-wrap">
+                            <img src="img/10.jpg" width="240px">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><a href="item.html" style="font-size: 15px; color: gray; text-decoration: none;">[삼삼물산] 신선한 국산 생굴 420g<br />(생물)</a></td>
+                <td width="30px"></td>
+                <td><a href="#" style="font-size: 15px; color: gray; text-decoration: none;">[정미소] 비단쌀 4kg</a></td>
+                <td width="30px"></td>
+                <td><a href="#" style="font-size: 15px; color: gray; text-decoration: none;">[KF365] 뉴질랜드 아보카도 (1개)</a></td>
+                <td width="30px"></td>
+                <td><a href="#" style="font-size: 15px; color: gray; text-decoration: none;">[프레시지] 밀푀유나베</a></td>
+            </tr>
+            <tr>
+                <td style="font-size: 15px; text-decoration: line-through; color: lightgray;">13,500원</td>
+                <td width="30px"></td>
+                <td style="font-size: 15px; text-decoration: line-through; color: lightgray;">25,900원</td>
+                <td width="30px"></td>
+                <td style="font-size: 15px; text-decoration: line-through; color: lightgray;">2,4900원</td>
+                <td width="30px"></td>
+                <td style="font-size: 15px; text-decoration: line-through; color: lightgray;">16,900원</td>
+            </tr>
+            <tr>
+                <td>
+                    <span style="font-size: 15px; color: orangered; font-weight: bold;">9%</span>
+                    <span style="font-size: 15px; font-weight: bold;">12,250원</span>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <span style="font-size: 15px; color: orangered; font-weight: bold;">30%</span>
+                    <span style="font-size: 15px; font-weight: bold;">18,130원</span>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <span style="font-size: 15px; color: orangered; font-weight: bold;">20%</span>
+                    <span style="font-size: 15px; font-weight: bold;">1,990원</span>
+                </td>
+                <td width="30px"></td>
+                <td>
+                    <span style="font-size: 15px; color: orangered; font-weight: bold;">9%</span>
+                    <span style="font-size: 15px; font-weight: bold;">14,872원</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+
+            //기본적인 슬라이드 정보 얻어두기
+            const slidewrap = document.querySelector(".slidewrap");
+            const slidescnt = document.querySelectorAll(".slide").length;
+            const slideContainer = document.getElementsByClassName("slides");
+            const slideWidth = slidewrap.offsetWidth;
+
+            console.log(slidewrap);
+            console.log(slidescnt);
+            console.log(slideContainer);
+            console.log(slideWidth);
+
+            let currentSlide = 0; // 이미지 인덱스 
+
+            setInterval(autoslide, 3000); //일정 시간마다 호출
+
+            function autoslide(){
+                // 다음이 있으면 다음으로 , 없으면 0으로 
+                if(currentSlide + 1 < slidescnt){
+                    currentSlide = currentSlide + 1;
+                }else{
+                    currentSlide = 0; 
+                }
+                slideContainer[0].style.transition = '0.5s';
+                slideContainer[0].style.transform = `translateX(-${slideWidth * currentSlide}px)`;
+            }
+        
+        </script>
+</body>
+</html>
+

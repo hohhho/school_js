@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        h1{
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="hibye">안녕1</h1>
+    <h1 class="hibye">안녕2</h1>
+    <hr>
+    <h1 class="hibye">잘가1</h1>
+    <h1 class="hibye">잘가2</h1>
+
+    <script>
+
+        let $hibye = document.querySelectorAll(".hibye");
+
+        for(let i=0; i<$hibye.length; i++){
+            $hibye[i].addEventListener("click",clickText);
+        }
+
+        function clickText(){
+            let targetText = this.innerText;
+
+            alert(targetText);
+        }
+    </script>
+</body>
+</html>

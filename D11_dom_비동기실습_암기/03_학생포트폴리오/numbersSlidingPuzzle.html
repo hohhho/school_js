@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Number Slide Game</title>
+        
+        <style>
+            #header { text-align: center; }
+            a {
+                color: coral;
+                text-decoration: none;
+            }
+            td {
+                color: white;
+                width: 75px;
+                height: 75px;
+                text-align: center;
+                font-size: 25px; 
+                font-weight: bold; 
+                border-radius: 10px;
+            }
+            .btn {
+                cursor: pointer;
+            }
+            button{
+                text-align: center;
+                display: block;
+                margin: auto;
+                margin-bottom: 20px;
+            }
+            table{
+                margin: auto;
+            }
+            p{
+                text-align: center;
+            }
+            #end{
+                font-size: 20px;
+            }
+            
+        </style>
+</head>
+<body onload="init()">
+    <!-- ---------------------------- header start ----------------------------- -->
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h3>숫자 슬라이드 게임</h3>
+        <p>Size <input type="text" size="3" placeholder="2~10">></p>
+        <p id="end"></p>
+    </div>
+    <hr width="300px" color="coral" size="1">
+    <!-- ---------------------------- header finish ----------------------------- -->
+    
+    <script>
+        let size = 4;
+        let winCondition = [];
+        let $eventBtns = [];
+        let currentBlank = null;
+        let $table = document.createElement("table");
+        let $resetBtn = document.createElement("button");
+        $resetBtn.innerText = "리셋";
+        $resetBtn.setAttribute("onclick","reset()")
+        document.querySelector("body").append($resetBtn);
+        let $allTr = document.querySelectorAll("tr")
+
+        //초기화
+        function init(){
+            let $temp = [];
+            for(let i=0; i<size; i++){
+                winCondition.push([]);
+                for(let j=0; j<size; j++){
+                    let $td = document.createElement("td");
+                    if(i*size + j+1 < size*size){
+                        $td.innerText = i*size + j+1
+                        $td.setAttribute("onclick", "");
+                        $td.style.background ="coral";
+                    }else{
+                        $td.id = "blank"
+                    }
+                    winCondition[i].push($td.innerText)
+                    $temp.push($td);
+                }
+            }
+            console.log($temp)
+            shuffle($temp)
+            for(let i=0; i<size; i++){
+                let $tr = document.createElement("tr");
+                for(let j=0; j<size; j++){
+                    $tr.append($temp[i*size + j]);
+                }
+                $table.append($tr);
+            }
+            document.querySelector("body").append($table);
+            attetchEvent();
+        }   
+        
+        function reset(){
+            let newSize = parseInt(document.querySelector("input").value);
+            if(1 < newSize && newSize <= 10){
+                size = newSize;
+            }
+            winCondition=[];
+            $table.remove();
+            $table = document.createElement("table");
+            document.querySelector("#end").innerText = "";
+            init();
+        }
+        
+        // 공백을 제외하고 셔플
+        function shuffle($target){
+            // 클릭후 blank 검색 
+            
+            // blank 기준 4방향에 해당하는 배열 인덱스를 tempList에 저장
+            let blank = 0;
+            for(let k=0; k<size*size*10; k++){
+                let tempList = [];
+                let tempx = null;
+                console.log($target)
+                for(let i=0; i<size; i++){
+                    for(let j=0; j<size; j++){
+                        if($target[i*size + j].id == "blank"){
+                            blank = i*size + j;
+                        }
+                    }
+                }
+                console.log(blank)
+                //세로
+                if(blank - size >= 0){
+                    tempList.push(blank - size)
+                }
+                if(blank + size < size*size){
+                    tempList.push(blank + size)
+                }
+                //가로
+                if((blank - 1) % size != size-1 && 0 < blank - 1) {
+                    tempList.push(blank - 1)
+                }
+                if((blank + 1) % size != 0 && size*size > blank + 1) {
+                    tempList.push(blank + 1)
+                }
+                // console.log((blank - 1) % size != size-1 && 0 < blank - 1)
+                // console.log((blank + 1) % size != 0 && size*size > blank + 1)
+                // console.log(blank)
+
+                //랜덤한 tempList index와 blank 값교체
+                let r = Math.floor(Math.random()*(tempList.length));
+                tempx = $target[blank];
+                $target[blank] = $target[tempList[r]];
+                $target[tempList[r]] = tempx;
+
+                console.log(tempList)
+                tempList = [];
+            }
+        }
+        
+                
+            //클릭시 이벤트
+            function change(obj){
+                let temp = obj.innerText;
+                obj.id = "blank";
+                obj.style.background ="white";
+                obj.innerText = currentBlank.innerText
+                currentBlank.innerText = temp;
+                currentBlank.id = "";
+                currentBlank.style.background = "coral";
+                attetchEvent()
+                if(win() == true){
+                    removeEvent()
+                    document.querySelector("#end").innerText="끝!"
+                }
+            }
+            
+            //eventBtns배열에서 change이벤트, 클래스 제거
+            function removeEvent(){
+                if($eventBtns.length != 0){
+                for(let i=0; i<$eventBtns.length; i++){
+                    $eventBtns[i].setAttribute("onclick", "");
+                    $eventBtns[i].setAttribute("class", "");
+                }
+            }
+        }
+
+        function attetchEvent(){
+            removeEvent()
+            //blank 좌표 찾기
+            $allTr = document.querySelectorAll("tr");
+            let x = 0;
+            let y = 0;    
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size; j++){
+                    if($allTr[i].children[j].id == "blank"){
+                        y = i;
+                        x = j;
+                        currentBlank = $allTr[i].children[j];
+                    }
+                }
+            }
+
+            // 클릭후 blank 기준 4방향 td에 change이벤트, pointer속성용 클래스 할당
+            // 다음 클릭시 삭제를 위해 $eventBtns 배열에 push
+       
+                if(y - 1 >= 0){
+                    $allTr[y-1].children[x].setAttribute("onclick", "change(this)");
+                    $allTr[y-1].children[x].className="btn"
+                    $eventBtns.push($allTr[y-1].children[x]);
+                }
+                if(y + 1 < size){
+                    $allTr[y+1].children[x].setAttribute("onclick", "change(this)");
+                    $allTr[y+1].children[x].className="btn"
+                    $eventBtns.push($allTr[y+1].children[x]);
+                }
+                if(x - 1 >= 0){
+                $allTr[y].children[x-1].setAttribute("onclick", "change(this)");
+                $allTr[y].children[x-1].className="btn"
+                $eventBtns.push($allTr[y].children[x-1]);
+                }
+                if(x + 1 < size){
+                $allTr[y].children[x+1].setAttribute("onclick", "change(this)");
+                $allTr[y].children[x+1].className="btn"
+                $eventBtns.push($allTr[y].children[x+1]);
+            }
+
+        }
+    
+
+        function win(){
+            let end = true;
+            //winCondition의 값과 비교하여 모두 일치하면 승리
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size; j++){
+                    let num = $allTr[i].children[j].innerText;
+                    let winNum = winCondition[i][j];
+                    if(num != winNum){
+                        end = false;
+
+                    }
+                }
+            }
+            if(end == true){
+                return end
+            }
+        }
+        </script>
+</body>
+</html>

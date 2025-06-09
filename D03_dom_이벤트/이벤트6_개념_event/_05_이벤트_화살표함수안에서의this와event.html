@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick</title>
+</head>
+<body>
+    
+    <button id="btn">버튼</button>
+
+    <script>
+        let $btn = document.querySelector("#btn");
+        $btn.addEventListener("click", () => {
+            // 화살표함수 안에서의 this는 윈도우를 의미한다.
+            console.log(this);
+            // 때문에 this대신 event.target으로 나 자신을 찾을 수 있다.
+            console.log(event.target);
+        });
+    </script>
+
+</body>
+</html>

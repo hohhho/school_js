@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1" onclick="btn1Function(this)">onClick의 this</button>
+    <button id="btn2">addEventListener의 this1</button>
+    <button id="btn3">addEventListener의 this2</button>
+
+    <script>
+        // onclick의 경우 this를 인자로 전달받아 해결
+        function btn1Function(obj) {
+            alert(obj.innerText);
+        }
+
+        // addEventListener 방법1)
+        document.querySelector("#btn2").addEventListener("click", btn2Function);
+        function btn2Function() {
+            alert(this.innerText);
+        }
+        
+        // addEventListener 방법2)
+        document.querySelector("#btn3").addEventListener("click", btn3Function);
+        function btn3Function(e) {
+            console.log(this);
+            console.log(e.target);  // e.target == this
+            alert(e.target.innerText);
+        }
+        
+    </script>
+</body>
+</html>

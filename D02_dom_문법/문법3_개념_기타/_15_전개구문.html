@@ -1,0 +1,26 @@
+<script>
+    
+    let arr1 = [1, 2, 3];
+    let arr2 = [4, 5, 6];
+
+    /*
+        배열앞에 점을 3개 붙이면 전개 구문이 된다.
+        전개 구문이란 배열이 전부 변수로 바뀌는것을 말한다. 
+    */
+
+    let a = [...arr1]; // 한개를 전개 구문하면 배열을 복사할수있다.  
+    document.write(a);  
+    document.write("<hr>");
+
+    let b = [...arr1, ...arr2]; // 두개를 전개구문해서 두개를 합칠수있다.
+    document.write(b+"<br>"); 
+
+    let c = [...arr1, ...arr2, ...arr1];
+    document.writeln(c);
+
+    /*
+        let test = [1,2,3];
+        let test2 = test; // 얕은 복사(주소 공유)
+        test2[1] = 100; // 주소를 공유하기 때문에 test[1]의 값도 100으로 바뀐다
+    */
+</script>

@@ -1,0 +1,23 @@
+<script>
+
+    /*
+        var, let, const
+
+    */
+
+    /*
+        var 변수는 반복문이나 조건문에서는 특이한성질을 보이지만
+        또, 함수안에서는 일반 let과 동일한 효과를 가진다. 
+        이와같이 var는 일관된 성질이 아니기때문에 요즘은 잘 사용하지않는다. 
+    */
+
+    
+
+    function add(num1, num2) {
+        var result = num1 + num2;
+    }
+    add(2, 3);
+    //document.write(result); // 에러가 발생한다. var는 함수안에서는 let과 동일한 효과를 가진다.
+
+
+</script>

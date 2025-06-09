@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+
+        setTimeout(1번, 2번);
+
+        2번시간이 지나면 1번을 한번실행시킴
+        2번 (밀리세컨즈) 1000 이 1초
+    -->
+
+    <!-- 3초 뒤에 무언가를 실행시키고 싶을 때 -->
+    <h1>일정 시간 간격으로 한번만 실행</h1>
+    <p>3초 후에 alert창이 뜹니다.</p>
+    <div id="time">
+
+    </div>
+
+    <script>
+        let num = 0;
+        function addNumber(){
+            num += 1;
+            document.querySelector("#time").innerHTML = num;
+            alert("num: " + num);
+        }
+    
+        let auto = setTimeout(addNumber, 3000);
+    </script>
+</body>
+</html>

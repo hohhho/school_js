@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        class Fruit {
+            name = "";
+            price = 0;
+
+            printInfo() {
+                // 클래스 내의 요소(변수,함수)에 접근할 때에는 반드시 this.을 붙여야 한다.
+                console.log(this.name + " : " + this.price);
+            }
+        }
+
+        let apple = new Fruit();
+        apple.name = "사과";
+        apple.price = 1000;
+        apple.printInfo();
+        
+
+    </script>
+
+</body>
+</html>

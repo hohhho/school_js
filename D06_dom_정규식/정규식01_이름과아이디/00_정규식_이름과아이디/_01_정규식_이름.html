@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+        /*  
+            [정규식 문법]
+
+            (1) 정규식을 정한다.
+                let exp = /^[가-힣]{2,6}$/;
+                해당 정규식은 2자에서 6자 사이의 한글로만 이루어진 문자열을 검사합니다.
+
+            (2) 정규식의 대상을 정한다. 
+                let value = "홍길동";
+
+            (3 정규식을 테스트한다. (함수이름도 test() 이다. ) 결과는 true 또는 false 로 출력된다. 
+                let check = exp.test(value);
+
+        */
+        // let exp = RegExp(/^[가-힣]{2,6}$/);
+        // RegExp(정규식) 
+        // RegExp(정규식) 이 정식문법이고, 아래와같이 정규식만쓰는 축약형도 가능하다. 
+
+        let exp = /^[가-힣]{2,6}$/;
+        let value = "홍길동";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+        value = "홍";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "abcdefg";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "선우용녀";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+    </script>
+</body>
+</html>

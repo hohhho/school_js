@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!--
+        내용이 변경되고 포커스를 잃으면 배경이 노란색으로 바뀌는 이벤트를 만드시오.
+    -->
+
+    <input type="text" id="msg" onchange="changeYellow()">
+
+
+
+    <script>
+        function changeYellow(){
+            let $element = document.querySelector("#msg");
+            $element.style.backgroundColor = "yellow";
+            
+        }
+    </script>
+
+
+
+</body>
+</html>

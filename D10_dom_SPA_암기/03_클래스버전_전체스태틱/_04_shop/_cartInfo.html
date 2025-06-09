@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cartTable {
+            margin: 0 auto;
+            width: 1050px;
+        }
+        .check_box input[type='checkbox'] + label{
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .check_box input[type='checkbox'] + label::before{
+            display: inline-block;
+            content: "";
+            width: 24px;
+            height: 24px;
+            background: url(./img/check-off.png) no-repeat;
+            background-size: 24px;
+            vertical-align: top;
+            margin: -4px 5px 0 0;
+        }
+
+        .check_box input[type='checkbox']:checked + label::before{
+            width: 24px;
+            height: 24px;
+            background: url(./img/check-on.png) no-repeat;
+            background-size: 24px;
+
+        }
+        .check_box input[type='checkbox']{
+            position: absolute;
+            overflow: hidden;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            opacity: 0;
+        }
+        .cart-header {
+            text-align: center;
+            height: 240px;
+        }
+        .cart-sub1 {
+            text-align: center;
+            width: 50px;
+            height: 50px;
+        }
+        .cart-sub2 {
+            width: 180px;
+        }
+        #cartListTable {
+            margin: 0 auto;
+            width: 1050px;
+        }
+        .item-img {
+            width: 60px;
+        }
+        .minus, .plus {
+            display: inline-block;
+            border: 1px solid lightgray;
+            border-radius: 3px;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            font-size: 20px;
+        }
+        .cartList-sub1 {
+            text-align: center;
+            width: 50px;
+            height: 50px;
+        }
+        .cartList-sub3 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333333;
+        }
+        .cartList-sub4 {
+            text-align: center;
+        }
+        .cartList-sub5 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333333;
+            text-align: center;
+        }
+        .cartList-sub6 {
+            width: 25px;
+            text-align: center;
+        }
+        #cartResultTable {
+            margin: 0 auto;
+            height: 300px;
+            width: 1050px;
+            color: #333333;
+        }
+        .cartResult-sub {
+            width: 700px;
+        }
+        .cartResult-sub2 {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <table id="cartTable">
+        <tr>
+            <td colspan="4" class="cart-header"><h2>장바구니</h2></td>
+        </tr>
+        <tr>
+            <td class="cart-sub1">
+                <div class="check_box">
+                    <input type="checkbox" id="check-all"> 
+                    <label for="check-all"></label>
+                </div>
+            </td>
+            <td class="cart-sub2">
+                전체선택 (
+                    <span>12</span> / <span>12</span> 
+                )
+            </td>
+            <td class="header1-bar"><img src="./img/bar.jpg"></td>
+            <td>
+                <a>선택삭제</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4"><hr></td>
+        </tr>
+    </table>
+
+    <table id="cartListTable">
+        <tr>
+            <td class="cartList-sub1">
+                <div class="check_box">
+                    <input type="checkbox" class="ch"> 
+                    <label for="ch"></label>
+                </div>
+            </td>
+            <td class="cartList-sub2"><img class="item-img" src="img/15.jpg"></td>
+            <td class="cartList-sub3">[비움반찬] 양배추찜&우렁강된장</td>
+            <td class="cartList-sub4">
+                <span class="minus">-</span>
+                <span class="itemCount" style="padding: 0 15px;">0</span>
+                <span class="plus">+</span>
+            </td>
+            <td class="cartList-sub5">
+                5,800원
+            </td>
+            <td class="cartList-sub6">
+                <img src="./img/delete.svg">
+            </td>
+        </tr>
+    </table>
+
+    <table id="cartResultTable">
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td class="cartResult-sub"></td>
+            <td class="cartResult-sub1">상품금액</td>
+            <td class="cartResult-sub2">155,870원</td>
+        </tr>
+        <tr>
+            <td class="cartResult-sub"></td>
+            <td class="cartResult-sub1">상품할인금액</td>
+            <td class="cartResult-sub2">-23,400원</td>
+        </tr>
+        <tr>
+            <td class="cartResult-sub"></td>
+            <td class="cartResult-sub1">배송비</td>
+            <td class="cartResult-sub2">0원</td>
+        </tr>
+        <tr>
+            <td colspan="3"><hr></td>
+        </tr>
+        <tr>
+            <td class="cartResult-sub"></td>
+            <td class="cartResult-sub1">결제예정금액</td>
+            <td class="cartResult-sub2">132,470원</td>
+        </tr>
+    </table>
+</body>
+</html>

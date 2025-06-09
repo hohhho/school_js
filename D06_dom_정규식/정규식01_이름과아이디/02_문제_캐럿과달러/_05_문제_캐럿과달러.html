@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            아래 결과를 예상하고, 실행하시오.
+        */
+        let exp = /.com$/;  // 문자열이 .com 으로 끝나면 true
+        
+        let value = "abc@naver.net";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "abc@naver.com";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "abc@co.kr";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = ".com";
+        check = exp.test(value);
+        document.write(check + "<br>");            // true
+
+    </script>
+</body>
+</html>

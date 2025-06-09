@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            [문제]
+                memberList는 회원 목록 데이터이다.
+                순서대로 회원번호와 회원아이디이다.
+    
+                itemList은 쇼핑몰 판매 상품 데이터이다.
+                순서대로 상품이름과 가격이다.
+                
+                orderList는 오늘 주문 목록이다. 
+                순서대로 주문아이디 , 상품 , 개수 이다. 
+    
+    
+                회원별 구입총합을 출력하시오.
+                [번호, 아이디 , 총합 ] 을 출력하시오.
+                단, 금액이 높은순으로 출력하시오.
+                테이블로 출력하시오.
+    
+            [정답]
+                1002,pythongood,28000
+                1003,testid,16000
+                1001,qwer1234,4400
+        */
+    
+        let memberList = [
+            {"num":1001, "id":"qwer1234"},
+            {"num":1002, "id":"pythongood"},
+            {"num":1003, "id":"testid"}
+        ];
+    
+        let itemList = [
+            {"item":"사과", "price":1100},
+            {"item":"바나나", "price":2000},
+            {"item":"딸기", "price":4300}
+        ];
+    
+        let orderList = [
+            {"id":"qwer1234" , "item":"사과" , "count":3},
+            {"id":"pythongood" , "item":"딸기" , "count":6},
+            {"id":"testid" , "item":"바나나" , "count":1},
+            {"id":"pythongood" , "item":"사과" , "count":2},
+            {"id":"testid" , "item":"바나나" , "count":7},
+            {"id":"qwer1234" , "item":"사과" , "count":1}
+        ];
+    
+
+    </script>
+</body>
+</html>

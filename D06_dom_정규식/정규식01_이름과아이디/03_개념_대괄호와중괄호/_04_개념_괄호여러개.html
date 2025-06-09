@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+
+        let exp = /^[abc]{2}[123]{2}$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [abc]{2}    : 'a', 'b', 'c' 중 2개의 문자와 매칭됩니다.
+            (3) [123]{2}    : '1', '2', '3' 중 2개의 숫자와 매칭됩니다.
+            (4) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 'a', 'b', 'c' 중 2개의 문자와
+            '1', '2', '3' 중 2개의 숫자로 이루어진 4자리 문자열과 매칭됩니다.
+        */
+        
+        let value = "aa11";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "a1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "cc313";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "ab12";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "bc13";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "ccc1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "c123";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+       
+    </script>
+</body>
+</html>

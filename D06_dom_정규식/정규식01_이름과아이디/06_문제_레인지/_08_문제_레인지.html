@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^[a-c]{2}-[0-9]{2}$/;    // a부터 c까지 2글자로 시작, 중간에 - , 0부터 9까지 2글자로 끝
+        
+        let value = "ab-12";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       
+
+        value = "ac-34";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");              
+
+        value = "a1-23";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");              
+
+        value = "ab12";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");            
+
+    </script>
+</body>
+</html>

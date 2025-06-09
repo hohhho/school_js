@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+       키를 누르면 배경이 빨간색이되고, 키를 놓으면 배경이 초록색이되는 이벤트를 만드시오.
+    -->      
+
+    <input type="text" id="msg" onkeydown="keydownFunc()" onkeyup="keyupFunc()">
+
+
+    <script>
+        function keydownFunc(){
+            let $msg = document.querySelector("#msg");
+            $msg.style.backgroundColor = "red";
+        }
+
+        function keyupFunc(){
+            let $msg = document.querySelector("#msg");
+            $msg.style.backgroundColor = "green";
+        }
+    </script>
+</body>
+</html>

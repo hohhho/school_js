@@ -1,0 +1,17 @@
+<script>
+
+    let userList = [
+        {name: "Mike", age: 30},
+        {name: "Jane", age: 27},
+        {name: "Tom", age: 10},
+        {name: "anna", age: 5}
+    ];
+
+    //배열.find는 없으면 undefined를 반환
+    let result2 = userList.find((user) => {
+        return user.age < 3;
+    });
+    console.log(result2); // { name: "Tom", age: 10 }
+
+
+</script>

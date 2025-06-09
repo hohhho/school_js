@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick</title>
+</head>
+<body>
+	<style>
+		#my_div {
+			background: red;
+			height: 300px;
+			width: 1000px;
+		}
+	</style>
+
+	<div id='my_div' onmouseenter="mouseEnterEvent()" onmouseleave="mouseLeaveEvent()">
+	</div>
+	<input id='clearbtn' type='button' value='clear' onclick="clickEvent()">
+	<div id='result'>
+	</div>
+
+	<script >
+		let $div = document.getElementById('my_div');
+		let $clearbtn = document.getElementById('clearbtn');
+		let $result = document.getElementById('result');
+
+		function mouseEnterEvent() {
+			$result.innerHTML+= '<div>mouseenter</div>';
+		}
+		function mouseLeaveEvent() {
+			$result.innerHTML+= '<div>mouseleave</div>';
+		}
+		function clickEvent() {
+			$result.innerHTML= '';
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getElementsByTagName()</title>
+</head>
+<body>
+
+    <!--
+        아래 모든 태그의 배경을 노란색으로 변경하시오. 
+    -->
+
+    <p>getElementsByTagName() 메서드1</p>
+    <p>getElementsByTagName() 메서드2</p>
+    <p>getElementsByTagName() 메서드3</p>
+
+    <script>
+        let $ptag = document.querySelectorAll("p");
+
+        for(let i=0; i<$ptag.length; i++){
+            $ptag[i].style.backgroundColor = "yellow";
+            
+        }
+    </script>
+    
+
+</body>
+</html>

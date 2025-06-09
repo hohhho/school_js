@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        아래 텍스트를 클릭하면 글씨의 색으로 변경되는 
+        이벤트를 만드시오 click 과 화살표함수를 이용하시오.
+    -->
+    <p id="red">빨간색 텍스트</p>
+    <p id="blue">파란색 텍스트</p>
+
+    <script>
+        let $red = document.querySelector("#red");
+        let $blue = document.querySelector("#blue")
+        $red.addEventListener("click",()=>{
+            $red.style.color = "red";
+        })
+        $blue.addEventListener("click", ()=>{
+            $blue.style.color = "blue";
+        })
+
+    </script>
+</body>
+</html>

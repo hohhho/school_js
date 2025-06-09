@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>아래 내용을 클릭하세요</p>    
+    <br>
+    <a href="#" id="listshow">목차 보기</a>
+
+    <hr>
+
+    <ul id="list">
+        <li>목차1</li>
+        <li>목차2</li>
+        <li>목차3</li>
+        <li>목차4</li>
+    </ul>
+
+    <script>
+        let isShow = false;
+        let $listshow = document.querySelector("#listshow");
+        let $list = document.querySelector("#list");
+
+        function displayList(){
+            if(isShow){
+                $list.style.display = "block";
+                $listshow.innerHTML = "목차 닫기";
+            }else{
+                $list.style.display = "none";
+                $listshow.innerHTML = "목차 보기";
+            }
+            isShow = !isShow;
+        }
+
+        $listshow.addEventListener("click",displayList);
+
+    </script>
+
+</body>
+</html>

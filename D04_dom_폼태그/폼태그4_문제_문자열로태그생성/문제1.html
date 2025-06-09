@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        document.writeln("<table border='1'>");
+            for(let i=0; i<3; i++){
+                document.writeln("<tr>");
+                    for(let j=0; j<3; j++){
+                        document.writeln("<td>"+(j+1)+"</td>");
+                    }
+                document.writeln("</tr>");
+            }
+        document.writeln("</table>");
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>       
+        let MemberDAO = {
+            memberList : [],
+            printMemberList(){
+                console.log("------[전체멤버]------");
+                for(let i = 0; i < this.memberList.length; i++){
+                    console.log(this.memberList[i]);
+                }
+ 
+            },
+            insertMemberList(member){
+                this.memberList.push(member);
+            },
+
+            deleteMemberList(number){
+                for(let i = 0; i < this.memberList.length; i++){
+                    if(this.memberList[i].number == number){
+                        this.memberList.splice(i , 1);
+                        break;
+                    }
+                }
+            },
+            updateMemberList(number, changedName){
+                for(let i = 0; i < this.memberList.length; i++){
+                    if(this.memberList[i].number == number){
+                        this.memberList[i].name = changedName;
+                        break;
+                    }
+                }
+            },
+            selectMemberList(number){
+                console.log("------[선택멤버]------");
+                for(let i = 0; i < this.memberList.length; i++){
+                    if(this.memberList[i].number == number){
+                        console.log(this.memberList[i]);
+                        break;
+                    }
+                }
+            }
+        };
+
+        let member1 = {number : 1001, name : "김철수",};
+        let member2 = {number : 1002, name : "이만수",};
+        let member3 = {number : 1003, name : "조영수",};
+
+        MemberDAO.insertMemberList(member1);
+        MemberDAO.insertMemberList(member2);
+        MemberDAO.insertMemberList(member3);
+
+        MemberDAO.printMemberList();
+
+        MemberDAO.deleteMemberList(1002);
+
+        MemberDAO.printMemberList();
+
+        MemberDAO.updateMemberList(1001, "홍길동");
+
+        MemberDAO.printMemberList();
+
+        MemberDAO.selectMemberList(1003);
+    </script>
+
+
+
+</body>
+</html>

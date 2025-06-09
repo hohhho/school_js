@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div align="center">
+        <p>
+            <input type="checkbox" class="box" value="안녕0" id="안녕0">
+            <label class="list" for="안녕0">안녕0</label>
+        </p>
+        <p>
+            <input type="checkbox" class="box" value="안녕1" id="안녕1">
+            <label class="list" for="안녕1">안녕1</label>
+        </p>
+        <p>
+            <input type="checkbox" class="box" value="안녕2" id="안녕2">
+            <label class="list" for="안녕2">안녕2</label>
+        </p>
+        <p>
+            <input type="checkbox" class="box" value="안녕3" id="안녕3">
+            <label class="list" for="안녕3">안녕3</label>
+        </p>
+    </div>
+
+    <script>
+        let $box = document.querySelectorAll(".box");
+        let $list = document.querySelectorAll(".list");
+
+        function line(){
+            for(let i=0; i<$box.length; i++){
+                if($box[i].checked){
+                    $list[i].style.textDecoration = "line-through";
+                }else{
+                    $list[i].style.textDecoration = "none";
+                }
+            }
+        }
+
+        for(let box of $box){
+            box.addEventListener("click",line);
+        }
+    </script>
+</body>
+</html>

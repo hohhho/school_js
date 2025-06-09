@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #main{
+            width: 200px;
+            height: 200px;
+        }
+
+        .sub{
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div align="center">
+        <h1>간식 고르기</h1>
+        <p>아래 작은 그림을 클릭하세요</p>
+
+        <table border="1">
+            <tr>
+                <td rowspan="5"><img id="main" src="../D08개념/images/snack1.jpg" alt="snack1"></td>
+            </tr>
+            <tr>
+                <td>상품명 : 삼림 미니꿀약과</td>
+            </tr>
+            <tr>
+                <td>판매가 : 20,000원</td>
+            </tr>
+            <tr>
+                <td>배송비 : 3,000원</td>
+            </tr>
+            <tr>
+                <td>수량 : <input type="number" value="1"></td>
+            </tr>
+            <tr>
+                <td><button>장바구니 담기</button></td>
+            </tr>
+            <tr>
+                <td colspan="2" id="snacklist">
+                    <img src="../D08개념/images/snack1.jpg" alt="snack1" class="sub">
+                    <img src="../D08개념/images/snack2.jpg" alt="snack2" class="sub">
+                    <img src="../D08개념/images/snack3.jpg" alt="snack3" class="sub">
+                </td>
+            </tr>
+        </table>
+
+        <script>
+            let $mainImg = document.querySelector("#main");
+            let $subImg = document.querySelectorAll(".sub");
+
+            for(let i=0; i<$subImg.length; i++){
+                $subImg[i].addEventListener("click", changeImg);
+            }
+
+            function changeImg(){
+                let clickImg = this.src;
+                console.log(this);
+                
+
+                $mainImg.src = clickImg;
+                // $mainImg.setAttribute("src",clickImg);
+            }
+
+        </script>
+    </div>
+</body>
+</html>

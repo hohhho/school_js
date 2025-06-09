@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #center {
+            text-align: center;
+        }
+        #cartTable {
+            margin: auto;
+        }
+    </style>
+</head>
+<body onload="checkItemCount()">
+   
+    <div id="center">
+        <h2>장바구니</h2>
+    </div>
+
+    <table border="1" id="cartTable">
+        <tr>
+            <td><input type="checkbox" id="checkAll" onclick="checkAllClick()"></td>
+            <td>전체선택(<span id="checkedCount">0</span>/<span id="totalCount">0</span>)</td>
+            <td colspan="4"><a onclick="delCheckedItemClick()">선택삭제</a></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/수박.jpg" width="50px"></td>
+            <td>당도선별 수박 6kg 이상</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">18900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/불고기.jpg" width="50px"></td>
+            <td>양념 소불고기</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">19900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/체리.jpg" width="50px"></td>
+            <td>미국 캘리포니아 생체리</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">10900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+    </table>
+
+    <script>
+        function checkItemCount(){
+            $totalCount = document.querySelector("#totalCount");
+            $itemCheck = document.querySelectorAll(".itemCheck");
+
+            $totalCount.innerText = $itemCheck.length;
+        }
+
+        function checkAllClick(){
+            $checkAll = document.querySelector("#checkAll");
+            $itemCheck = document.querySelectorAll(".itemCheck");
+            $checkedCount = document.querySelector("#checkedCount");
+            if($checkAll.checked == true){
+                for(let i = 0; i < $itemCheck.length; i++){
+                    $itemCheck[i].checked = true;
+                    //checkedCount.innerText = 3;
+
+                }
+            }else{
+                for(let i = 0; i < $itemCheck.length; i++){
+                    $itemCheck[i].checked = false;
+                    //checkedCount.innerText = 0;
+                }
+            }
+            itemCheckClick();
+        }
+
+        function itemCheckClick(){
+            $itemCheck = document.querySelectorAll(".itemCheck");
+            $checkedCount = document.querySelector("#checkedCount");
+            $checkAll = document.querySelector("#checkAll");
+
+            let count = 0;
+            for(let i = 0; i < $itemCheck.length; i++){
+                if($itemCheck[i].checked == true){
+                    count += 1;
+                }
+            }
+            $checkedCount.innerText = count;
+
+            if(count < $itemCheck.length){
+                $checkAll.checked = false;
+            }
+            if(count >= $itemCheck.length){
+                $checkAll.checked = true;
+            }
+        }
+
+
+
+    </script>
+</body>
+</html>

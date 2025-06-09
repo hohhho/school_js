@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/;      // 대,소,숫,_,.,- 로 시작(1번 이상) @ 대,소,숫,-(1번 이상) . 대,소,숫,- 으로 끝남(1번 이상)
+
+        let value = "john_doe@example.com"; 
+        let check = exp.test(value);
+        document.write(check + "<br>");     //true        
+
+        value = "123-abc@sub-domain.org";
+        check = exp.test(value);
+        document.write(check + "<br>");           // true 
+
+        value = "my.email@service-provider.net";
+        check = exp.test(value);
+        document.write(check + "<br>");            // true
+
+        value = "plainaddress";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "@missingusername.com";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "username@.com";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "username@domain";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "username@domain.c";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+    </script>
+</body>
+</html>

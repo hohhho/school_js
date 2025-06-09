@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <div id="target1">클릭1</div>
+    <div id="target2">클릭2</div>
+    
+    <script>
+        class Ex {
+
+            num = 10;
+            
+            start() {
+                let $target1 = document.querySelector("#target1");
+                let $target2 = document.querySelector("#target2");
+
+                $target1.addEventListener("click", this.target1Event);
+                $target2.addEventListener("click", this.target2Event);
+            }
+
+            target1Event() {
+                // this가 이벤트에 해당하는 대상으로 바뀌어 버림!
+                console.log(this);
+            }
+
+            // 클래스 내에서 이벤트 처리 함수는 화살표 함수로 작성해야 한다.
+            target2Event = (event) => {
+                console.log("num = " + this.num);
+                console.log(event.target.innerHTML);
+            }
+            
+            test(){
+
+            }
+
+            test1 = (event) => {
+                // event 가 버튼이 된다. 
+            }
+
+        }
+
+        let e = new Ex();
+        e.start();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width:100px;
+            height:100px;
+            background-color: black;
+            margin-bottom: 20px;
+        }
+
+        #numLeft{
+            width:50px;
+            height:100px;
+            background-color: black;
+        }
+
+        #numRight{
+            width:50px;
+            height:100px;
+            background-color: black;
+        }
+        
+        .numTop{
+            width: 26px;
+            height: 30px;
+        }
+
+        .numBottom{
+            width: 26px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <div id="numberCheck">
+            0
+        </div>
+        <div id="blinkCheck">
+            0
+        </div>
+        <div class="box" id="redLight"></div>
+        <div class="box" id="greenLight"></div>
+        <table>
+            <tr id="numberLight">
+                <td>
+                    <div id="numLeft">
+                        <div class="numTop"></div>
+                        <div class="numBottom"></div>
+                    </div>
+                </td>
+                <td>
+                    <div id="numRight">
+                        <div class="numTop"></div>
+                        <div class="numBottom"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function offAll(){
+            document.querySelector("#redLight").style.backgroundColor = "black";
+            document.querySelector("#greenLight").style.backgroundColor = "black";
+            document.querySelector("#numberLight").style.backgroundColor = "black";
+        }
+        function onRed(){
+            offAll();
+            document.querySelector("#redLight").style.backgroundColor = "red";
+        }
+
+        function onGreen(){
+            offAll();
+            document.querySelector("#greenLight").style.backgroundColor = "green";
+        }
+
+        function onBlinck(){
+            offAll();
+            if(num % 2 ==0){
+                document.querySelector("#greenLight").style.backgroundColor = "green";
+            }else{
+                document.querySelector("#greenLight").style.backgroundColor = "black";
+            }
+        }
+
+
+        onRed();
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <input type="radio" name="chback" id="blue" onclick="changeBlue()"><label for="blue">파란색</label> 
+        <input type="radio" name="chback" id="green" onclick="changeGreen()"><label for="green">초록색 </label> 
+
+    </div>
+
+    <script>
+
+        function changeBlue(){
+            document.querySelector("body").style.backgroundColor = "skyblue";
+        }
+        function changeGreen(){
+            document.querySelector("body").style.backgroundColor = "green";
+        }
+
+    </script>
+</body>
+</html>

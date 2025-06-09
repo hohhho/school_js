@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^[A-Ca-c0-9]$/; 
+        /*  
+            정규식 설명:
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [A-Ca-c0-9] : 'A'부터 'C'까지의 대문자, 'a'부터 'c'까지의 소문자,
+                              그리고 '0'부터 '9'까지의 숫자 중 하나와 매칭됩니다.
+                              즉, 'A', 'B', 'C', 'a', 'b', 'c', '0', '1', '2', '3',
+                              '4', '5', '6', '7', '8', '9' 중 하나의 문자와 일치합니다.
+            (3) $           : 문자열의 끝을 나타냅니다.
+            
+            이 정규식은 문자열이 단 하나의 'A'부터 'C'까지의 대문자, 'a'부터 'c'까지의 소문자,
+            또는 '0'부터 '9'까지의 숫자로만 구성되어 있어야 함을 의미합니다.
+        */
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // 'a'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "A";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // 'A'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // '1'은 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "d";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+        // 'd'는 [A-Ca-c0-9]에 포함되지 않으므로 매칭되지 않습니다.
+
+        value = "B";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // 'B'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "3";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // '3'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "Z";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+        // 'Z'는 [A-Ca-c0-9]에 포함되지 않으므로 매칭되지 않습니다.
+
+        value = "9";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // '9'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "b";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        // 'b'는 [A-Ca-c0-9]에 포함되므로 매칭됩니다.
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+        // 'ab'는 두 개의 문자로 구성되어 있어 [A-Ca-c0-9]에 매칭되지 않습니다.
+
+        value = "a1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+        // 'a1'은 두 개의 문자로 구성되어 있어 [A-Ca-c0-9]에 매칭되지 않습니다.
+
+    </script>
+</body>
+</html>

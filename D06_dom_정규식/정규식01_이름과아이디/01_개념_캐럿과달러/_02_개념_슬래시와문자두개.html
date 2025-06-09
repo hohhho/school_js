@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            [ 정규 표현식 구성 요소 ]
+            (1) 슬래시(/)
+                1) 정규 표현식은 이 두 슬래시 사이에 작성됩니다.
+                    예) /pattern/
+            (2) 문자열
+                1) 일치해야 하는 실제 문자를 나타냅니다.
+                    예) /a/는 'a' 문자가 포함된 문자열과 일치합니다.             
+        */
+        let exp = /ab/;
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "abc";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "babc";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "bacbd";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+    <!--
+        [개념] clearInterval() 메서드
+            (1) setInterval() 메서드에서 반환된 ID를 저장한다.
+            (2) clearInterval(ID명)
+            (3) 설정된 타이머를 지운다.
+    -->
+
+<body onload="changeColor()">
+    <div id="target">
+        <p>This is a Text.</p>
+    </div>
+    <button onclick="stopTextColor()">중지</button>
+
+    <script>
+        let id = null;
+        function changeColor() {
+            id = setInterval(flashText, 500);   // 0.5초 간격으로 호출
+        }
+        function flashText() {
+            // div태그 선택
+            let elem = document.getElementById("target");
+            // 처음 시작하자마자 div요소 안의 
+            // 텍스트 컬러는 red로 변경
+            // 두번째 부터는 텍스트 컬러는 blue로 변경
+            elem.style.color = (elem.style.color == "red") ? "blue" : "red";
+            // 배경 컬러는 green으로 변경
+            // 두번째 부터는 배경 컬러는 yellow로 변경
+            elem.style.backgroundColor = 
+				(elem.style.backgroundColor == "green") ? "yellow" : "green";
+        }
+
+        /*
+            color => red, blue
+            backgroundColor => green, yellow
+        */
+
+        function stopTextColor() {
+            clearInterval(id);
+        }
+    </script>
+</body>
+</html>

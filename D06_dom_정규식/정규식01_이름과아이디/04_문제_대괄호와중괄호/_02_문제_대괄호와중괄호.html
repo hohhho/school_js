@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 결과를 예상하고, 실행하시오.
+        */
+
+        let exp = /^[abc]{2,4}$/; // abc 중 하나, 2~4글자
+        
+        let value = "ab";
+        let check = exp.test(value);
+        document.write(check + "<br>");            // true
+
+        value = "acc";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "abcab";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "dccc";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+    </script>
+</body>
+</html>

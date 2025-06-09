@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        아래 select 태그의 현재 선택된 vlaue 를 출력하시오. 
+    -->
+
+    
+
+    <select name="subject">
+        <option value="kor">국어</option>
+        <option value="math" selected>수학</option>
+        <option value="eng">영어</option>
+    </select>
+
+    <script>
+
+        console.log(document.querySelector("select[name='subject']").value);
+
+        
+    </script>
+
+    
+
+
+
+</body>
+</html>

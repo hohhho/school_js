@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+        
+        let exp = /^[A-Za-z0-9_\-]{6,16}$/; // 영어 대소문자, 숫자, 언더바, 하이픈 6~16글자
+        
+        let value = "abcdefg";
+        let check = exp.test(value);
+        document.write(check + "<br>");        // true   
+
+        value = "abcd_-";
+        check = exp.test(value);
+        document.write(check + "<br>");          // true  
+
+        value = "!abcd";
+        check = exp.test(value);
+        document.write(check + "<br>");          // false   
+
+        value = "ab22c3d";
+        check = exp.test(value);
+        document.write(check + "<br>");            // true 
+
+    </script>
+</body>
+</html>

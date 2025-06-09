@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #center {
+            text-align: center;
+        }
+        #cartTable {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body onload="checkItemCount()">
+    
+    <div id="center">
+        <h2>장바구니</h2>
+    </div>
+
+    <table border="1" id="cartTable">
+        <tr>
+            <td><input type="checkbox" id="checkAll" onclick="checkAllClick()"></td>
+            <td>전체선택(<span id="checkedCount">0</span>/<span id="totalCount">0</span>)</td>
+            <td colspan="4"><a onclick="delCheckedItemClick()">선택삭제</a></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/수박.jpg" width="50px"></td>
+            <td>당도선별 수박 6kg 이상</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">18900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/불고기.jpg" width="50px"></td>
+            <td>양념 소불고기</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">19900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox" class="itemCheck" onclick="itemCheckClick()"></td>
+            <td><img src="images/체리.jpg" width="50px"></td>
+            <td>미국 캘리포니아 생체리</td>
+            <td>
+                <button class="minusBtn" onclick="minusBtnClick(this)">-</button>
+                <span class="itemCount">1</span>
+                <button class="plusBtn" onclick="plusBtnClick(this)">+</button>
+            </td>
+            <td><span class="itemPrice">10900</span>원</td>
+            <td><button class="delBtn" onclick="delBtnClick(this)">x</button></td>
+        </tr>
+    </table>
+
+    <script>
+
+        let itemPriceList = [18900, 19990, 10900];
+
+        /*
+            [문제01] 전체선택에 전체 상품수량 숫자 적용
+        */
+        function checkItemCount() {
+            let totalCount = document.querySelectorAll(".itemCount").length;
+            document.querySelector("#totalCount").innerText = totalCount;
+        }
+
+        /*
+            [문제02] 전체선택 체크박스 설정
+        */
+        function checkAllClick() {
+            let $checkAll = document.querySelector("#checkAll");
+            let $itemCheckList = document.querySelectorAll(".itemCheck");
+            
+            if($checkAll.checked) {
+                for(let i=0; i<$itemCheckList.length; i++) {
+                    $itemCheckList[i].checked = true;
+                }
+            } else {
+                for(let i=0; i<$itemCheckList.length; i++) {
+                    $itemCheckList[i].checked = false;
+                }
+            }
+
+            // 선택된 상품 수량 표시
+            checkedItemCount();
+            
+        }
+
+        /*
+            [문제03 - 1] 상품이 모두 선택되면, 전체선택 체크박스 true로 변경
+            [문제03 - 2] 상품이 일부만 선택되면,  전체선택 체크박스 false로 변경
+        */
+        function itemCheckClick() {
+            let $checkAll = document.querySelector("#checkAll");
+            let $itemCheckList = document.querySelectorAll(".itemCheck");
+
+            let result = true;
+            for(let i=0; i<$itemCheckList.length; i++) {
+                if(!$itemCheckList[i].checked) {
+                    result = false;
+                }
+            }
+
+            if(result) {
+                $checkAll.checked = true;
+            } else {
+                $checkAll.checked = false;
+            }
+
+             // 선택된 상품 수량 표시
+             checkedItemCount();
+        }
+
+        /*
+            [문제04 - 1] 수량 증가 및 감소 기능
+            [문제04 - 2] 0개로 감소되는 것 막기 ( 수량은 최소 1개 )
+            [문제04 - 3] 수량 증감에 따른 가격 변화
+        */
+        function plusBtnClick(obj) {
+            let $plusBtnList = document.querySelectorAll(".plusBtn");
+            let $itemCountList = document.querySelectorAll(".itemCount");
+            let $itemPriceList = document.querySelectorAll(".itemPrice");
+
+            let index = 0;
+            for(let i=0; i<$plusBtnList.length; i++) {
+                if(obj == $plusBtnList[i]) {
+                    index = i;
+                    break;
+                }
+            }
+
+            $itemCountList[index].innerText = Number($itemCountList[index].innerText) + 1;
+            
+            let itemCount = Number($itemCountList[index].innerText);
+            $itemPriceList[index].innerText = itemPriceList[index] * itemCount;
+        }
+        function minusBtnClick(obj) {
+            let $minusBtnList = document.querySelectorAll(".minusBtn");
+            let $itemCountList = document.querySelectorAll(".itemCount");
+            let $itemPriceList = document.querySelectorAll(".itemPrice");
+
+            let index = 0;
+            for(let i=0; i<$minusBtnList.length; i++) {
+                if(obj == $minusBtnList[i]) {
+                    index = i;
+                    break;
+                }
+            }
+            
+            if(Number($itemCountList[index].innerText) > 1) {
+                $itemCountList[index].innerText = Number($itemCountList[index].innerText) - 1;
+            }
+            let itemCount = Number($itemCountList[index].innerText);
+            $itemPriceList[index].innerText = itemPriceList[index] * itemCount;
+        }
+
+        /*
+            [문제05] x버튼 클릭 시, 해당 상품 삭제
+        */
+        function delBtnClick(obj) {
+            let $checkAll = document.querySelector("#checkAll");
+            let $delBtnList = document.querySelectorAll(".delBtn");
+            let index = 0;
+            for(let i=0; i<$delBtnList.length; i++) {
+                if(obj == $delBtnList[i]) {
+                    index = i;
+                    break;
+                }
+            }
+
+            let $cartTable = document.querySelector("#cartTable");
+            console.log($cartTable.children[0].children[index + 1]);
+            // <tbody> <= $cartTable.children[0]
+            $cartTable.children[0].children[index + 1].remove();
+
+            // 전체 상품 수량 표시
+            checkItemCount();
+            // 선택된 상품 수량 표시
+            // 장바구니에 담긴 상품 수량이 0개이면, 체크박스 해제
+            if(checkedItemCount() == 0) {
+                $checkAll.checked = false;
+            }
+        }
+
+        /*
+            [문제06] 선택된 상품 수량 표시
+        */
+        function checkedItemCount() {
+            let count = 0;
+            let $itemCheck = document.querySelectorAll(".itemCheck");
+            for(let i=0; i<$itemCheck.length; i++) {
+                if($itemCheck[i].checked) {
+                    count += 1;
+                }
+            }
+            document.querySelector("#checkedCount").innerText = count;
+
+            return count;
+        }
+
+        /*
+            [문제07] 선택된 상품을 일괄적으로 삭제
+        */
+        function delCheckedItemClick() {
+            let $checkAll = document.querySelector("#checkAll");
+            let $cartTable = document.querySelector("#cartTable");
+
+            // $itemCheck.length = 3
+            
+            while(true) {
+                let $itemCheck = document.querySelectorAll(".itemCheck");
+                
+                let check = false;
+                for(let i=0; i<$itemCheck.length; i++) {
+                    if($itemCheck[i].checked) {
+                        $cartTable.children[0].children[i + 1].remove();
+                        check = true;
+                        break;
+                    }
+                }
+
+                if(check == false) {
+                    break;
+                }
+            }
+
+            // 전체 상품 수량 표시
+            checkItemCount();
+            // 선택된 상품 수량 표시
+            // 장바구니에 담긴 상품 수량이 0개이면, 체크박스 해제
+            if(checkedItemCount() == 0) {
+                $checkAll.checked = false;
+            }
+        }
+
+    </script>
+</body>
+</html>

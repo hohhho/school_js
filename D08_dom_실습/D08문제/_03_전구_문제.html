@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div align="center">
+        <img id="light" alt="off" src="../D08개념/images/light_off.jpg">
+    </div>
+
+    <script>
+        let $light = document.querySelector("#light");
+
+        $light.addEventListener("mouseover",lightOn);
+        $light.addEventListener("mouseout",lightOff);
+
+        function lightOn(){
+            this.src="../D08개념/images/light_on.jpg"
+        }
+
+        function lightOff(){
+            this.src="../D08개념/images/light_off.jpg"
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요. 
+        */
+        let exp = /^abc{2}$/;   // abcc
+        
+        let value = "abcc";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "abcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       
+
+        value = "ababc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        [개념] 이벤트 종류
+            (3) onfocus : HTML 요소가 포커스를 받으면 이벤트가 발생한다.
+    -->    
+    
+    <input type="text" id="myInput" onfocus="focusFunction()" onblur="blurFunction()">
+ 
+    <script>
+
+        let $element = document.querySelector("#myInput");
+        console.log($element);
+
+        function focusFunction() {
+            $element.style.background = "lightgray";
+        }
+        
+        function blurFunction() {
+            $element.style.background = "";
+        }
+    </script>
+
+</body>
+</html>

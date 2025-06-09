@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^[A-Ca-c0-9]$/; // A부터 C까지 || a부터 c까지 || 0부터 9까지 => 총 1글자
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "A";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // true
+
+        value = "1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "d";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "B";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "3";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "Z";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "9";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "b";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "a1";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+    </script>
+</body>
+</html>

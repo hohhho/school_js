@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <!--
+    아이디를 입력받고 글자수가  6글자 이상이 아니면 알림창을 띄우는 이벤트를 만드시오.
+   -->
+
+    <input type="text" id="idArea">
+    <button onclick="checkID()">확인</button>
+
+    <div id="div">
+
+    </div>
+
+    <script>
+        function checkID(){
+            let id = document.querySelector("#idArea").value;
+            if(id.length < 6){
+                alert("6글자 이상 입력해주세요");
+            }else{
+                alert("성공!");
+                let $div = document.querySelector("#div");
+                let s = document.createElement("span");
+                $div.append(s);
+                s.innerText = id;
+                
+            }
+            document.querySelector("#idArea").value = "";
+            document.querySelector("#idArea").focus();
+        }
+    </script>
+</body>
+</html>

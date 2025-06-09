@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <table id="header">
+        <tr>
+            <td colspan="3"><h1>Snake Game</h1></td>
+        </tr>
+        <tr>
+            <td id="imgTd">
+                <img id="appleImg" src="../apple.png">
+            </td>
+            <td id="scoreTd">
+                0
+            </td>
+            <td id="playTd">
+                <button id="playBtn" onclick="gameStart()">▷ Play</button>
+            </td>
+        </tr>
+    </table>
+
+    <table id="content">
+        
+        <tr>
+            <td id="myGame" colspan="3"></td>
+        </tr>
+    </table>
+
+    <div id="msg"></div>
+
+    <script src="snake2.js"></script>
+</body>
+</html>

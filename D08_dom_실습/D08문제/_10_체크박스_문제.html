@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="checkboxlist">
+        <input type="checkbox" class="subject" id="java" value="java"><label for="java">Java</label>
+        <input type="checkbox" class="subject" id="html" value="html"><label for="html">HTML</label>
+        <input type="checkbox" class="subject" id="javascript" value="javascript"><label for="javascript">JavaScript</label>
+        <button id="submitbtn">제출</button>
+    </div>
+    <div id="result">
+        
+    </div>
+
+    <script>
+        let $checkboxlist = document.querySelectorAll(".subject");
+        
+        
+        function printRs(){
+            document.querySelector("#result").innerHTML = "";
+            for(let check of $checkboxlist){
+                if(check.checked == true){
+                    document.querySelector("#result").innerHTML += check.value+" ";
+                }
+            }
+        }
+
+        document.querySelector("#submitbtn").addEventListener("click",printRs);
+    </script>
+</body>
+</html>

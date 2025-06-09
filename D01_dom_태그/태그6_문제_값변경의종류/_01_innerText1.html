@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>innerText</title>
+</head>
+<body>
+
+    <!--
+        아래 p태그의 '텍스트 지우기'의 내용을 지우시오.
+    -->
+ 
+    <p id="target">텍스트 지우기</p>
+
+    <script>
+        
+        $a = document.querySelector("#target");
+        $a.innerText = "1111";
+        console.log($a.innerText);
+        
+
+    </script>
+    
+</body>
+</html>

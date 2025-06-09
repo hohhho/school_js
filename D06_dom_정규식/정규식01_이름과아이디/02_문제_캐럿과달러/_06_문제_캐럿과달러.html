@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            아래 결과를 예상하고, 실행하시오.
+        */
+        let exp = /^ab$/;   // ab로 시작하고 ab로 끝나니까 정확히 ab가 아니면 모두 false
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(check + "<br>");            // false
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(check + "<br>");            // true
+
+        value = "abab";
+        check = exp.test(value);
+        document.write(check + "<br>");            // false
+
+        value = "abcdab";
+        check = exp.test(value);
+        document.write(check + "<br>");            // false
+
+    </script>
+</body>
+</html>

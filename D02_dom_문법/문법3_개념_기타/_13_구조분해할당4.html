@@ -1,0 +1,25 @@
+<script>
+    /*
+        구조 분해 할당(Destructing assignment)
+            구조 분해 할당 구문은 배열이나 객체의 속성을 분해해서 
+            그 값을 변수에 담을 수 있게 하는 표현식
+    */
+   /*
+        값교환시 아주 유용하다. 
+   */
+    
+    let [a, b] = [10, 20];
+
+    document.write("변경 전 a = ", a);
+    document.write(",변경 전 b = ", b);
+
+    [a, b] = [b, a];
+
+    document.write("<hr>");
+
+    document.write("변경 후 a = ", a);
+    document.write(",변경 후 b = ", b);
+
+
+
+</script>

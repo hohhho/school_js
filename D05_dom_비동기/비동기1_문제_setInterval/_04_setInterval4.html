@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size :50px;
+        }
+    </style>
+</head>
+<body>
+   <!--
+        setInterval을 사용하여 타이머 기능을 만들어보세요. 
+    -->
+
+    <div align="center" id="main">
+        <h1>타이머</h1>
+        <div id="timer">
+            00:00:00
+        </div>
+
+        <div id="timeSet">
+            <input type="number" id="hour"> 시간
+            <input type="number" id="min"> 분
+            <input type="number" id="sec"> 초
+            <button id="timeBtn" onclick="setTime()">설정</button>
+        </div>
+
+        <div id="controller">
+            <button id="start" onclick="startTimer()">시작</button>
+            <button id="stop" onclick="clearInterval(timer)">일시정지</button>
+            <button id="reset" onclick="resetTimer()">초기화</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        let timer = null;
+        function startTimer(){
+            timer = setInterval(decTime,1000);
+        }
+
+        function resetTimer(){
+            clearInterval(timer);
+            $timer = document.querySelector("#timer");
+            $timer.innerHTML = printTime("00","00","00");
+            document.querySelector("#hour").value = null;
+            document.querySelector("#min").value = null;
+            document.querySelector("#sec").value = null;
+            
+        }
+
+        function setTime(){
+            let $hour = document.querySelector("#hour");
+            let $min = document.querySelector("#min");
+            let $sec = document.querySelector("#sec");
+
+            if($hour.value > 100){
+                alert("99시간 이하로 입력해주세요");
+                $hour.focus();
+                return;
+            }
+            if($min.value > 60){
+                alert("59분 이하로 입력해주세요");
+                $min.focus();
+                return;
+            }
+            if($sec.value > 60){
+                alert("59초 이하로 입력해주세요");
+                $sec.focus();
+                return;
+            }
+            
+            let $timer = document.querySelector("#timer");
+            let str = printTime($hour.value, $min.value, $sec.value);
+            $timer.innerHTML = str;
+            
+        }
+
+        function printTime(hour,min,sec){
+            let h = hour == "" ? "00" : String(hour).length==1 ? "0"+hour : hour;
+            let m = min == "" ? "00" : String(min).length==1 ? "0"+min : min;
+            let s = sec == "" ? "00" : String(sec).length==1 ? "0"+sec : sec;
+            let str = h + ":" + m + ":" + s;
+            return str;
+        }
+
+        function decTime(){
+            let $timer = document.querySelector("#timer");
+            let time = $timer.innerText.split(":");
+            
+            let h = Number(time[0]);
+            let m = Number(time[1]);
+            let s = Number(time[2]);
+
+            s -= 1;
+            if(s < 0){
+                m -= 1;
+                s = 59;
+            }
+            
+            if(m < 0){
+                h -= 1;
+                m = 59;
+            }
+            
+            if(h==0 && m==0 && s==0){
+                $timer.innerHTML = "Time Over";
+                clearInterval(timer);
+                return;
+            }
+
+            $timer.innerHTML = printTime(h,m,s);
+
+        }
+
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^a?b$/; // a로 시작(있거나 없거나), b로 끝남(1번, 필수)      => b, ab 두 가지 경우의 수 밖에 없음
+        
+        let value = "b";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "aa";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // false
+
+        value = "abc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // false
+
+    </script>
+</body>
+</html>

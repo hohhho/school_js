@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        아래 list 에 사과 바나나 딸기 의 내용을 자식으로 추가하시오. 
+    -->
+
+    <h4>과일 목록</h4>
+    <div id="list">
+        
+    </div>
+
+    <script>
+        let $parent = document.querySelector("#list");
+        
+        let ul = document.createElement("ul");
+        $parent.appendChild(ul);
+
+        let li1 = document.createElement("li");
+        li1.innerText = "사과";
+        ul.appendChild(li1);
+
+        let li2 = document.createElement("li");
+        li2.innerText = "바나나";
+        ul.appendChild(li2);
+
+        let li3 = document.createElement("li");
+        ul.appendChild(li3);
+        li3.innerText = "딸기";
+    </script>
+</body>
+</html>

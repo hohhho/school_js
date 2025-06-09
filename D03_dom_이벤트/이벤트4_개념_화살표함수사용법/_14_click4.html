@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        [addEventListener의 한계]
+        addEventListener는 전달되는 인자가 없는 함수를 사용할 때에는 문제가 없으나
+        인자를 전달해야하는 함수를 사용할 때에는 아래와 같이 작성하면, 오류가 발생한다.
+        다음 단원의 화살표 함수에서 해결법을 소개한다.
+    -->
+    
+    과일선택 
+    <select id="fruits">
+        <option value="0">선택하세요</option>
+        <option value="1">사과</option>
+        <option value="2">배</option>
+        <option value="3">바나나</option>
+    </select>
+    
+    <input type="button" id="btn" value="확인">
+    
+    <p id="result"></p>
+
+    <script>
+
+        function checkSelection(msg) {
+            let $elem = document.getElementById("fruits");
+            if ($elem.value == 0) {
+                alert(msg);
+                document.querySelector("#result").innerText = msg;
+                $elem.focus();
+            } else {
+                document.querySelector("#result").innerText = "선택하신 과일은 " + $elem.children[$elem.value].innerText + "입니다.";
+            }
+        }
+
+        let $element = document.querySelector("#btn");
+        $element.addEventListener("click", () => {
+            checkSelection('하나를 선택하여야 합니다.');     
+        });
+
+    </script>
+
+</body>
+</html>

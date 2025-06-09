@@ -1,0 +1,26 @@
+
+<style>
+  .box {
+    width: 300px;
+  }
+  .box .img-wrap {
+    /*이미지가 커졌을때 외각을 보이지 않게 한다. */
+    overflow: hidden;
+  }
+  .img-scale {
+    width: 100%; height: auto;
+  }
+  .box img:hover { /* 마우스를 올려 놨을 때 */
+    transform: scale(1.2, 1.2); 
+    transition-duration: 0.5s;
+   }
+  .box img { 
+    transition-duration: 0.3s; /* 손 뗐을 때 */
+  }
+</style>
+
+<div class="box">
+  <div class="img-wrap">
+    <img class="img-scale" src="img/10.jpg" />
+  </div>
+</div>

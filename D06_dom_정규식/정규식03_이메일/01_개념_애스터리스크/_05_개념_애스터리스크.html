@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        let exp = /^a*b*c*$/; 
+
+        /*
+            (1) ^      : 문자열의 시작을 나타냅니다.
+            (2) a*     : 'a'가 0번 이상 반복될 수 있음을 의미합니다. 
+                          즉, 'a'가 없거나, 한 번 또는 여러 번 반복될 수 있습니다.
+            (3) b*     : 'b'가 0번 이상 반복될 수 있음을 의미합니다. 
+                          즉, 'b'가 없거나, 한 번 또는 여러 번 반복될 수 있습니다.
+            (4) c*     : 'c'가 0번 이상 반복될 수 있음을 의미합니다. 
+                          즉, 'c'가 없거나, 한 번 또는 여러 번 반복될 수 있습니다.
+            (5) $      : 문자열의 끝을 나타냅니다.
+        */
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // t
+
+        value = "";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // t
+
+        value = "acb";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // f
+
+    </script>
+</body>
+</html>

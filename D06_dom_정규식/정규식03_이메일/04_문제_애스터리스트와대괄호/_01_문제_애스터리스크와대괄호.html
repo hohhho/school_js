@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^[abc]*$/;   // a,b,c가 모두 0~무제한(순서도 상관 없음)
+
+        let value = "a";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");           // true
+
+        value = "";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");           // true
+
+        value = " "; 
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");          // false
+
+        value = "acb";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");           // true
+
+        value = "d";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");           // false
+
+        value = "김";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");           // false
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        버튼을 두 개를 만드시오.
+
+        첫 번째 버튼은 부모가 삭제되는 버튼
+        두 번재 버튼은 첫번째 자식이 삭제되는 버튼을 만드시오.
+    -->    
+
+    <div id="target">
+        <p id="p1">첫번째 단락</p>
+        <p id="p2">두번째 단락</p>
+    </div>
+
+    <button onclick="removeParent()">부모 삭제하기</button>
+    <button onclick="removeFirstChild()">첫 번째 자식 삭제하기</button>
+
+    <script>
+        let $parent = document.querySelector("#target");
+
+        function removeParent(){
+            $parent.remove();
+        }
+
+        function removeFirstChild(){
+            //let $firstChild = $parent.children[0];
+            let $firstChild = document.querySelector("#p1");
+            $parent.removeChild($firstChild);
+        }
+    </script>
+</body>
+</html>

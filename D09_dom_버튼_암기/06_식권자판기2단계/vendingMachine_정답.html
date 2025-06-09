@@ -1,0 +1,118 @@
+<script>
+
+    /*
+        [문제]
+            아래 배열은 철수가 소지한 현금 개수이다.
+            money는 돈 단위를 뜻하고,
+            count는 단위별 개수를 뜻한다. 
+
+            거스름돈은 7800일 때, 
+            단위별로 나눠주고, 
+            count배열 값을 조정 후 출력하시오. 
+        [정답]
+            count = [1, 2, 0, 0, 2, 7]    
+    */
+
+    /*
+        [식권 자판기]
+        1. 관리자
+            1) 식권티켓 재고수량 관리
+            2) 화폐종류별 재고수량 관리
+        2. 사용자
+            1) 구매할 식권티켓 수량
+            2) 금액 지불
+    */
+
+    /*
+        [Case1]
+            let countList = [    1,     1,    1,    1,   5,  1];
+            결과 : 거스름돈이 부족합니다. 관리자에게 문의해주세요.
+        [Case2]
+            let userMoney = 3000; 
+            let userCountList = [0, 0, 0, 0, 6, 0];
+            결과 : countList = 1,1,1,1,10,7
+    */
+
+    let moneyList = [50000, 10000, 5000, 1000, 500, 100];
+    let countList = [    1,     1,    1,    1,   5,  10];
+
+    let ticketPrice = 2200;
+    let ticketStockCount = 5;
+
+    let userMoney = 10000;      // 1만원권 1장 투입
+    let userTicketCount = 1;    // 구매하고자하는 티켓 수량
+    let userCountList = [0, 1, 0, 0, 0, 0];
+    
+    /*
+        1. 사용자가 구매하려는 티켓의 수량 <= 재고수량
+            1-1. 사용자에게 투입해야할 금액을 출력
+            1-2. 사용자가 투입한 총 금액 >= 결제해야할 총금액
+                1-2-1. 거스름돈 계산하기
+                        거스름돈 = 사용자가 투입한 총 금액 - 결제해야할 총금액
+                1-2-2. 화폐종류별 재고수량과 거스름돈을 비교해 거스름돈 반환 가능
+                       (1) 재고수량 거스름돈만큼 차감
+                       (2) 사용자가 투입한 화폐종류 추가
+                       (3) 티켓 재고수량 차감
+                1-2-3. 화폐종류별 재고수량과 거스름돈을 비교해 거스름돈 반환 불가
+                       [메세지] 거스름돈이 부족합니다. 관리자에게 문의해주세요.
+            1-3. 사용자가 투입한 총 금액 < 결제해야할 금액
+                 [메세지]투입하신 금액이 부족합니다. 다시 이용해주세요.
+        2. 사용자가 구매하려는 티켓의 수량 > 재고수량
+           [메세지]식권의 수량이 부족합니다. 관리자에게 문의해주세요.
+    */
+
+    document.write("구매할 식권 수량 : " + userTicketCount + "장<br>");
+    
+    if(userTicketCount <= ticketStockCount) {
+        let total = ticketPrice * userTicketCount;
+        document.write("총 금액 : " + total + "원<br>");
+
+        if(userMoney >= total) {
+            let charge = userMoney - ticketPrice * userTicketCount;
+
+            // 원본을 회손하지 말고,
+            // 임시변수를 통해 화폐재고수량이 만족하는지를 판단!
+            let tempCountList = [];
+            for(let i=0; i<countList.length; i++) {
+                tempCountList.push(countList[i]);
+            }
+            let tempCharge = charge;
+
+            let i = 0;
+            while(i < moneyList.length) {
+                // 잔돈 >= 50000 && 화폐재고 수량 > 0
+                if(tempCharge >= moneyList[i] && tempCountList[i] > 0) {
+                    tempCharge -= moneyList[i];
+                    tempCountList[i] -= 1;
+                } else {
+                    i += 1;
+                }
+            }
+
+            console.log("tempCharge = " + tempCharge);
+            console.log(tempCountList);
+
+            if(tempCharge == 0) {
+                for(let i=0; i<moneyList.length; i++) {
+                    countList[i] = tempCountList[i];
+                    countList[i] += userCountList[i];
+                }
+
+                ticketStockCount -= userTicketCount;
+
+                document.write("거래 완료>>><br>");
+                document.write("countList = " + countList + "<br>");
+                document.write("ticketStockCount = " + ticketStockCount + "<br>");
+            } else {
+                document.write("거스름돈이 부족합니다. 관리자에게 문의해주세요.<br>");
+            }
+
+        } else {
+            document.write("투입하신 금액이 부족합니다. 다시 이용해주세요.<br>");
+        }
+
+    } else {
+        document.write("식권의 수량이 부족합니다. 관리자에게 문의해주세요.<br>");
+    }
+
+</script>

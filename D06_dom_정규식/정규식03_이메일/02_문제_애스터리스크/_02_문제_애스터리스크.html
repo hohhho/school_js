@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^a*b$/; // a는  0~무제한, b는 1번, b로 끝나야 함
+        
+        let value = "b";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "aaab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");     // true
+
+        value = "a";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "ac";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // false
+
+    </script>
+</body>
+</html>

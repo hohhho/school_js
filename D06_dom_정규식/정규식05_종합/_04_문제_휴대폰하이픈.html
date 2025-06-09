@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^01[016789]-[0-9]{3,4}-[0-9]{4}$/;
+
+        let value = "010-1234-5678";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       
+        
+        value = "011-1234-567";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");   
+
+        value = "016-123-4567";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");   
+
+        value = "01012345678";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>"); 
+
+    </script>
+</body>
+</html>

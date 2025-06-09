@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^[a-c0-9]{3}$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [a-c0-9]    : 
+                1) 'a', 'b' 또는 'c' 중 하나의 문자와 매칭
+                2) '0', '1', ..., '9' 중 하나의 숫자와 매칭
+            (3) {2}         : [a-c0-9] 패턴이 3번 반복되어야 함을 의미합니다.
+            (4) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 'a', 'b', 'c', '0', '1', ..., '9' 중 3개의 문자로 구성된 문자열과 정확히 매칭됩니다.
+        */
+        
+        let value = "a1b";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t  
+
+        value = "abc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t         
+
+        value = "123";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t         
+
+        value = "abcd";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f       
+
+    </script>
+</body>
+</html>

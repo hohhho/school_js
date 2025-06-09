@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+        div{
+            margin: auto;
+            display: table;
+        }
+        td{
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            font-size: 30px;
+            color: white;
+            border: 1px coral solid;
+        }
+        h1{
+            text-align: center;
+        }
+        body{
+            text-align: center;
+        }
+        table{
+            border: 3px coral solid;  
+            border-collapse: collapse;
+        }
+        button{
+            font-size: 15px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h2>2048</h2>
+    </div>
+    <hr width="300px" color="coral" size="1">
+    <button onclick="reset()">재시작</button>
+    <div id =main></div>
+
+
+    <script>
+        let numbers = [2,4,8,16,32,64,128,256,512,1024,2048];
+        let colors = [];
+
+        let startRgb = [2255, 210, 170];
+        for(let i=0; i<numbers.length; i++){
+            let str = `rgb(${startRgb[0]-15*i}, ${startRgb[1]-15*i}, ${startRgb[2]-15*i})`;
+            colors.push(str);
+        }
+
+        let size = 4;
+        let r = Math.floor(Math.random()*size*size);
+        let $main = document.querySelector("#main");
+        let $table = document.createElement("table");
+        let $trList = [];
+        let gameState = 1;
+
+        init();
+        function init(){
+            for(let i=0; i<size; i++){
+            let $tr = document.createElement("tr");
+            let $tdList = [];
+            for(let j=0; j<size; j++){
+                let $td = document.createElement("td");
+                if(r == i*size + j){
+                    $td.innerText = 2;
+                    $td.style.background = colors[0];
+                }else{
+                    $td.innerText = "";
+                }
+                $tdList.push($td);
+                $tr.append($td);
+            }
+            $trList.push($tdList);
+            $table.append($tr);
+            }
+            $main.append($table);
+        }
+
+        function reset(){
+            r = Math.floor(Math.random()*size*size);
+            $main.textContent = "";
+            $trList = [];
+            $table = document.createElement("table");
+            gameState = 1;
+            init();
+        }
+
+
+        function newNumber(){
+            let count = 0;
+
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size; j++){
+                    if($trList[i][j].innerText == ""){
+                        count += 1;
+                    }
+                }
+            }
+
+            if(count > 0){
+                while(true){
+                    r = Math.floor(Math.random()*size*size);
+                    let i = parseInt(r / size);
+                    let j = r % size;
+                    if($trList[i][j].innerText == ""){
+                        $trList[i][j].innerText = 2;
+                        $trList[i][j].style.background = colors[0];
+                        break;
+                    }
+            
+                }
+            }
+
+        }
+
+        function checkSum(y,x){
+            for(let i=0; i<size; i++){
+                for(let j=size-1; j>=0; j--){
+                    if(i+y >= 0 && i+y <= size-1 && j+x >= 0 && j+x <= size -1){
+                        let num1 = parseInt($trList[i][j].innerText);
+                        let num2 = parseInt($trList[i+y][j+x].innerText);
+                        console.log(num1, num2)
+                        if(num1 == num2){
+                            $trList[i][j].innerText = num1*2;
+
+                            $trList[i+y][j+x].innerText = "";
+                        }
+                    }
+                }
+            }
+        }
+        
+    
+        function moveDirection(dir){ 
+            let y = 0;
+            let x = 0;
+            if(dir == "ArrowRight"){    
+                x -= 1;
+                for(let i=0; i<size; i++){
+                    for(let j=size-1; j>=0; j--){
+                        if(i+y >= 0 && i+y <= size-1 && j+x >= 0 && j+x <= size -1){
+                            let num1 = parseInt($trList[i][j].innerText);
+                            let num2 = parseInt($trList[i+y][j+x].innerText);
+                            if(num1 == num2){
+                                $trList[i][j].innerText = num1*2;
+                                let target = $trList[j][i];
+                                color(target);
+                                $trList[i+y][j+x].innerText = "";
+                                $trList[i+y][j+x].style.background = "";
+                            }
+                        }
+                    }
+                }
+            }else if(dir == "ArrowLeft"){
+                x += 1;
+                for(let i=0; i<size; i++){
+                    for(let j=0; j<size-1; j++){
+                        if(i+y >= 0 && i+y <= size-1 && j+x >= 0 && j+x <= size -1){
+                            let num1 = parseInt($trList[i][j].innerText);
+                            let num2 = parseInt($trList[i+y][j+x].innerText);
+                            if(num1 == num2){
+                                $trList[i][j].innerText = num1*2;
+                                let target = $trList[j][i];
+                                color(target);
+                                $trList[i+y][j+x].innerText = "";
+                                $trList[i+y][j+x].style.background = "";
+                            }
+                        }
+                    }
+                }
+            }else if(dir == "ArrowUp"){
+                y += 1;
+                for(let i=0; i<size; i++){
+                    for(let j=0; j<size-1; j++){
+                        if(i+x >= 0 && i+x <= size-1 && j+y >= 0 && j+y <= size -1){
+                            let num1 = parseInt($trList[j][i].innerText);
+                            let num2 = parseInt($trList[j+y][i+x].innerText);
+                            if(num1 == num2){
+                                $trList[j][i].innerText = num1*2;
+                                let target = $trList[j][i];
+                                color(target);
+                                $trList[j+y][i+x].innerText = "";
+                                $trList[j+y][i+x].style.background = "";
+                            }
+                        }
+                    }
+                }
+            }else if(dir == "ArrowDown"){
+                y -= 1;
+                for(let i=0; i<size; i++){
+                    for(let j=size-1; j>=0; j--){
+                        if(i+x >= 0 && i+x <= size-1 && j+y >= 0 && j+y <= size -1){
+                            let num1 = parseInt($trList[j][i].innerText);
+                            let num2 = parseInt($trList[j+y][i+x].innerText);
+                            if(num1 == num2){
+                                $trList[j][i].innerText = num1*2;
+                                let target = $trList[j][i];
+                                color(target);
+                                $trList[j+y][i+x].innerText = "";
+                                $trList[j+y][i+x].style.background = "";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        function order(dir){
+            if(dir == "ArrowRight"){
+                while(true){
+                    let count = 0;
+                    for(let i=0; i<size; i++){
+                        for(let j=size-1; j>0; j--){
+                            if($trList[i][j].innerText == ""  && $trList[i][j-1].innerText != ""){
+                                $trList[i][j].innerText = $trList[i][j-1].innerText;
+                                let target = $trList[i][j];
+                                color(target)
+                                $trList[i][j-1].innerText = "";
+                                $trList[i][j-1].style.background = "";
+                                count += 1;
+                            }
+                        }
+                    }
+                    if(count == 0){
+                        break;
+                    }
+                }
+            }else if(dir == "ArrowLeft"){
+                while(true){
+                    let count = 0;
+                    for(let i=0; i<size; i++){
+                        for(let j=0; j<size-1; j++){
+                            if($trList[i][j].innerText == ""  && $trList[i][j+1].innerText != ""){
+                                $trList[i][j].innerText = $trList[i][j+1].innerText;
+                                let target = $trList[i][j];
+                                color(target)
+                                $trList[i][j+1].innerText = "";
+                                $trList[i][j+1].style.background = "";
+                                count += 1;
+                            }
+                        }
+                    }    
+                    if(count == 0){
+                        break;
+                    }
+                }
+            }else if(dir == "ArrowUp"){
+                while(true){
+                    let count = 0;
+                    for(let i=0; i<size-1; i++){
+                        for(let j=0; j<size; j++){
+                            if($trList[i][j].innerText == "" && $trList[i+1][j].innerText != ""){
+                                $trList[i][j].innerText = $trList[i+1][j].innerText;
+                                let target = $trList[i][j];
+                                color(target)
+                                $trList[i+1][j].innerText = "";
+                                $trList[i+1][j].style.background = "";
+                                count += 1;
+                            }
+                        }
+                    }    
+                    if(count == 0){
+                        break;
+                    }
+                }
+            }else if(dir == "ArrowDown"){
+                while(true){
+                    let count = 0;
+                    for(let i=size-1; i>0; i--){
+                        for(let j=0; j<size; j++){
+                            if($trList[i][j].innerText == ""  && $trList[i-1][j].innerText != ""){
+                                $trList[i][j].innerText = $trList[i-1][j].innerText;
+                                let target = $trList[i][j];
+                                color(target)
+                                $trList[i-1][j].innerText = "";
+                                $trList[i-1][j].style.background = "";
+                                count += 1;
+                            }
+                        }
+                        
+                    }
+                    if(count == 0){
+                        break;
+                    }
+                }
+            } 
+        }
+        
+
+        function color(target){
+            let value = parseInt(target.innerText);
+            let len = colors.length;
+            for(let i=0; i<len; i++){
+                if(value == numbers[i]){
+                    target.style.background = colors[i];
+                }
+            }
+        }
+        
+        
+        function end(){
+            let check = 1;
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size-1; j++){
+                    if($trList[i][j].innerText == ""){
+                        check = 0;    
+                    }
+                    console.log($trList[i][j] == $trList[i][j+1])
+                    if($trList[i][j].innerText == $trList[i][j+1].innerText){
+                        check = 0;
+                    }
+                }
+            }
+
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size-1; j++){
+                    if($trList[j][i].innerText == $trList[j+1][i].innerText){
+                        check = 0;
+
+                    }
+                }
+            }
+
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size-1; j++){
+                    if($trList[j][i].innerText == "2048"){
+                        check = 2;
+                    }
+                }
+            }
+
+
+            if(check == 1){
+                gameState = 0;
+                alert("끝~");
+            }else if(check == 2){
+                gameState = 0;
+                alert("승리!~");
+            }
+        }
+
+
+
+        //키보드 입력 설정
+        window.addEventListener("keydown",(e)=>{
+            if(gameState == 1){
+                order(e.code);
+                moveDirection(e.code);
+                order(e.code);
+                end();
+                newNumber();
+            }
+        });
+        </script>
+</body>
+</html>

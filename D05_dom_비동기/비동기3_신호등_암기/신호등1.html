@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: black;
+        }
+        #redLight{
+            /* background-color: red; */
+        }
+        #greenLight{
+             /* background-color: green;  */
+        }
+        #numberLight{
+              /* background-color: black;   */
+        }
+        #numLeft{
+            width: 50px;
+            height: 100px; 
+            background-color: black; 
+        }
+        #numRight{
+            width: 50px;
+            height: 100px; 
+            background-color: black;
+            
+        }
+        .numTop{
+            width: 26px;
+            height: 30px;
+            /*
+            border-top: 10px green solid;
+            border-left: 10px green solid;
+            border-bottom: 10px green solid;
+            border-right: 10px green solid;
+            */             
+        }
+        .numBottom{
+            width: 26px;
+            height: 30px;
+            /* 
+            border-top: 10px green solid;
+            border-left: 10px green solid;
+            border-bottom: 10px green solid;
+            border-right: 10px green solid;  
+            */
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <div id="numberCheck">
+            0
+        </div>
+        <div id="blinkCheck">
+            0
+        </div>
+        <div class="box" id="redLight"></div>
+        <br>
+        <div class="box" id="greenLight"></div>
+        <br>
+        <table>
+            <tr id="numberLight">
+                <td>
+                    <div id="numLeft">
+                        <div class="numTop"></div>
+                        <div class="numBottom"></div>
+                    </div>
+                </td>
+                <td>
+                    <div id="numRight">
+                        <div class="numTop"></div>
+                        <div class="numBottom"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function offAll(){
+            document.querySelector("#redLight").style.backgroundColor = "black";
+            document.querySelector("#greenLight").style.backgroundColor = "black";
+            document.querySelector("#numberLight").style.backgroundColor = "black";
+        }
+        function onRed(){
+            offAll();
+            document.querySelector("#redLight").style.backgroundColor = "red";
+        }
+        function onGreen(){
+            offAll();
+            document.querySelector("#greenLight").style.backgroundColor = "green";
+        }
+        function onBlinck(){
+            offAll();
+            if(num % 2 == 0) {
+                document.querySelector("#greenLight").style.backgroundColor = "green";
+            }else{
+                document.querySelector("#greenLight").style.backgroundColor = "black";
+            }
+        }
+        function trafficLigt(){        
+            
+            if(status == RED){
+                onRed();
+                if(num >= 5){
+                    status = GREEN; 
+                    num = 0;
+                }   
+            }else if(status == GREEN){
+                onGreen();
+                if(num >= 5){
+                    status = BLINK; 
+                    num = 0;
+                    blinkNumber = 20;
+                }   
+
+            }else if(status == BLINK){
+                onBlinck();
+                if(num >= 20){
+                    status = RED; 
+                    num = 0;
+                }
+            }
+            document.querySelector("#numberCheck").innerHTML = num;
+            num += 1;
+            
+        }
+        let RED = 1;
+        let GREEN = 2;
+        let BLINK = 3;
+        let status = RED; 
+        let num = 1;
+        let blinkNumber = 20;
+        let id = setInterval(trafficLigt, 1000);
+    </script>
+</body>
+</html>

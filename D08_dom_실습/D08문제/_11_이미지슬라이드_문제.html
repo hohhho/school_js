@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #slider{
+            width: 700px;
+            height: 300px;
+        }
+        .obj{
+            width: 200px;
+            height: 300px;
+        }
+        .movebtn{
+            width: 50px;
+            height: 300px;
+            background-color: white;
+            font-size:50px;
+            font-weight: 500;
+            cursor: pointer;
+            border-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <table id="slider" border="1">
+            <tr>
+                <td align="center"><button class="movebtn" id="moveleft"><</button></td>
+                <td><img src="../D08개념/images/1.png" class="obj"></td>
+                <td><img src="../D08개념/images/2.png" class="obj"></td>
+                <td><img src="../D08개념/images/3.png" class="obj"></td>
+                <td align="center"><button class="movebtn" id="moveright">></button></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let $obj = document.querySelectorAll(".obj");
+
+        let now = 0;
+
+        function slideRight(){
+            now++;
+            if(now > 5){
+                now = 1;
+            }
+
+            for(let i=0; i<$obj.length; i++){
+                let temp = (now + i)%5;
+
+                $obj[i].src = `../D08개념/images/${temp+1}.png`;
+            }
+        }
+        function slideLeft(){
+            console.log("bef: "+now);
+            now--;
+            if(now < 1){
+                now = 5;
+                
+            }
+            console.log("aft: "+now);
+
+            for(let i=0; i<$obj.length; i++){
+                let temp = (now + i)%5;
+
+                $obj[i].src = `../D08개념/images/${temp+1}.png`;
+            }
+        }
+
+        document.querySelector("#moveright").addEventListener("click",slideRight);
+        document.querySelector("#moveleft").addEventListener("click",slideLeft);
+    </script>
+</body>
+</html>

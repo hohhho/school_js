@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>   
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,16}$/;      // 전체 문자열 길이:8~16, 특수기호가 무조건 하나 이상 포함돼야 함
+
+        let value = "StrongPss9";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "abcdef";
+        check = exp.test(value);
+        document.write(check + "<br>");            // false
+
+        value = "PASSWORD123!";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "bcdef!ghijklmnop";
+        check = exp.test(value);
+        document.write(check + "<br>");            // true
+
+        value = "!@*^&";
+        check = exp.test(value);
+        document.write(check + "<br>");            // false(길이가 8 미만)
+
+        value = "1234567890";
+        check = exp.test(value);
+        document.write(check + "<br>");            // false
+      
+    </script>
+</body>
+</html>

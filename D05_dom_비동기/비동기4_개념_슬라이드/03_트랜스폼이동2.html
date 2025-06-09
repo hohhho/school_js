@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>CSS3 - 변화, 변형, 애니메이션</title>
+        <style>
+            .total{
+                width: 500px; 
+                padding: 20px;
+                border: 5px solid black;
+            }
+            
+            .total > div{
+                
+                width: 10px; 
+                height: 50px;
+
+                margin-bottom: 10px;
+
+                background-color: coral;
+                
+                transition-duration: 0.5s; /* css변화시 0.5초 걸려서 변화 */
+            }
+            .total:hover > div{
+                /* .total에 마우스를 오버하면 자손인 div의 폭이 500px로 증가 */
+                width: 500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="total">
+            <div class="box01"></div>
+            <div class="box02"></div>
+            <div class="box03"></div>
+            <div class="box04"></div>
+            <div class="box05"></div>
+        </div>    
+    </body>
+</html>

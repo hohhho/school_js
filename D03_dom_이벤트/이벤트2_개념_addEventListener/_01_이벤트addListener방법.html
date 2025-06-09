@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">버튼</button>
+
+    <script>
+        // (1) 버튼을 찾아놓는다.
+        let $btn = document.querySelector("#btn");
+        // (2) 버튼에 이벤트를 적용시킨다. 
+        $btn.addEventListener("click", clickMe2); // 여기는 소괄호() 가 붙지않는다. 
+        
+        function clickMe2() {
+            alert("clickMe2");
+        }
+    </script>
+
+</body>
+</html>

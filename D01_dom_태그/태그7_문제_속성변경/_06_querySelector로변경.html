@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>querySelector()</title>
+</head>
+<body>
+    <!--
+        아래 첫번째 태그에 태두리를 만드시오. 
+    -->
+
+
+    <div>
+        <p>div안의 p태그</p>
+    </div>
+    <p>p태그</p>
+
+    <script>
+        let $target = document.querySelector("div > p");
+        
+        $target.style.border = "1px solid black";
+    </script>
+</body>
+</html>

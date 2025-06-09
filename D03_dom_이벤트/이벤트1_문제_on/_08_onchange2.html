@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        셀렉트를 만들고 선택된 value 값이 화면에 출력되는 이벤트를 만드시오.
+    -->
+
+    <select id="sel" onchange="printResult()">
+        <option value="0">::선택하세요::</option>
+        <option value="1">달걀</option>
+        <option value="2">생선</option>
+        <option value="3">고양이</option>
+        <option value="4">책상</option>
+        <option value="5">커피</option>
+    </select>
+
+    <hr>
+    <div id="result">
+        <span></span>
+    </div>
+
+    <script>
+        function printResult(){
+            let $sel = document.querySelector("#sel");
+
+            if($sel.value != 0){
+                let $result = document.querySelector("#result > span");
+                
+                $result.innerText = $sel.children[$sel.value].innerText;
+            }
+        }
+    </script>
+</body>
+</html>

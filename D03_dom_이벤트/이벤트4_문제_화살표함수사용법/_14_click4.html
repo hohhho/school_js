@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <!--
+        select 와 click 과 화살표함수를 이용하여, 선택시 화면에 출력되는 
+        이벤트를 만드시오.
+    -->
+
+    <select id="sel">
+        <option value="0">::선택하세요::</option>
+        <option value="1">빨강</option>
+        <option value="2">파랑</option>
+        <option value="3">보라색</option>
+        <option value="4">노란색</option>
+        <option value="5">초록색</option>
+    </select>
+
+    <button id="btn">선택</button>
+
+    <p id="printArea"></p>
+
+    <script>
+        let $sel = document.querySelector("#sel");
+        let $btn = document.querySelector("#btn");
+        let $printArea = document.querySelector("#printArea");
+
+        $btn.addEventListener("click", ()=>{
+            let col = "";
+            switch(Number($sel.value)){
+                case 1: col = "red"; break;
+                case 2: col = "blue"; break; 
+                case 3: col = "purple"; break; 
+                case 4: col = "yellow"; break; 
+                case 5: col = "green"; break; 
+                default: break;
+            }
+
+            $printArea.innerText = $sel.children[$sel.value].innerText;
+            $printArea.style.color = col;
+        })
+    </script>
+
+</body>
+</html>

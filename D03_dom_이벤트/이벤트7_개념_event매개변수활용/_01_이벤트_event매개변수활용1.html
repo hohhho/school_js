@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick</title>
+</head>
+<body>
+    <h2>event로 키보드의 key값 가져오기</h2>
+    <input type="text" onkeydown="keydownMe(event)">
+    <div id="result"></div>
+
+    <input type="text" id="key2">
+
+    <script>
+        function keydownMe(event) {
+            console.log(event.code);            // 아스키코드 값
+            console.log(event.keyCode);         // 키 이름
+            document.querySelector("#result").innerHTML = event.code+ ", " + event.keyCode
+        }
+
+        let $key2 = document.querySelector("#key2");
+        $key2.addEventListener("keydown", printKey);
+
+        function printKey(){
+            console.log(event.dode);
+            console.log(event.keyCode);
+            document.querySelector("#result").innerHTML = event.code + ", " + event.keyCode;
+            
+            
+        }
+    </script>
+
+</body>
+</html>

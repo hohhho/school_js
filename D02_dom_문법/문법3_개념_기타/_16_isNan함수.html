@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>window객체</title>
+</head>
+<body>
+
+    <script>
+        /*
+           isNaN() 함수 : 문자숫자를 구분해주는함수
+
+           (1) 사용법
+                isNaN(문자 또는 숫자);
+
+            (2) 결과
+                숫자이면 false , 문자이면 true 가반환된다. 
+                단, 문자이여도 내용이 숫자이면 false 가 반환된다. 
+            
+        */
+        let a = isNaN("10"); // 문자열이어도 숫자값이기 때문에 false 반환
+        document.write(a + "<br>");
+
+        let b = isNaN(10);
+        document.write(b + "<br>");
+
+        let c = isNaN("안녕");
+        document.write(c + "<br>");
+        
+    </script>
+    
+</body>
+</html>

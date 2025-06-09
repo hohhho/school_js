@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed Game</title>
+
+    <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            /*border: 1px solid black;*/
+            margin: auto;
+        }
+        td {
+            width: 75px;
+            height: 75px;
+            border: 5px solid white;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: Dodgerblue;
+            color: white;
+
+            cursor: pointer;
+        }
+        #footer {
+            margin-top: 10px;
+            text-align: center;
+        }
+        #center {
+            margin: auto;
+            text-align: center;
+        }
+        button{
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+        p{
+            font-size: 18px;
+        }
+    </style>
+
+</head>
+<body onload="init()">
+        <!-- ---------------------------- header start ----------------------------- -->
+        <div id="header">
+            <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+            <h3>순발력 게임</h3>
+        </div>
+        
+        <hr width="300px" color="coral" size="1">
+        <br>
+        <!-- ---------------------------- header finish ----------------------------- -->
+
+    <div id="header">
+        
+    </div>
+
+    <div id="center"></div>
+    
+    <div id="footer"></div>
+    
+    <script>
+        let gameState = 0;
+        let size = 4;
+        let frontList = [];
+        let backList = [];
+        let $header = document.querySelector("#header");
+        let $center = document.querySelector("#center");
+        let $table = document.createElement("table");
+        let $footer = document.querySelector("#footer");
+        let $tdList = [];
+        let count = 0;
+        let currentNum = 1;
+        let time = null;
+        
+        let $p1 = document.createElement("p");
+        let $p2 = document.createElement("p");
+        let $span = document.createElement("span");
+        function init() {
+            gameState == 0
+            $span.id = 'time';
+            $span.innerText = 0;
+            $p1.innerText = "다음 숫자 : " + currentNum;
+            $p1.id = "currentNum";
+            $header.append($p1);
+            $p2.innerText = "Time : ";
+            $p2.append($span);
+            $header.append($p2);
+            
+            let num = 1;
+            for(let i=0; i<size; i++) {
+                let frontTemp = [];
+                let backTemp = [];
+                for(let j=0; j<size; j++) {
+                    frontTemp.push(num);
+                    backTemp.push(num + size*size);
+                    num += 1;
+                }
+
+                frontList.push(frontTemp);
+                backList.push(backTemp);
+            }
+
+            console.log("frontList = " + frontList);
+            console.log("backList = " + backList);
+
+            let $hintBtn = document.createElement("button");
+            $hintBtn.innerText = '힌트'
+            $hintBtn.id = "hint"
+            $hintBtn.addEventListener("click", hint);
+            $center.append($hintBtn);
+        
+            let $shuffleList=[];
+            for(let i=0; i<size; i++) {
+                let $tempTdList = [];
+                for(let j=0; j<size; j++) {
+                    let $td = document.createElement("td");
+                    $td.addEventListener("click", clickEvent);
+                    $td.innerText = frontList[i][j];
+                    $shuffleList.push($td)
+                    $tempTdList.push($td);
+                }
+                
+                $tdList.push($tempTdList);
+            }
+            for(let i=0; i<size*size*10; i++){
+                let $temp = null;
+                let r = Math.floor(Math.random()*size*size);
+                $temp = $shuffleList[0];
+                $shuffleList[0] = $shuffleList[r];
+                $shuffleList[r] = $temp;
+            }
+            for(let i=0; i<size; i++){
+                let $tr = document.createElement("tr");
+                for(let j=0; j<size; j++){
+                    $tr.append($shuffleList[i*size + j]);
+                }
+                $table.append($tr);
+            }
+            $center.append($table);
+
+            
+            
+        }
+
+        let $resetBtn = document.createElement("button");
+        $resetBtn.innerText = '리셋'
+        $resetBtn.addEventListener("click", reset);
+        $footer.append($resetBtn);
+
+
+        function reset(){
+            clearInterval(time)
+            $center.textContent = "";
+            $table.remove()
+            $span.remove()
+            $table = document.createElement("table");
+            currentNum = 1
+            init()
+        }
+        function hint(){
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size; j++){
+                    let target = Number($table.children[i].children[j].innerText);
+                    if(target == currentNum){
+                        $table.children[i].children[j].style.background = "red"
+                    }
+                }
+            }
+        }
+
+        function timeCheck(){
+            $span.innerText = (Number($span.innerText) + 0.1).toFixed(1);
+        }
+
+        function clickEvent() {
+
+            for(let i=0; i<$tdList.length; i++){
+                for(let j=0; j<$tdList[i].length; j++){
+                    if($tdList[i][j].innerText == this.innerText){
+                        if(this.innerText != backList[i][j] && this.innerText == currentNum){
+                            if(gameState == 0){
+                                time = setInterval(timeCheck, 100);
+                                gameState = 1;
+                            }
+                            this.innerText = backList[i][j];
+                            currentNum += 1;
+                            count +=1;
+                            let str = "다음 숫자 : ";
+                            document.querySelector("#currentNum").innerText = str + currentNum;
+
+                        }
+                        if(this.style.background == "red"){
+                            this.style.background = "Dodgerblue"
+                        }
+                    }
+                }
+            }
+            
+            if(gameState == 2 && this.innerText == currentNum){
+                
+                    count += 1;
+                
+                currentNum += 1;
+                if(count < 50){
+                    document.querySelector("#currentNum").innerText = currentNum;
+                }else{
+                    document.querySelector("#currentNum").innerText = "끝";
+                }
+                this.innerText = "";
+                this.style.border = "5 white"
+                this.style.background = "white"
+                this.style.cursor = "default"
+            }
+            if(count == size*size){
+                gameState = 2;
+            }else if(count == size*size*2){
+                let temp = time.innerText;
+                clearInterval(time);
+                time.innerText = temp;
+                document.querySelector("#currentNum").innerText = "끝";
+                gameState = 0            
+            }
+
+        }
+
+        
+        
+    </script>
+
+</body>
+</html>

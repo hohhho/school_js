@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^a*b*c*$/; // 전부 다 0~무제한(단, 순서는 지켜야 함)
+        
+        let value = "a";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // true
+
+        value = "";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // true
+
+        value = "acb";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");         // false
+
+    </script>
+</body>
+</html>

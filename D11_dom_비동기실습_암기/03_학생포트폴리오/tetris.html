@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+        td{ 
+            border: solid black 1px;
+        }
+        div{
+            margin: auto;
+            display: table;
+        }
+        button{
+            text-align: center;
+        }
+        #hold{
+            margin-bottom: 10px;  
+        }
+        #pause{
+            font-size: 25px;
+        }
+        #exTable{
+            margin: auto;
+            text-align: center;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        #hold, #next{
+            font-weight: bold;
+            text-align: center;
+        }
+        th{
+            font-size: 25px;
+        }
+        h1{
+            text-align: center;
+        }
+        #info{
+            border:none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h3>TETRIS!</h3>
+        <hr width="300px" color="coral" size="1">
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <div id="hold">
+                        <table>
+                            <th colspan="4">HOLD</th>           <!--unit*5       unit*5-->
+                            <tr><td style="border:0" width="170px"><canvas id="holdCanvas" width="150" height="150" style="border: 1px solid black"></canvas></td></tr>
+                            <tr>
+                                <td id="info">
+                                    Move : ←, →<br><br>
+                                    Rotate(R) : ↑, X<br><br>
+                                    Rotate(L) : Z<br><br>
+                                    Soft Drop : ↓<br><br>
+                                    Hard Drop : SPACEBAR<br><br>
+                                    Hold : LEFTSHIFT<br><br>
+                                    Pause : ESC<br><br>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </div>
+                </td>
+                <td id="main" rowspan="2">
+                        <div>                   <!--unit(블록길이) * 12  unit*27-->
+                        <canvas id="myCanvas" width="360" height="780"></canvas>
+                    </div>
+                </td>
+                <td>
+                    <div id="next">
+                        <table>
+                            <th colspan="4">NEXT</th>      <!--unit*5   , unit* nextCount*3.2 -->
+                            <tr><td style="border:0" width="170px"><canvas id="nextCanvas" width="150" height="480" style="border: 1px solid black"></canvas></td></tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="exTable">
+                    <table width="100px">
+                        <tr><td>SCORE</td></tr>
+                        <tr><td id="score">0</td></tr>
+                        <tr><td>LEVEL</td></tr>
+                        <tr><td id="level">1</td></tr>
+                        <tr><td>LINE</td></tr>
+                        <tr><td id="line">0</td></tr>
+                    </table>
+                </div>
+                </td>
+                <td align="center">
+                    <button onclick="pause()" id="pause">PAUSE</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    
+    <script>
+
+        //블록크기, 좌표값, 배열 길이용 변수
+        let width = document.querySelector("#myCanvas").width;
+        let height = document.querySelector("#myCanvas").height;
+        let size = width/12;
+        let holdSize = size * 5;
+        let nextSize = size * 20;
+        let zero = size /2;
+        
+        //캔버스
+        let $canvas = document.querySelector("#myCanvas");
+        let $holdCanvas = document.querySelector("#holdCanvas");
+        let $nextCanvas = document.querySelector("#nextCanvas");
+        let ctx = $canvas.getContext("2d");
+        let holdCtx = $holdCanvas.getContext("2d");
+        let nextCtx = $nextCanvas.getContext("2d");
+        
+        //hold
+        let holdBlock = 10;
+        let holdState = 0;
+
+        //level,score,지운라인 수, 레벨업 필요 라인수
+        let $totalScore = document.querySelector("#score");
+        let $level = document.querySelector("#level");
+        let totalLine = 0;
+        let levelUpLine = 10;
+
+        // 처음 생성좌표 , 현재 좌표
+        let newC = [2,5]; 
+        let c = [2,5];
+        
+        //넥스트에 보여줄 블록 개수
+        let nextCount = 5;        
+        //블록의 회전상태 == shape, 상태서 진짜 좌표 4개 == loc 
+        let curBlockShape = [];
+        let curBlockLoc = [];
+        
+        //고스트블록 4개 좌표
+        let ghostLoc = [];
+        
+        //맨위 히든 라인
+        let hiddenLineCount = 3;
+        
+        // 기준 속도, 현재속도, pause상태, 무한회전 시간체크 변수;
+        let speed = 1000;
+        let curSpeed = speed;
+        let interval = null;
+        let pauseState = 0;
+        let infR = null;
+        let rotateTime = 0;
+
+        //블록 회전상태
+        let blockState = 0;
+
+        //현재 필드의 블록, 색 배열
+        let checkArr = [];
+        let colorArr = [];
+        
+        // wallKick용 좌표 배열
+        // I, O 블록 제외 나머지 블록 좌표
+        let wallKickArr = [[[-1,0],[-1,+1],[0,-2],[-1,-2]],
+                            [[+1,0],[+1,-1],[0,+2],[+1,+2]],
+                            [[+1,0],[+1,-1],[0,+2],[+1,+2]],
+                            [[-1,0],[-1,+1],[0,-2],[-1,-2]],
+                            [[+1,0],[+1,+1],[0,-2],[+1,-2]],
+                            [[-1,0],[-1,-1],[0,+2],[-1,+2]],
+                            [[-1,0],[-1,-1],[0,+2],[-1,+2]],
+                            [[+1,0],[+1,+1],[0,-2],[+1,-2]]
+        ];
+        let wallKickArrI = [
+            [[-2,0],[+1,0],[-2,-1],[+1,+2]],
+                            [[+2,0],[-1,0],[+2,+1],[-1,-2]],
+                            [[-1,0],[+2,0],[-1,+2],[+2,-1]],
+                            [[+1,0],[-2,0],[+1,-2],[-2,+1]],
+                            [[+2,0],[-1,0],[+2,+1],[-1,-2]],
+                            [[-2,0],[+1,0],[-2,-1],[+1,+2]],
+                            [[+1,0],[-2,0],[+1,-2],[-2,+1]],
+                            [[-1,0],[+2,0],[-1,+2],[+2,-1]]
+        ];
+
+        // 다음 블록 번호들이 저장될 배열, 현재 블록 번호, 색상배열
+        let nextBlock = [];
+        let r = 0;
+        let colors = ["yellow","cyan","purple","green","red","blue","orange","white","gray","lightblue"];
+
+        //전체 블록 모양
+        let blockList = 
+        [[//O
+            [1, 1],
+            [1, 1]
+        ],
+        [// I
+            [0, 0, 0, 0],
+            [1, 1, 1, 1],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+        ],
+        [//T
+            [0, 1, 0],
+            [1, 1, 1],
+            [0, 0, 0]
+        ],
+        [//S
+            [0, 1, 1],
+            [1, 1, 0],
+            [0, 0, 0]
+        ],
+
+        [//Z
+            [1, 1, 0],
+            [0, 1, 1],
+            [0, 0, 0]
+        ],
+
+        [//J
+            [1, 0, 0],
+            [1, 1, 1],
+            [0, 0, 0]
+        ],
+
+        [//L
+            [0, 0, 1],
+            [1, 1, 1],
+            [0, 0, 0]
+        ]];
+
+        init();
+        //시작용
+        function init(){
+            resetArr();
+            rePaint();
+            getNewBlockShape();
+            interval = setInterval(() => checkBlankDown(1), curSpeed);
+        }
+
+        //pause
+        function pause(){
+            if(pauseState == 0){
+                pauseState = 1;
+                clearInterval(interval);
+                document.querySelector("#pause").innerText = "RESUME"
+            }else{
+                pauseState = 0;
+                interval = setInterval(() => checkBlankDown(1), curSpeed);
+                document.querySelector("#pause").innerText = "PAUSE"
+            }
+        }
+
+        //리셋
+        function reset(){
+            clearInterval(interval);
+            resetArr();
+            rePaint();
+            rePaint(1);
+            c = [2,5];
+            holdBlock = 10;
+            holdState = 0;
+            getNewBlockShape();
+            $totalScore.innerText = 0;
+            totalLine = 0;
+            document.querySelector("#line").innerText = totalLine;
+            curSpeed = speed;
+            $level.innerText = 1;
+            interval = setInterval(() => checkBlankDown(), curSpeed);
+        }
+
+        //필드의 현재 블록, 색을 지정하는 배열 초기화
+        function resetArr(){
+            checkArr = [];
+            colorArr = [];
+            for(let i=size/2; i<height; i+=size){
+                let temp=[];
+                let temp2=[];
+                for(let j=size/2; j<width; j+=size){
+                    if(j == zero || i == height - zero || j == width - zero){
+                        temp.push(9);
+                        temp2.push(8);
+                    }else{
+                        temp.push(0);
+                        temp2.push(7);
+                    }
+                }
+                checkArr.push(temp);
+                colorArr.push(temp2);
+            }
+        }
+
+        //HOLD
+        function holdDraw(){
+            if(holdState == 0){ // 홀드창이 비어있는 경우 홀드에 현재블록 저장, 새 블록 생성
+                holdBlock = r;
+                let holdLoc = getLoc(blockList[r]);
+                for(let i=0; i<holdLoc.length; i++){     
+                    let x = holdLoc[i][1]-c[1]+1;
+                    let y = holdLoc[i][0]-c[0]+1;
+                    if(r == 0){
+                        draw(x,y,colors[r],1,"O");
+                    }else if(r == 1){
+                        draw(x,y,colors[r],1,"I");
+                    }else{
+                        draw(x,y,colors[r],1);
+                    }
+                }
+                eraseBlock();
+                getNewBlockShape();
+            }else if(holdState == 2){ // 저장된 블록이 있다면 현재 블록과 홀드된 블록을 교체
+                rePaint(1);//새로그리기
+                let holdLoc = getLoc(blockList[r]);
+                for(let i=0; i<holdLoc.length; i++){     
+                    let x = holdLoc[i][1]-c[1]+1;
+                    let y = holdLoc[i][0]-c[0]+1;
+                    if(r == 0){
+                        draw(x,y,colors[r],1,"O");
+                    }else if(r == 1){
+                        draw(x,y,colors[r],1,"I");
+                    }else{
+                        draw(x,y,colors[r],1);
+                    }
+                }
+                let temp = r;
+                eraseBlock();    
+                getNewBlockShape(1);
+                holdBlock = temp;
+            }
+
+            holdState = 1;// 새 블록이 생성되기 전까지 hold사용 x
+        }
+        
+        //NEXT
+        function nextDraw(){
+            rePaint(2);// next canvas 초기화
+
+            for(let i=0; i<nextCount; i++){
+                let line = i*3;
+                let next = nextBlock[i];
+                let nextLoc = getLoc(blockList[next]);
+                for(let i=0; i<nextLoc.length; i++){     
+                    let x = nextLoc[i][1]-c[1]+1;
+                    let y = nextLoc[i][0]-c[0]+1;
+                    if(next == 0){
+                        draw(x,y+line,colors[next],2,"O");
+                    }else if(next == 1){
+                        draw(x,y+line,colors[next],2,"I");
+                    }else{
+                        draw(x,y+line,colors[next],2);
+                    }
+                }
+            }    
+        }
+            
+
+        //canvas에 fillRect메서드로 전달받은 좌표에
+        //사각형 1개 칠함
+        function draw(x,y,color,mod,block){//mod 1 == hold창, 2 == next창, 없으면 테트리스창
+            //O, I블록 블록길이 1/2 만큼 가로축 보정
+            let coord = 0;
+            if(block == "I"){//
+                coord = -(size / 2);
+            }else if(block == "O"){
+                coord = size / 2;
+            }
+
+            if(mod == 1){//hold, next창은 I,O블록 틀어짐 때문에 사각형라인이 없어야 하므로
+                if(color == "white"){//color이 white인 경우(초기화) 블록선을 그리지 않도록 clearRect를 사용
+                    holdCtx.clearRect(x*size, y*size, size, size)
+                }else{
+                    holdCtx.fillStyle = color;
+                    holdCtx.fillRect(x*size+coord, y*size, size, size);
+                    holdCtx.strokeRect(x*size+coord, y*size, size, size);
+                }
+            }else if(mod == 2){
+                if(color == "white"){
+                    nextCtx.clearRect(x*size, y*size, size, size);
+                }else{
+                    nextCtx.fillStyle = color;
+                    nextCtx.fillRect(x*size+coord, y*size, size, size);
+                    nextCtx.strokeRect(x*size+coord, y*size, size, size);
+                }
+            }else{//
+                ctx.fillStyle = color;
+                ctx.fillRect(x*size, y*size, size, size);
+                ctx.strokeRect(x*size, y*size, size, size);
+            }                
+        }
+        
+        //고스트 블록
+        function getGhostLoc(){
+            let distance = 0; //현재블록위치에서 밑으로 내렸을때 걸리는게 있는 거리 값이 저장될 변수
+            for(let i=0; i<checkArr.length; i++){ //현재 블록의 4개 좌표의 y값에 +1씩 하면서 걸리는게 있으면 break;
+                    let check = 0;
+                for(let j=0; j<curBlockLoc.length; j++){
+                    let y = curBlockLoc[j][0]; 
+                    let x = curBlockLoc[j][1];
+                    if(checkArr[y+1+i][x] != 0 && checkArr[y+1+i][x] != 1){
+                        check = 1;
+                        break;
+                    }
+                }
+                if(check == 1){
+                    break;
+                }
+                distance += 1; //걸리는게 없으면 거리++
+            }
+            eraseGhost(); // 새로운 고스트좌표 생성전 이전 좌표값의 고스트 지우기
+            ghostLoc = [];// 고스트 배열 초기화
+            for(let i=0; i<4; i++){//현재좌표에 찾은 거리값을 더해서 고스트좌표 생성
+                let y = curBlockLoc[i][0]+distance;
+                let x = curBlockLoc[i][1];
+                ghostLoc.push([y,x]);
+            }
+            drawGhost();// 새 고스트 좌표로 canvas 그리기 함수 호출
+        }
+
+        function eraseGhost(){// 고스트 흰색으로
+            for(let i=0; i<ghostLoc.length; i++){     
+                let x = ghostLoc[i][1];
+                let y = ghostLoc[i][0];
+                if(checkArr[y][x] == 0){
+                colorArr[y][x] = 7;
+                draw(x,y,colors[7]);
+                }
+            }
+        }
+
+        function drawGhost(){// 고스트 그리기
+            for(let i=0; i<ghostLoc.length; i++){     
+                let x = ghostLoc[i][1];
+                let y = ghostLoc[i][0];
+                colorArr[y][x] = 9;
+                draw(x,y,colors[9]);
+            }
+        }
+
+
+        //7-bag 
+        //https://namu.wiki/w/%ED%85%8C%ED%8A%B8%EB%A6%AC%EC%8A%A4/%EC%9A%A9%EC%96%B4#toc
+        function randomGenerator(){ // 랜덤 1세트 만들기
+            let len = blockList.length;
+            let blockNum = [];
+            for(let i=0; i<len; i++){
+                let rNum = Math.floor(Math.random()*len);
+                let check = 0;
+                for(let j=0; j<blockNum.length; j++){
+                    if(blockNum[j] == rNum){
+                        check = 1;
+                    }
+                }
+                if(check == 0){
+                    blockNum.push(rNum);
+                }else{
+                    i -= 1;
+                }
+            }
+            return blockNum;
+        }
+        
+        function chargeNextBlock(){//랜덤 블록 번호가 항상 14개 이상 유지
+            if(nextBlock.length <= 14){
+                while(nextBlock.length != 21){
+                    let blockNum = randomGenerator();
+                    for(let i=0; i<blockNum.length; i++){
+                        nextBlock.push(blockNum[i]);
+                    }
+                }
+            }
+        }
+
+
+        function getNewBlockShape(hold){ // 현재블록 배열 생성
+            chargeNextBlock();//랜덤블록 채우기
+            c[0] = newC[0]; // 4개 좌표가 위치할 생성좌표를 시작점으로 초기화
+            c[1] = newC[1];
+
+            if(hold == 1){//hold로 호출된 경우 다음 블록을 hold에 저장된 블록으로 
+                r = holdBlock;
+            }else{
+                r = nextBlock.shift(); //다음 블록의 첫번째 값을 shift로 반환;
+                nextDraw();// next창 새로 그리기
+            }
+            
+            curBlockShape = []; //블록 리스트에서 r번 블록 호출해 회전에 사용할 새 배열에 저장 
+            for(let i=0; i<blockList[r].length; i++){
+                let temp = [];
+                for(let j=0; j<blockList[r][i].length; j++){
+                    temp.push(blockList[r][i][j]);             
+                }
+                curBlockShape.push(temp);
+            }
+
+            //shape 배열의 중심으로 생성좌표 보정
+            if(r == 0){ //O블록인 경우
+                c[0] -= 1;
+            }else if(r > 0){ //나머지
+                c[0] -= 1;
+                c[1] -= 1;
+            }
+            curBlockLoc = getLoc(curBlockShape);// shape배열을 인수로 진짜 위치값 4개가 저장된 배열을 반환하는 받아 할당
+
+
+            //초기 4개 좌표에 빈칸,현재블록이 아닌게 있다면 게임 종료
+            for(let i=0; i<curBlockLoc.length; i++){
+                let y = curBlockLoc[i][0]
+                let x = curBlockLoc[i][1]
+                if(checkArr[y][x] != 0 && checkArr[y][x] != 1){
+                    end();
+                }
+            }
+
+            //종료가 아니면 새 블록 그리기
+            drawBlock();
+            hiddenLine();
+            blockState = 0;// 회전상태 초기화
+            if(holdState == 1){// 홀드에 저장된 값이 있다면 홀드 사용가능 하도록
+                holdState = 2;
+            }
+        }
+
+                
+        function drawBlock(){ // 4개 좌표값으로 블록 그리기
+            getGhostLoc();
+            for(let i=0; i<curBlockLoc.length; i++){     
+                let x = curBlockLoc[i][1];
+                let y = curBlockLoc[i][0];
+                checkArr[y][x] = 1;
+                colorArr[y][x] = r;
+                draw(x,y,colors[r]);
+            }
+        }
+
+        function eraseBlock(){// 블록 지우기
+            for(let i=0; i<curBlockLoc.length; i++){     
+                let x = curBlockLoc[i][1];
+                let y = curBlockLoc[i][0];
+                checkArr[y][x] = 0;
+                colorArr[y][x] = 7;
+                draw(x,y,"white");
+            }
+        }
+
+        function hiddenLine(){// 맨 위부터 지정된 만큼 배경제거
+            for(let i=0; i<hiddenLineCount; i++){
+                for(let j=0; j<checkArr[i].length; j++){
+                    if(checkArr[i][j] == 0 || checkArr[i][j] == 9){
+                        ctx.clearRect(j*size,i*size,size,size);
+                    }
+                }
+            }
+        }
+
+        function end(){//종료 알람후 리셋
+            alert("끝~");
+            reset();
+        }
+        
+        function getLoc(tempLoc){ //Shape배열을 받아서 실제 블록이 위치할 좌표값 배열 반환
+            let y = c[0]
+            let x = c[1]
+            let realLoc = [];
+            for(let i=0; i<tempLoc.length; i++){
+                for(let j=0; j<tempLoc[i].length; j++){
+                    if(tempLoc[i][j] == 1){
+                        realLoc.push([y+i,x+j]);
+                    }
+                }
+            }
+            return realLoc;
+        }
+
+        function checkBlank(newLoc,dir){// 다음 블록이 위치할 4개좌표를 인수로 빈칸이 아닌 경우를 검사후 true, false 반환
+            for(let i=0; i<newLoc.length; i++){
+                let y = newLoc[i][0];
+                let x = newLoc[i][1];
+                if(checkArr[y][x] != 0 && checkArr[y][x] != 1){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+        //https://harddrop.com/wiki/SRS
+        //블록 회전시 벽이나 블록에 걸렸을 때 규칙에 따라 생성 좌표값을 변경해 재시도
+        function wallKick(newLoc,dir){
+            let b = blockState;
+            let d = dir;
+            let wNum = 0;
+        
+            if(b == 0 && d == 0){ // blockState 0 -> 1
+                wNum = 0;
+            }else if(b == 1 && d == 1){ // 1 -> 0
+                wNum = 1;
+            }else if(b == 1 && d == 0){// 1 -> 2
+                wNum = 2;
+            }else if(b == 2 && d == 1){// 2 -> 1
+                wNum = 3;
+            }else if(b == 2 && d == 0){// 2 -> 3
+                wNum = 4;
+            }else if(b == 3 && d == 1){// 3 -> 2
+                wNum = 5;
+            }else if(b == 3 && d == 0){// 3 -> 0
+                wNum = 6;
+            }else if(b == 0 && d == 1){// 0 ->
+                wNum = 7;
+            }
+
+            
+            for(let i=0; i<5; i++){
+                let wallKickLoc = [];
+                let check = 0;
+                let h = height / size;
+                let w = width / size;
+                for(let j=0; j<newLoc.length; j++){
+                    let y = 0;
+                    let x = 0;
+                    
+                    if(r == 1){
+                        y = newLoc[j][0] + wallKickArrI[wNum][i][1];
+                        x = newLoc[j][1] + wallKickArrI[wNum][i][0];    
+                    }else{
+                        y = newLoc[j][0] + wallKickArr[wNum][i][1];
+                        x = newLoc[j][1] + wallKickArr[wNum][i][0];
+                    }
+                    wallKickLoc.push([y,x]);
+
+                    if(y < h - 1 && y >= 0 && x < w && x > 0){
+                        check += 1;
+                        if(checkArr[y][x] != 0 && checkArr[y][x] != 1){
+                            check -= 1;    
+                        }
+                    }
+                }
+                if(check == 4){
+                    if(r == 1){
+                        c[0] += wallKickArrI[wNum][i][1];
+                        c[1] += wallKickArrI[wNum][i][0];
+                    }else{
+                        c[0] += wallKickArr[wNum][i][1];
+                        c[1] += wallKickArr[wNum][i][0];
+                    }
+                    return  wallKickLoc; // 생성가능한 경우가 있다면 좌표 배열반환
+                }
+                
+            }
+            return false; // 생성 불가인 경우
+        }
+            
+        //회전
+        function rotateBlock(dir){ 
+            let rotate = [];// 현재shape배열을 회전후 값이 저장될 배열
+            if(dir == 0){ // 시계방향, 오른쪽 회전
+                for(let i=0; i<curBlockShape.length; i++){
+                    let temp = [];
+                    for(let j=curBlockShape[i].length-1; j>=0; j--){
+                        temp.push(curBlockShape[j][i]);             
+                    }
+                    rotate.push(temp);
+                }
+            }else if(dir == 1){ //반시계, 왼쪽 회전
+                for(let i=curBlockShape.length-1; i>=0; i--){
+                    let temp = [];
+                    for(let j=0; j<curBlockShape[i].length; j++){
+                        temp.push(curBlockShape[j][i]);             
+                    }
+                    rotate.push(temp);
+                }
+            }
+            let newLoc = getLoc(rotate);//회전된 현재shape 배열을 인수로 새로 4개 좌표 생성
+            if(checkBlank(newLoc,dir) == true){ // 새 4개 좌표 값을 검사해 걸리는게 없다면
+                clearTimeout(infR);
+                if(blockState == 3 && dir == 0){  //블록의 회전상태 변경
+                    blockState = 0;
+                }else if(dir == 0){
+                    blockState += 1;
+                }else if(blockState == 0 && dir == 1){
+                    blockState = 3;
+                }else if(dir == 1){
+                    blockState -= 1;                       
+                }
+
+                eraseBlock(); //현재 블록 지우기
+                curBlockShape = rotate; // 현재블록shape배열을 회전배열로 교체
+                curBlockLoc = newLoc; //현재 4개좌표를 새로운 좌표값으로 교체
+                drawBlock(); // 교체한 값으로 블록 그리기
+                hiddenLine(); // 맨 위줄 배경 지우기
+                
+                rotateTime = 1;
+                infR = setTimeout(infinityRotate, 500);
+                console.log(rotateTime)
+            }else{// 새 좌표로 검사했는데 걸리는게 있다면 wallKick이 가능한지 검사
+                let tempLoc = wallKick(newLoc,dir);
+                if(tempLoc != false){// 검사후 회전 가능한 배열이 반환되었다면
+                    clearTimeout(infR);
+                    // wallKick 좌표로 블록 그리기
+                    if(blockState == 3 && dir == 0){
+                        blockState = 0;
+                    }else if(dir == 0){
+                        blockState += 1;
+                    }else if(blockState == 0 && dir == 1){
+                        blockState = 3;
+                    }else if(dir == 1){
+                        blockState -= 1;                       
+                    }
+                    eraseBlock(); 
+                    curBlockShape = rotate;
+                    curBlockLoc = tempLoc;
+                    drawBlock();
+                    hiddenLine();
+                    rotateTime = 1;
+                    infR = setTimeout(infinityRotate, 1000);
+                    console.log(rotateTime)
+                }
+            }
+        }
+            
+        
+        function checkBlankLR(dir){//좌우 이동시 이동 가능한지 검사
+            let xValue = 0;
+            let check = 0;
+            if(dir == "ArrowRight"){
+                xValue = 1;
+            }else if(dir =="ArrowLeft"){
+                xValue = -1;
+            }
+
+            for(let i=0; i<4; i++){
+                let y = curBlockLoc[i][0];
+                let x = curBlockLoc[i][1];
+            if(checkArr[y][x+xValue] != 0 && checkArr[y][x+xValue] != 1 && checkArr[y][x+xValue] != 2){
+                check = 1;
+            }
+            }
+
+            if(check == 0){
+                eraseBlock();
+                for(let i=0; i<4; i++){
+                    curBlockLoc[i][1] += xValue;
+                }
+                drawBlock();
+                hiddenLine();
+                c[1] += xValue; //x값 조정
+            }
+        }
+
+        //블록이 회전후 1초 동안은 stack이 되지 않음
+        function infinityRotate(){
+            rotateTime = 0;
+        }
+
+
+        function checkBlankDown(mod){// 아래로 이동 mod가 1이면 점수++ 안함
+            let check = 0;
+            for(let i=0; i<4; i++){ //걸리는게 있다면 stack
+                let y = curBlockLoc[i][0];
+                let x = curBlockLoc[i][1];
+                if(checkArr[y+1][x] != 0 && checkArr[y+1][x] != 1){
+                    stack();
+                    return true;
+                }
+            }
+            if(check == 0){// 없다면 새로 그리기
+                eraseBlock();
+                for(let i=0; i<4; i++){
+                    curBlockLoc[i][0] += 1;
+                }
+                drawBlock();
+                hiddenLine();
+                c[0] += 1;//y값 조정
+                if(mod != 1){
+                    $totalScore.innerText = parseInt($totalScore.innerText) + 1; // 아래로 이동시 1점
+                }
+            }
+        }
+
+        //쌓기
+        function stack(){ // checkArr의 값을 8로 바꾸고 새 블록 생성
+            if(rotateTime == 0){
+                for(let i=0; i<4; i++){
+                    let y = curBlockLoc[i][0];
+                    let x = curBlockLoc[i][1];
+                    checkArr[y][x] = 8;
+                    // draw(y,x,"");
+                }
+                delLine();
+                getNewBlockShape();
+            }
+        }
+              
+        
+        //라인 지우기
+        function delLine(){
+            let bonusScore = 0; //한번에 지운 라인 개수 당 보너스 스코어;
+            
+            for(let i=3; i<checkArr.length-1; i++){
+                let count = 0;
+                for(let j=1; j<11; j++){
+                    if(checkArr[i][j] == 8){
+                        count += 1;
+                    }
+                }
+                if(count == 10){
+                    bonusScore += 1; //스코어
+                    totalLine += 1; //레벨
+                    document.querySelector("#line").innerText = totalLine;
+                    for(let j=1; j<11; j++){
+                        draw(j,i,"white");
+                    }
+                    checkArr.splice(i,1);
+                    colorArr.splice(i,1);
+                    checkArr.unshift([9,0,0,0,0,0,0,0,0,0,0,9]);
+                    colorArr.unshift([8,7,7,7,7,7,7,7,7,7,7,8]);
+                }
+            }
+            rePaint();// colorArr 값에 따라 전체 새로 칠하기
+
+            $totalScore.innerText = parseInt($totalScore.innerText) + (bonusScore * parseInt($level.innerText) * 100)//점수 바꾸기
+            //레벨, 속도 설정
+            if(parseInt($level.innerText) < 20){
+                $level.innerText = parseInt(totalLine / levelUpLine) + 1;
+                curSpeed = speed - parseInt($level.innerText)*45;
+                clearInterval(interval);
+                interval = setInterval(() => checkBlankDown(1), curSpeed);
+            }
+        }
+
+        function rePaint(mod){//mod에 따라 3가지 canvas창 초기화
+            if(mod == 1){//hold
+                let repeat = holdSize / size;
+                for(let i=0; i<repeat; i++){
+                    for(let j=0; j<repeat; j++){
+                        draw(j,i,"white",1);  
+                    }
+                }
+            }else if(mod == 2){//next
+                let repeat = nextSize / size;
+                for(let i=0; i<repeat; i++){
+                    for(let j=0; j<repeat; j++){
+                        draw(j,i,"white",2);  
+                    }
+                }
+            }else{//tetris
+                for(let i=0; i<colorArr.length; i++){
+                    for(let j=0; j<colorArr[i].length; j++){
+                        let n = colorArr[i][j];
+                        draw(j,i,colors[n]);  
+                    }
+                }
+            }   
+        }
+
+        function hardDrop(){// 스페이스바
+            rotateTime = 0
+            for(let i=0; i<checkArr.length; i++){
+                if(checkBlankDown(1) == true){ // 아래에 걸리는게 있을 때 까지 down함수 반복
+                    break;
+                }
+                $totalScore.innerText = parseInt($totalScore.innerText) + 2; // 스페이스시 이동당 2점
+            }
+        }
+
+
+        //키보드 입력 설정
+        window.addEventListener("keydown",(e)=>{
+            if(pauseState == 0){
+                if(e.code=="ArrowRight" || e.code=="ArrowLeft" ){
+                    checkBlankLR(e.code);
+                }else if(e.code == "ArrowDown"){
+                    checkBlankDown(e.code);
+                }else if(e.code == "ArrowUp" || e.code == "KeyX"){
+                    if(r > 0){
+                        rotateBlock(0);
+                    }
+                }else if(e.code == "KeyZ"){//왼쪽 회전
+                    rotateBlock(1);
+                }else if(e.code == "Space"){
+                    hardDrop();
+                }else if(e.code == "ShiftLeft"){
+                    holdDraw();
+                }else if(e.code == "Escape"){//pause
+                    pause();
+                }
+            }else{
+                if(e.code == "Escape"){//pause풀기
+                    pause();
+                }
+            }
+        
+        });
+       
+  
+    </script>
+</body>
+</html>

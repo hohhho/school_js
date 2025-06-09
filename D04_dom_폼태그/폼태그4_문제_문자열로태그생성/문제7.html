@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <span id="msg"></span>
+
+    <script>
+        let str = `
+            <div align="center">
+                <h1>회원가입</h1>
+                <hr>
+
+                <table border="1">
+                    <form action="">
+                        <tr>
+                            <td>아이디</td>
+                            <td><input type="text" class="inputForm" id="id" placeholder="아이디를 입력하세요"></td>
+                        </tr>
+                        <tr>
+                            <td>비밀번호</td>
+                            <td><input type="text" class="inputForm" id="pw" placeholder="비밀번호를 입력하세요"></td>
+                        </tr>
+                        <tr>
+                            <td>이름</td>
+                            <td><input type="text" class="inputForm" id="name" placeholder="이름을 입력하세요"></td>
+                        </tr>
+                        <tr>
+                            <td>이메일</td>
+                            <td><input type="text" class="inputForm" id="email" placeholder="fejuw@naver.com"></td>
+                        </tr>
+
+                        <tr align="center">
+                            <td colspan="2"><input type="submit" value="회원가입"></td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        `;
+
+        let $msg = document.querySelector("#msg");
+        $msg.innerHTML = str;
+    </script>
+
+</body>
+</html>

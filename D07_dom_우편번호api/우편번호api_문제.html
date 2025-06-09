@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!-- Daum 우편번호 -->
+     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</head>
+<body>
+
+    <div id="main" align="center">
+        <table border="1">
+            <tr align="center">
+                <td colspan="3"><span>회원가입</span></td>
+            </tr>
+            <tr>
+                <td>우편번호</td>
+                <td><input id="zonecode" type="text" placeholder="우편번호를 입력해주세요"></td>
+                <td><button onclick="execDaumPostcode()">우편번호검색</button></td>
+            </tr>
+            <tr>
+                <td>도로명 주소</td>
+                <td colspan="2"><input id="street" type="text" placeholder="도로명 주소를 입력해주세요"></td>
+            </tr>
+            <tr>
+                <td>남은 주소</td>
+                <td colspan="2"><input id="detail" type="text" placeholder="남은 주소를 입력해주세요"></td>
+            </tr>
+            <tr align="center">
+                <td colspan="3"><button>가입하기</button></td>
+            </tr>
+        </table>
+
+    </div>
+
+   <!--
+        아래 함수를 참고하여 우편번호 api를 구현하시오.     
+   -->
+
+   <script>
+        let $zonecode = document.querySelector("#zonecode");
+        let $street = document.querySelector("#street");
+        let $detail = document.querySelector("#detail");
+
+       
+        function execDaumPostcode() {
+
+            let themeObj = {
+                bgColor: "#162525", //바탕 배경색
+                searchBgColor: "#162525", //검색창 배경색
+                contentBgColor: "#162525", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+                pageBgColor: "#162525", //페이지 배경색
+                textColor: "#FFFFFF", //기본 글자색
+                queryTextColor: "#FFFFFF", //검색창 글자색
+                //postcodeTextColor: "", //우편번호 글자색
+                //emphTextColor: "", //강조 글자색
+                outlineColor: "#444444" //테두리
+            };
+
+            new daum.Postcode({
+                    oncomplete: function( data ) {
+                        $zonecode.value = data.zonecode;
+                        $street.value = data.address;
+                        
+                        $detail.focus();
+                    },
+                    theme: themeObj
+                }).open();
+        }
+   </script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       
+        .box{
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            /* css 가 변경되기까지 걸리는 시간 */
+            transition-duration: 5s;
+                 
+        }
+
+        .box:hover{
+            background-color: blue;
+            transform: translateX(100px);
+             /*
+                transform:  translate(100px , 100px); 
+                transform:  translateY(100px); 
+                transform: scale(3); 
+                transform: scaleX(3); 
+                transform: scaleY(3); 
+                transform: rotate(10deg);
+                transform: skew(10deg);
+                transform: skewX(10deg);
+                transform: skewY(10deg);
+            */
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        1
+    </div>
+
+
+</body>
+</html>

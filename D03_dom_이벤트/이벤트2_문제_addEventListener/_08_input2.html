@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        input 과 addEventListener를 사용해서 
+        막대를 움직이면 수치가 출력되는 이벤트를 만드시오. 
+    -->          
+
+    <input type="range" id="range">
+    <p id="result"></p>
+
+    <script>
+        let $element = document.querySelector("#range");
+        $element.addEventListener("input", changeRange);
+
+        function changeRange() {
+            document.querySelector("#result").innerText = $element.value;
+        }
+    </script>
+
+</body>
+</html>

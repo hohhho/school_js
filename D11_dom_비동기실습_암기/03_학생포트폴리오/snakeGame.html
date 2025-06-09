@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+        div{
+            margin:auto;
+            display: table;
+        }
+        #msg {
+            margin: 0 auto;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            width: 300px;
+            height: 30px;
+            color: tomato;
+        }
+
+        td{
+            border: 1px solid lightgray;
+            background-color: rgb(245, 244, 244);
+            border-collapse: collapse;
+            width: 38px;
+            height: 38px;
+        }
+        table{
+            border: solid black 1px;
+            border-collapse: collapse;
+        }
+        #head{
+            background-color: green;
+        }
+        .body{
+            background-color: lightgreen;
+        }
+        #item{
+            background-color: red;
+        }
+        #playBtn {
+            width: 150px;
+            height: 45px;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: tomato;
+            color: white;
+            border-style: none;
+            border-radius: 8px;
+            margin: 30px 0px;
+            cursor: pointer;
+        }
+
+        #appleImg {
+            background: white;
+            width: 45px;
+        }
+        #mainHeader {
+            text-align: center;
+            width: 600px;
+            height: 50px;
+            background: white;
+            border: 0px white solid;
+        }
+        #mainHeader td{
+            background: white;
+            border: 0px white solid;
+
+        }
+        #playTd{
+            text-align: right;
+            background: white;
+        }
+        #scoreTd {
+            background: white;
+            text-align: center;
+            width: 45px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        </style>
+</head>
+<body onload="init()">
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h2>Snake Game</h2>
+        <hr width="300px" color="coral" size="1">
+
+        <table id="mainHeader">
+    
+        <tr>
+            <td id="imgTd">
+                <img id="appleImg" src="images/apple.png">
+            </td>
+            <td id="scoreTd">
+                0
+            </td>
+            <td id="playTd">
+                <button id="playBtn" onclick="start()">▷ Play</button>
+            </td>
+        </tr>
+    </table>
+    </div>
+    <div id="main"></div>
+    <div id="msg"></div>
+    <script>
+        let score = 0;
+        let size = 15;
+        let $table = document.createElement("table");
+        let $main = document.querySelector("#main");
+        let $trList = [];
+        let currentDir = [0,1]
+        let bodyLength = 4;
+        let headLoc = [0,bodyLength];
+        let pathSnake = [];
+        let moveY = currentDir[0];
+        let moveX = currentDir[1];
+        let y = headLoc[0]
+        let x = headLoc[1];
+        let item = [0,0];
+        let delInd = null;
+        let m = null;
+        let count = 3;
+
+        function init(){
+            $trList = [];
+            $table = document.createElement("table");
+            for(let i=0; i<size; i++){
+                let $tr = document.createElement("tr");
+                let $tdList = [];
+                for(let j=0; j<size; j++){
+                    let $td = document.createElement("td");
+                    $tdList.push($td);
+                    $tr.append($td);
+                }
+                $table.append($tr);
+                $trList.push($tdList);
+
+            }
+            $main.append($table);
+
+            for(let i=0; i<bodyLength; i++){
+                $table.children[0].children[i].className = "body";
+                pathSnake.push([0,i]);
+                if(i == bodyLength - 1){
+                    $table.children[0].children[bodyLength].id = "head";
+                    pathSnake.push([0,bodyLength]);
+                }
+                
+
+            }
+            findHead()
+            makeItem()
+        }
+
+
+        window.addEventListener("keydown",(e)=>{
+            moveDirection(e.code)
+            let $head = document.querySelector("#head");            
+        });
+
+        
+        function findHead(){
+            let $head = document.querySelector("#head");
+            for(let i=0; i<size; i++){
+                for(let j=0; j<size; j++){
+                    if($trList[i][j] == $head){
+                        headLoc[0] = i;
+                        headLoc[1] = j;
+                    }
+                }
+            }
+
+            moveY = currentDir[0];
+            moveX = currentDir[1];
+            y = headLoc[0]
+            x = headLoc[1];
+        }
+
+        function path(){
+            delInd = pathSnake.shift();
+            pathSnake.push([y + moveY,x + moveX]);
+            for(let i=0; i<pathSnake.length-1; i++){
+                let a = pathSnake[i][0];
+                let b = pathSnake[i][1];
+                $trList[a][b].className= "body";
+            }
+            $trList[delInd[0]][delInd[1]].className = "";
+        }
+        
+        function move(){
+            findHead();
+            if(end() == true){
+                alert("끝~");
+                setCount();
+            }
+            
+            eatItem()
+            $trList[y][x].id = "";
+            $trList[y + moveY][x + moveX].id = "head";
+            path();
+            
+        }
+
+        function start(){
+            clearInterval(m);
+            m = setInterval(move, 200);
+            document.querySelector("#playBtn").setAttribute("disabled", true);
+            document.querySelector("#playBtn").style.background = "lightgray";
+        }
+
+        function end(){
+
+            let eY = y + moveY;
+            let eX = x + moveX;
+            let loc = [eY, eX];
+            if(eY == size || eY < 0 || eX == size || eX < 0){
+                clearInterval(m);
+                return true;
+            }
+            
+            for(let i=0; i<pathSnake.length; i++){
+                if(loc[0] == pathSnake[i][0]){
+                    if(loc[1] == pathSnake[i][1]){
+                        clearInterval(m);
+                        return true;
+                    }
+                }
+            }
+    
+           
+        }
+
+        function makeItem(){
+            while(true){
+                let r1 = Math.floor(Math.random()*15);
+                let r2 = Math.floor(Math.random()*15);
+                let loc = [r1, r2];
+                let check = 0;
+                for(let i=0; i<pathSnake.length; i++){
+                    if(loc[0] == pathSnake[i][0]){
+                        if(loc[1] == pathSnake[i][1]){
+                            check = 1;
+                        }
+                    }
+                }
+                
+                if(check == 0){
+                    $trList[r1][r2].id = "item";
+                    item = [r1,r2];
+                    break;
+                }
+            }
+        }
+
+        function eatItem(){
+            eY = y + moveY;
+            eX = x + moveX;
+            loc = [eY, eX];
+
+            if(loc[0] == item[0]){
+                if(loc[1] == item[1]){
+                    $trList[item[0]][item[1]].id = "";
+                    makeItem();
+                    pathSnake.unshift(delInd)
+                    score += 1;
+                    document.querySelector("#scoreTd").innerText = score;
+                }
+            }
+    
+        }
+
+        function moveDirection(dir){ // 현재방향 반대 방향이 아니라면 방향 전환
+            if(dir == "ArrowRight" && moveX == 0){
+                currentDir = [0,1];
+            }else if(dir == "ArrowLeft" && moveX == 0){
+                currentDir = [0,-1];
+            }else if(dir == "ArrowUp" && moveY == 0){
+                currentDir = [-1,0];
+            }else if(dir == "ArrowDown" && moveY == 0){
+                currentDir = [1,0];
+            }
+        }
+        function setCount() {
+    
+            if(count >= 0) {
+                document.querySelector("#msg").innerHTML = "Game Over : " + count;
+            } else {
+                clearInterval(myTimeout);
+                location.href = "snakeGame.html";
+            }
+
+            myTimeout = setTimeout(setCount, 1000);
+            count -= 1;
+        }
+
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            () 소괄호
+            1. 소괄호는 해당 부분을 나중에 참조하거나 사용할 수 있게 합니다.
+                - 예를 들어, 정규식 /^(abc)(1234)$/에서는 두 개의 그룹이 있습니다.
+                - 첫 번째 그룹: (abc)  이 부분이 매칭되면, "abc"라는 값이 저장됩니다.
+                - 두 번째 그룹: (1234) 이 부분이 매칭되면, "1234"라는 값이 저장됩니다.
+            2. 하지만, 아래 기능은 현재 예제에서는 사용되지 않습니다.
+        */  
+
+
+        let exp = /^(abc)(1234)$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) (abc)       : 'abc' 문자와 매칭됩니다. 이 부분은 첫 번째 그룹으로 저장됩니다.
+            (3) (1234)      : '1234' 문자와 매칭됩니다. 이 부분은 두 번째 그룹으로 저장됩니다.
+            (4) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 전체 문자열이 'abc1234'와 정확히 일치할 때만 매칭됩니다.
+        */
+        
+        let result = exp.exec("abc1234");
+        document.write(result[0] + "<br>");          // 전체 매칭된 문자열
+        document.write(result[1] + "<br>");          // 첫 번째 그룹 : "abc"
+        document.write(result[2] + "<br>");          // 두 번째 그룹 : "1234"
+
+    </script>
+</body>
+</html>

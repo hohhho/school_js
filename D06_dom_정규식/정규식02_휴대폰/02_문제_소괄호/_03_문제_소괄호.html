@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^(abc){2}$/;     // 문자열이 abc 2번 반복인 것만 true => abcabc
+        
+        let value = "abc";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");     // false  
+
+        value = "abcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // true
+
+        value = "abcabcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // false
+    
+    </script>
+</body>
+</html>

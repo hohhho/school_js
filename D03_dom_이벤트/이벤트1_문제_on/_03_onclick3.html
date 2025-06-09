@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+        이름을 입력받을때 입력필드가 비어있는지 검사하는 이벤트를 만드시오.
+    -->
+
+    <input type="text" id="name">
+    <button id="bt" onclick="isEmpty()">입력</button>
+
+    <script>
+        function isEmpty(){
+            let $name = document.querySelector("#name").value;
+            if($name == "" || $name == null){
+                alert("이름을 입력해 주세요");
+            }else{
+                alert("이름 입력 성공!");
+            }
+            document.querySelector("#name").value = "";
+            document.querySelector("#name").focus();
+        }
+    </script>
+</body>
+</html>

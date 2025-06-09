@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        [addEventListener의 한계]
+        addEventListener는 전달되는 인자가 없는 함수를 사용할 때에는 문제가 없으나
+        인자를 전달해야하는 함수를 사용할 때에는 아래와 같이 작성하면, 오류가 발생한다.
+        다음 단원의 화살표 함수에서 해결법을 소개한다.
+    -->
+
+    아이디(6-8 문자): <input type="text" id="id" autofocus>
+    <input type="button" id="btn" value="확인">
+
+    <script>
+
+        let min = 6;
+        let max = 8;
+
+        let $element = document.querySelector("#btn");
+        $element.addEventListener("click", function(min, max) {
+            alert(min);     // 이상한 값이 출력된다.
+            alert(max);     // undefined
+        });
+        
+       
+    </script>
+    
+</body>
+</html>

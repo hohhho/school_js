@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        let MemberDAO = {
+            memberList : [],
+
+            printMember(){
+                console.log("-----Print Member-----");
+                for(let i=0; i<this.memberList.length; i++){
+                    console.log(this.memberList[i]);
+                }
+            },
+
+            insertMember(member){
+                this.memberList.push(member);
+            },
+
+            deleteByNumber(num){
+                for(let i=0; i<this.memberList.length; i++){
+                    if(this.memberList[i]["number"] == num){
+                        this.memberList.splice(i,1);
+                        break;
+                    }
+                }
+            },
+
+            updateNameByNumber(num, name){
+                for(let member of this.memberList){
+                    if(member["number"] == num){
+                        member["name"] = name;
+                        break;
+                    }
+                }
+            }
+
+        };
+
+        let ControllerMain = {
+            start(){
+                let member1 = {number:1001, name:"김철수"};
+                let member2 = {number : 1002, name : "안철수"};
+                let member3 = {number : 1003, name : "박철수"};
+
+                MemberDAO.insertMember(member1);
+                MemberDAO.insertMember(member2);
+                MemberDAO.insertMember(member3);
+                MemberDAO.printMember();
+
+                MemberDAO.deleteByNumber(1001);
+                MemberDAO.printMember();
+
+                MemberDAO.deleteByNumber(1003);
+                MemberDAO.printMember();
+
+                MemberDAO.updateNameByNumber(1002, "황철수");
+                MemberDAO.printMember();
+            }
+        }
+
+        ControllerMain.start();
+
+    </script>
+
+</body>
+</html>

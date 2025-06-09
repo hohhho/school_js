@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        [개념] 이벤트 종류
+            (2) change : 내용이 변경 된 후 HTML 요소가 포커스를 잃으면 이벤트가 발생한다.
+    -->
+
+    <h4>과목을 선택하세요.</h4>
+    <select id="mySelect">
+        <option value="html">HTML</option>
+        <option value="css">CSS</option>
+        <option value="javascript">JavaScript</option>
+    </select>
+
+    <p id="selected">선택한 과목 : </p>
+
+    <script>
+
+        let $element = document.querySelector("#mySelect");
+        $element.addEventListener("change", function() {
+            document.querySelector("#selected").innerText = "선택한 과목 : " + $element.value;
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+           소괄호와 중괄호
+           - 중괄호와 함께 쓰이면, 소괄호의 여부에 따라 의미가 달라집니다.
+        */  
+
+        /*
+            소괄호를 사용했을 때
+            - 'abc' 문자열이 2회 반복해야함을 의미합니다.
+        */
+        let exp = /^(abc){2}$/; 
+        
+        let value = "abc";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "abcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "abcabcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        document.write("<hr>");
+        
+        /*
+            소괄호를 사용하지 않았을 때
+            - 'abc'로 시작하고 'c'가 2번 반복되는 문자열을 의미합니다.
+        */
+        exp = /^abc{2}$/; 
+        
+        value = "abcc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "abcabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "ababc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+    </script>
+</body>
+</html>

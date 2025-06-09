@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^ab+$/; // a로 시작(1번, 필수), b로 끝남(1번 이상)
+
+        let value = "ab";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");     // true  
+
+        value = "abab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "ababab";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "abc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+        value = "a";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+    </script>
+</body>
+</html>

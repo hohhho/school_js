@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <span>This is a paragraph</span>
+        <br><br>
+        <button>눌러보세요</button>
+    </div>
+
+    <script>
+        let $target = document.querySelector("div > span");
+
+        function changeText(){
+            let text = $target.innerText;
+            $target.innerHTML = `<i>${text}</i>`;
+            $target.style.color = "tomato";
+            // $target.style.fontStyle = "italic";
+        }
+
+        document.querySelector("div > button").addEventListener("click",changeText);
+    </script>
+</body>
+</html>

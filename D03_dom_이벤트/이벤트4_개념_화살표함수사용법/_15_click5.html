@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p id="red">빨간색 텍스트</p>
+    <p id="blue">파란색 텍스트</p>
+
+    <script>
+        let $red = document.querySelector("#red");
+        let $blue = document.querySelector("#blue");
+
+        $red.addEventListener("click", () => {
+            changeTextColor('red');
+        });
+        $blue.addEventListener("click", () => {
+            changeTextColor('blue');
+        });
+
+        function changeTextColor(color) {
+            $red.style.color = color;
+            $blue.style.color = color;
+        }
+
+    </script>
+
+</body>
+</html>

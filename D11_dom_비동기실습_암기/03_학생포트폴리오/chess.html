@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas{
+            border: solid 1px black;            
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        h1{
+            text-align: center;
+        }
+        div{
+            display: table;
+            margin: auto;
+        }
+        </style>
+</head>
+<body>
+    <div>
+        <h1 id="state">Chess!</h1>
+
+        <canvas id="board" width="720" height="720"></canvas>
+        <canvas id="pieces" width="720" height="720"></canvas>
+    
+    </div>
+    
+    <script>
+        //보드 작성
+        let infoStr = document.querySelector("h1");
+        let clickedCoord = "";
+        let clickedPieces = "";
+        let clickState = 0;
+        let checkState = 0;
+        let staleState = 0;
+        let staleCount = 0;
+        let promotionName = "";
+        const WHITE = "#EEEED2";
+        const BLACK = "#769656";
+        let markColor = "yellow";
+        let basicLoc = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"];
+        // let basicLoc = ["rook", "", "", "", "king", "bishop", "queen", "rook"];
+        const PAWN = "pawn";
+        let fileStr = ["a","b","c","d","e","f","g","h"];
+        let boardLen = fileStr.length;
+        let rankNum = [];
+        let a = "a".charCodeAt();
+        let board = {};
+        for(let i=boardLen; i>0; i--){
+            rankNum.push(i);
+        }
+        let kings = {"white":"", "black":""};
+        let kingsSave ={"whte":"", "black":""};
+        let $board = document.querySelector("#board");
+        let $pieces = document.querySelector("#pieces");
+        /** @type {CanvasRenderingContext2D} */
+        let ctx1 = $board.getContext("2d");
+        /** @type {CanvasRenderingContext2D} */
+        let ctx2 = $pieces.getContext("2d");
+        let root = "./images/";
+        let circle = new Image();
+        circle.src = root + "circle.png";
+        let size = 90;
+        let movableList = {"white": [], "black": []};
+        let nextMovableList = {"white": [], "black": []}; 
+        let rulesForPieceMove = {"rook": [[-1,0],[1,0],[0,-1],[0,1]], 
+                    "bishop":[[-1,-1],[-1,1],[1,-1],[1,1]], 
+                    "pawn": [[0,1],[-1,1],[1,1]], 
+                    "queen":[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]],
+                    "king":[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]],
+                    "knight":[[-2,-1],[-2,1],[2,-1],[2,1],[-1,-2],[1,-2],[-1,2],[1,2]]
+                    }
+        let turn = true;
+
+        class Square {
+            color = ""; //보드 색
+            x = 0; //그리기용 좌표
+            y = 0;
+            file = 0; //기보, 클래스접근용 좌표
+            rank = 0;
+            pieceName = ""; //기물이름
+            movable = []; //현재 이동가능
+            nextMovable = []; //상대편이 같은 편 기물을 잡으면 이동 가능 장소
+            side = ""; // 흑백
+            moveCount = 0; //기물 이동 수
+            enpassant = ""; // 특수행마 양파상용
+
+            //현재 기물 다시 그리기
+            setPiece(){
+                let img = new Image();
+                img.src = root+this.side+"_"+this.pieceName+".png";
+                drawPiece(img, this.x, this.y);
+                
+            }
+            
+            //기물 그림만 지우기 
+            del(){
+                ctx2.beginPath();
+                ctx2.clearRect(this.x*size,this.y*size,size,size)
+                ctx2.closePath();
+            }
+
+            reset(){
+                this.movable = [];
+                this.moveCount = 0;
+                this.side = "";
+                this.nextMovable = [];
+                this.enpassant = "";
+                this.pieceName = "";  
+            }
+
+            //기물 배경 색 바꾸기
+            fillSquare(color){
+                ctx2.beginPath();
+                ctx2.rect(this.x*size,this.y*size,size,size);
+                ctx2.fillStyle = color;
+
+                ctx2.fill();
+                ctx2.closePath();
+            }
+            
+            //입력좌표로 현재 기물 이동
+            move(destCoord){
+                this.del();
+                board[destCoord].pieceName = this.pieceName ;
+                board[destCoord].side = this.side;
+                board[destCoord].moveCount = this.moveCount;
+                this.pieceName = "";
+                this.side = "";
+                this.moveCount = "";
+            }
+
+            //이동 가능 좌표 할당
+            //해당 좌표의 
+            getMovable(){
+                let piece = this.pieceName
+                let r = rulesForPieceMove[piece]; //기물에 따라 룰 선택
+
+                if(piece == "bishop" || piece == "rook" || piece =="queen" || piece == "king" || piece == "knight"){
+                    for(let i=0; i<r.length; i++){
+                        for(let k=0; k<boardLen; k++){ // 이동규칙에 따라 최대 보드 크기만큼 반복하면서 이동가능할 블록 좌표를 가져옴
+                            let x = this.x + r[i][0]*(k+1);
+                            let y = this.y + r[i][1]*(k+1);
+                            if(0 > x || x > boardLen-1 || 0 > y || y > boardLen-1){ // 보드 밖으로 벗어나면 넘김
+                                continue;
+                            }
+
+                            //만든 좌표를 file rank로 바꿔서 board Json을 통해 대상 블록에 접근
+                            let temp = getCoord(x*size,y*size); 
+                            let file = temp[0];
+                            let rank = temp[1];
+                            let coord = temp[2];
+                            let target = board[coord];
+
+
+                            // 같은편x , 상대기물을 만나면 반복종료, 그 외 추가
+                            if(this.side == target.side && target.pieceName != ""){
+                                this.nextMovable.push(coord);
+                                break;
+                            }else if(this.side != target.side && target.pieceName != ""){
+                                this.movable.push(coord);
+                                break;
+                            }else if(target.pieceName == ""){
+                                this.movable.push(coord);
+                            }
+                            if(piece == "king" || piece == "knight"){ // 킹과 나이트는 각 규칙당 1회만
+                                break;
+                            }
+                        } 
+                    }
+                    
+                }else if(piece == "pawn"){
+                    for(let i=0; i<r.length; i++){
+                        //대상 좌표 할당
+                        let x = this.x + r[i][0];
+                        let y = this.y + r[i][1];
+                        if(this.side == "white"){
+                            y = this.y - r[i][1];                              
+                        }
+                        if(0 > x || x > boardLen-1 || 0 > y || y > boardLen-1){
+                            continue;
+                        }
+                        let temp = getCoord(x*size,y*size);
+                        let file = temp[0];
+                        let rank = temp[1];
+                        let coord = temp[2];
+                        let target = board[coord];
+
+                        
+                        if(i == 0){// 직진 이동  // 
+                            if(target.pieceName != ""){
+                                continue;
+                            }else{
+                                if(this.moveCount == 0){ //이동수가 0이면 클릭한 지점과 + 1을 추가
+                                    this.movable.push(coord);
+                                    if(this.side == "black" && board[file+(rank-1)].pieceName == ""){ // y가 1씩 차이나면서 비어있으면 추가 
+                                        this.movable.push(file+(rank-1));
+                                    }else if(this.side == "white" && board[file+(rank+1)].pieceName == ""){
+                                        this.movable.push(file+(rank+1));
+                                    }
+                                }else if(this.moveCount > 0){// 1이상이면 클릭한 지점만 추가
+                                    this.movable.push(coord);
+                                }
+                            }
+                        }else if(i > 0){// 대각선 이동
+                            if(this.side == target.side || target.pieceName == "" && target.enpassant == ""){
+                                continue;
+                            }else if(target.pieceName != ""){
+                                this.movable.push(coord);
+                                continue;
+                            }else if(target.enpassant != ""){// 양파상
+                                this.movable.push(coord);
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // 보드 객체 생성
+        for(let i=0; i<boardLen; i++){
+            for(let j=0; j<boardLen; j++){
+                //기보용 좌표명
+                let squareName = fileStr[j]+rankNum[i];
+                //사각형 객체 생성
+                board[`${squareName}`] = new Square();
+                let b = board[`${squareName}`];
+                b.x = j;
+                b.y = i;
+                b.file = fileStr[j];
+                b.rank = rankNum[i];
+
+                //보드색 지정 규칙 == 밝은색으로 끝 == 짝수이면 밝은색으로 시작
+                if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1){
+                    b.color = WHITE;
+                }else{
+                    b.color = BLACK;
+                }
+                
+                //기물
+                if(b.rank == 8|| b.rank == 1){
+                    b.pieceName = basicLoc[j];
+                }else if(b.rank == 7 || b.rank == 2){
+                    b.pieceName = PAWN;
+                }
+                
+            }
+        }
+        let key = Object.keys(board);
+
+        //배치
+        init();
+        function init(){
+            for(let i=0; i<key.length; i++){
+                if(board[key[i]].pieceName != ""){
+                    let b = board[key[i]];
+                    let img = new Image();
+                    b.side = "black";
+                    if(b.y > 2){
+                        b.side = "white";
+                    }
+                    img.src = root+b.side+"_"+b.pieceName+".png";
+                    drawPiece(img, b.x, b.y);
+                }
+            }
+            //보드 칠하기
+            for(let i=0; i<key.length; i++){
+                let c = board[key[i]].color;
+                let x = board[key[i]].x;
+                let y = board[key[i]].y;
+                ctx1.beginPath();
+                ctx1.fillStyle=c;
+                ctx1.fillRect(x*size,y*size,size,size);
+                ctx1.closePath();
+            }
+        }
+
+        // 특수행마 양파상
+        function setEnpassant(coord, x, y, side){
+            //양파상 초기화
+            for(let i=0; i<key.length; i++){
+                board[key[i]].enpassant = "";   
+            }
+            //양파상 주소 할당
+            if(board[clickedCoord].pieceName == "pawn"){
+                let diff = Math.abs(board[coord].rank - board[clickedCoord].rank);
+                let enpassantCoord = "";
+                if(diff == 2 && side == "black"){
+                    enpassantCoord = fileStr[x]+rankNum[y - 1];
+                    board[enpassantCoord].enpassant = coord;
+                    board[enpassantCoord].side = side;
+                }else if(diff == 2 && side == "white"){
+                    enpassantCoord = fileStr[x]+rankNum[y + 1];
+                    board[enpassantCoord].enpassant = coord;
+                    board[enpassantCoord].side = side;
+                }else{
+                    return;
+                }
+            }
+        }
+        
+        // 양파상 용 지우기
+        function delEnpassant(coord){
+            let b = board[coord];
+            b.del();
+            b.moveCount = "";
+            b.side = "";
+            b.pieceName = "";
+        }
+        
+        //기물 칠하기 모든 기물 그리기 함수는 이 함수를 사용해서 기물을 출력함
+        function drawPiece(img, x, y){
+            img.onload = function () {
+                ctx2.beginPath();
+                ctx2.drawImage(img, x*size, y*size, size, size);
+                ctx2.closePath();
+            }
+        }
+
+        //이동용 기물 그리기
+        function setNewPiece(coord, pieceName, side){
+            let b = board[coord];
+            let img = new Image();
+            img.src = root+side+"_"+pieceName+".png";
+            drawPiece(img, b.x, b.y);
+        }
+
+        //기물 이동
+        function movePieces(coord, x, y){
+            //값교체
+            let clicked = board[clickedCoord]; // 이동 대상
+            let piece = clicked.pieceName; // 이동 대상 기물명
+            let side = clicked.side;
+            let enpassant = clicked.enpassant;
+            let moveCount = clicked.moveCount;
+            if(piece == "pawn"){
+                //폰이면 양파상 좌표 체크
+                if(board[coord].enpassant != "" && side != board[coord].side){
+                    delEnpassant(board[coord].enpassant);
+                }else if(clicked.moveCount == 0){
+                    setEnpassant(coord, x, y, side);
+                }
+                // 프로모션 체크
+                if(y == 0 || y == boardLen - 1){
+                    piece = promotion();
+                   if(piece == "q"){
+                        piece = "queen";
+                   }else if(piece == "k"){
+                        piece = "knight";
+                   }else if(piece == "r"){
+                        piece = "rook";
+                   }else if(piece == "b"){
+                       piece = "bishop";
+                    }
+                }
+            }
+            
+            if(piece == "king" && moveCount == 0){
+                let diff = clicked.x - board[coord].x;
+                let dir = 1;
+                if(diff > 0){
+                    dir = -1;
+                }
+
+                if(Math.abs(diff) == 2){
+                    let check = 0;
+                    for(let i=0; i<clicked.movable.length; i++){
+                        if(clicked.movable[i] == coord){
+                            check = 1;
+                        }
+                    }
+                    if(check == 1){
+                        castling(coord, dir);
+                    }
+                }
+            }
+
+
+            board[clickedCoord].moveCount += 1;
+            moveCount = clicked.moveCount;
+
+            clicked.del();
+            board[coord].del();
+            clicked.pieceName = "";
+            clicked.side = "";
+            clicked.moveCount = "";
+            clicked.movable = [];
+            clicked.nextMovable = [];
+            clicked.enpassant = ""
+            board[coord].pieceName = piece;
+            board[coord].side = side;
+            board[coord].moveCount = moveCount;
+            board[coord].enpassant = enpassant;
+            clickedCoord = "";
+            clickState = 0;
+            getMovableList();
+
+
+            let defenceSide = "white" 
+            if(side == "white"){
+                defenceSide = "black"
+            }
+            if(checkForCheck(defenceSide) == true){ // 이동불가 좌표 검사
+                infoStr.innerText = "거기로 이동할 수 없습니다.";
+                backToSave();
+                getMovableList();
+            }else if(checkForCheck(defenceSide) == false){ // 킹이 죽는 수가 아니라면 기물이동
+                if(checkForCheck(side) == true){// 새로운 이동좌표를 기반으로 체크 검사
+                    checkForCheckmate(side); 
+                }else if(checkForCheck(side) == false){
+                    infoStr.innerText = coord;
+                    setNewPiece(coord, piece, side); //새 위치에 그리기
+                    getMovableList(); // 이동이 끝나고 새로운 이동 가능 좌표가 할당됨
+                    staleState = 1;
+                    clickedCoord = kings[defenceSide]; // 위에서 초기화된 좌표를 스테일검사를 위해 방어측 킹의 좌표를 인수로 
+                    circleDraw(clickedCoord); 
+                    if(board[coord].pieceName == "king"){                   
+                        setCastling(coord);
+                    }
+                    checkState = 0;
+                }
+                turn = !turn;
+            }
+        }
+        
+        //전체 새로 그리기
+        function reDraw(){
+            ctx2.clearRect(0,0, $board.width, $board.height);
+            for(let i=0; i<key.length; i++){
+                if(board[key[i]].pieceName != ""){
+                    let b = board[key[i]];
+                    let img = new Image();
+                    img.src = root+b.side+"_"+b.pieceName+".png";
+                    drawPiece(img, b.x, b.y);
+                }
+            }
+        }
+        //클릭한 좌표를 받아서 
+        // 이동가능장소에 표시
+        function circleDraw(coord){//인자로 받은 좌표를 받고 side변수에 해당기물의 편을 저장
+            toSave();
+            let side = board[coord].side;
+            let fixedRank = save[coord].rank; //스테일메이트 검사용 좌표
+            let fixedFile = save[coord].file;
+            for(let j=0; j<key.length; j++){ 
+                if(side == board[key[j]].side){//모든 보드객체를 순회하며 side가 같은 경우만 실행
+                    coord = key[j];
+                }else if(side != board[key[j]].side){//
+                    continue;
+                }
+                for(let i=0; i<board[coord].movable.length; i++){//side가 같다면 이동가능 좌표만큼 반복
+                    let target = board[coord].movable[i];
+                    let side = board[coord].side;
+                    let x = board[target].x;
+                    let y = board[target].y;
+                    let color = "lightgray";
+                    //스테일메이트 검사
+                    if(staleMate(coord, i, side) == true){ //기물이동시 체크이면 staleCount증가
+                        staleCount += 1; 
+                        color = "red";
+                    }
+                    if(board[coord].rank == fixedRank && board[coord].file == fixedFile){
+                        //대상이 스테일메이트 검사를 위한 대상이 아니라
+                        //반복문 시작전에 저장한 == 클릭한 대상인 경우만 원 표시 그리기 
+                        ctx2.beginPath();
+                        ctx2.arc(x*size+size/2,y*size+size/2, 40, 0, 2*Math.PI);
+                        ctx2.strokeStyle = color;
+                        ctx2.lineWidth= "10";
+                        ctx2.stroke();
+                        ctx2.closePath();
+                    }
+                    backToSave();// 검사전으로 초기화
+                    getMovableList(); 
+                    if(board[coord].pieceName == "king"){                   
+                        setCastling(coord);
+                        console.log(board[coord].movable)// 스테일 때문에 함수 종료후 캐슬링 좌표가 없어짐
+                    }
+                    
+                }
+                
+            }
+            if(movableList[side].length == staleCount && staleState == 1){
+                alert("무승부!");
+                infoStr.innerText = "무승부 입니다"
+                staleState = 2;
+                return
+            }else{
+                staleCount = 0;
+            }                
+            for(let j=0; j<key.length; j++){
+                if(board[key[j]].pieceName != ""){
+                    board[key[j]].setPiece();
+                }
+            }
+            
+        }
+
+        //스테일메이트 
+        //스테일 메이트는 킹이 죽게되는 수를 둘 수 없고 한턴 쉬는게 불가능한 체스 규칙으로 인해 만들어진 규칙으로
+        //한쪽이 체크는 아니면서 가능한 모든 수가 킹이 죽게되는 자살수만 남으면 그 게임은 무승부로 끝나게 된다.
+        //이 규칙이 있기 때문에 체스에서 지고 있는 쪽이 킹만 남은 상황에서도 역전에 가까운 무승부를 만들 수 있게 한다.
+
+        function staleMate(coord, i, side){ 
+            // 기물이동 이동위치를 할당하고 이동
+            let dest = board[coord].movable[i]; 
+            board[coord].move(dest); 
+
+            getMovableList(); // 기물이 이동한 상태로 이동가능 지역 재설정
+            if(checkMark(kings[side]) == true){// 체크여부 판단
+                backToSave();
+                return true
+            }
+
+            backToSave();
+            staleState = 0;
+        }   
+        
+        //이동후 체크인 지역 검사
+        //인수로 받은 좌표가 상대편 좌표에 있으면 true, 없으면 false 반환
+        function checkMark(coord){
+            let b = board[coord];
+            let side = "white";
+            if(b.side == "white"){
+                side = "black";
+            }
+            
+            // 
+            if(movableList[side].indexOf(coord) != -1){
+                return true;
+            }
+            if(nextMovableList[side].indexOf(coord) != -1){
+                return true;
+            }
+            return false;
+        }
+
+        //이동후 호출되어 인수로 받은 쪽의 이동가능 배열에 수비측 킹의 좌표가 있는지(체크인지) 확인
+        //있으면 체크메이트를 검사하는 함수 호출
+        function checkForCheck(inputSide){
+            let side = "black";
+            if(inputSide == "black"){
+                side = "white";
+            }
+
+            //공격측의 이동 가능 지점에 수비측 킹의 좌표가 있는지 검사
+            if(movableList[inputSide].indexOf(kings[side]) != -1){ 
+              
+                // 있다면 체크메이트 상태변수를 1로 변경
+                infoStr.innerText = `${inputSide}의 체크`;
+                checkState = 1;
+                return true; // 체크상태이면 true 반환
+            }
+            return false; // 체크가 아니면 false 반환
+        }
+
+        let save = null;// 체크메이트 검사시 전체 상태가 임시 저장될 변수
+        
+        //수비측의 모든 기물을 순회하면서 이동가능 지역에 한번씩 이동후 체크가 해제되는 경우가 발생하면
+        //checkState 변수를 0으로
+        //모든 순회 후에도 checkState 변수가 1이라면 2로
+        function checkForCheckmate(attackSide){
+            let side = "black";
+            if(attackSide == "black"){
+                side = "white";
+            }
+   
+            for(let i=0; i<key.length; i++){//수비측 기물의 수만큼 반복
+                let piece = board[key[i]];
+                let check = 0;
+                if(board[key[i]].side == side){
+
+                    toSave();
+                    for(let j=0; j<piece.movable.length; j++){// 해당 기물의 이동가능 만큼 반복
+                        let dest = piece.movable[j];
+                        piece.move(dest);
+
+                        getMovableList();
+                        if(checkForCheck(attackSide) == true){
+                            backToSave();
+                        }else if(checkForCheck(attackSide) == false){
+                            backToSave();                          
+                            return;            
+                        }       
+                        //계속 원래 값으로 바뀌므로 다음 반복때는 원상태가 되고
+                        // 다음 이동 좌표를 검사할 수 있게 됨
+                    }
+                }
+            }
+            checkState = 2;
+            checkMate(attackSide);            
+        }
+
+        // 체크메이트 검사후 원래 상태로 돌리기
+        function backToSave(){ // 반복문으로 속성값만 되돌림
+           for(let i=0; i<key.length; i++){
+                board[key[i]].movable = save[key[i]].movable;
+                board[key[i]].moveCount = save[key[i]].moveCount;
+                board[key[i]].side = save[key[i]].side;
+                board[key[i]].nextMovable = save[key[i]].nextMovable;
+                board[key[i]].enpassant = save[key[i]].enpassant;
+                board[key[i]].pieceName = save[key[i]].pieceName;
+            }
+        }
+        
+
+        // 체크메이트 검사를 위해 킹의 원래 정보를 저장
+        function toSave(){ // 이전 정보 저장 체크전 호출
+            save = JSON.parse(JSON.stringify(board)); // 함수 제외한 속성만 저장됨
+        }
+
+        //체크메이트 - 게임종료
+        function checkMate(side){
+            side = side.toUpperCase();
+            alert(`체크메이트! ${side}의 승리`)
+            infoStr.innerText = `${side} 승리`
+            checkState = 2;
+        }
+
+        
+        // 그리기용좌표 x,y -> file,rank 좌표로 바꾸기
+        function getCoord(x,y){
+            let file = fileStr[parseInt(x / size)];
+            let rank = Math.abs(parseInt(y/ size) - boardLen);
+            let coord = ""+file+rank; //coordinate
+            return [file,rank,coord];
+        }
+        
+        //모든 기물에 이동가능 좌표 할당
+        function getMovableList(){
+            
+            movableList["white"] = [];
+            movableList["black"] = [];
+            nextMovableList["white"] = []; // movableList만 초기화 하고 next는 안해서 
+            nextMovableList["black"] = []; // 초반에는 잘 동작하다가 좌표가 쌓이고 나면 어느 말을 클릭해 빨간 원이 표시됨 에러에 규칙이 안보여셔 특히 찾기 어려웠음
+            for(let i=0; i<key.length; i++){
+                board[key[i]].movable = [];
+                board[key[i]].nextMovable = [];
+                board[key[i]].getMovable();
+                if(board[key[i]].pieceName == "king"){
+                    kings[board[key[i]].side] = key[i];// 킹위치 기록 // 킹 위치를 추적하는 코드가 setCastling 내부에 있어서 캐슬링을 고치면 코드 전체에 문제가 생겼음
+                }
+                for(let j=0; j<board[key[i]].movable.length; j++){
+                    movableList[board[key[i]].side].push(board[key[i]].movable[j]);
+                    nextMovableList[board[key[i]].side].push(board[key[i]].nextMovable[j]);
+                }
+            }
+        }
+
+        //킹 캐슬링으로 2칸 이동시 rook 이동
+        function castling(coord, dir){             
+            let b = board[coord];
+            let x = b.x;
+            let rank = b.rank;
+            let target = "";
+            let dest = fileStr[x+(-dir)]+rank;
+            for(let i=0; i<boardLen-1; i++){
+                if(board[fileStr[x+(dir*i)]+rank].pieceName == "rook"){
+                    board[fileStr[x+(dir*i)]+rank].move(dest);
+                    break;
+                }
+            }
+        }
+
+        //킹의 좌표를 받아서 캐슬링이 가능여부를 검사해
+        //가능하면 해당 좌표를 해당칸 이동가능 좌표에 추가
+        function setCastling(kingsCoord){
+            let king = board[kingsCoord];
+            kings[king.side] = kingsCoord;// 킹위치 기록
+            if(king.moveCount > 0){ //킹 이동수가 0보다 크면 종료
+                return;
+            }
+            let x = king.x;
+            let file = board[kingsCoord].file;
+            let rank = board[kingsCoord].rank;
+            let side = "white";// 킹이 백이면 대상은 흑으로
+            
+            
+            if(king.side == "white"){
+                side = "black";
+            }
+            
+            let coord = "";
+            let loc = 0;
+
+            for(let i=0; i<2; i++){
+                let check = 0; // 걸리는게 있으면 1
+                for(let j=1; j<boardLen; j++){
+                        loc = j;// 킹의 좌우로 한칸씩 체크
+                    if(i == 1){
+                        loc = -j;
+                    }
+                    let temp = getCoord((king.x+loc)*size,king.y*size) // j로 대상 좌표구함
+                    coord = temp[2];// *size실수
+                    if(temp[0]==undefined){
+                        check = 1;
+                        break; 
+                    }
+                    let limit = temp[0];
+                    let target = board[coord];   
+
+                    if(movableList[side].indexOf(kingsCoord) != -1){
+                        return;
+                    }else if(target.pieceName == "" && movableList[side].indexOf(coord) == -1){
+                        continue;
+                    }else if(target.pieceName == "" && movableList[side].indexOf(coord) != -1 && j > 2){
+                        continue;
+                    }else if(target.pieceName == "" && movableList[side].indexOf(coord) != -1){
+                        check = 1;
+                        break;
+                    }else if(target.pieceName == "rook"){
+                        if(target.moveCount > 0){
+                            check = 1;
+                        }
+                        break;
+                    }else if(target.pieceName != ""){
+                        check = 1;
+                        break;
+                    }
+                }
+                if(check == 0){
+                    king.movable.push(fileStr[x+(loc/Math.abs(loc)*2)]+rank);
+                }
+            }
+
+        }    
+
+
+        function promotion(){ //폰이 끝에 도달하면 프롬프트 창을 뜨워 하나를 입력할 때 까지 무한 반복
+            let name = "";
+            while(name != "q" && name != "k" && name != "r" && name != "b"){
+
+                name = prompt("q:Queen, k:Knight, r:Rook, b:Bishop").toLowerCase();
+            }
+            return name;
+
+        }
+        document.addEventListener("keydown",(e)=>{
+            if(e.code == "KeyA"){
+                turn = !turn;
+            }
+        });
+      
+
+        $pieces.addEventListener("click",(e) => {
+            // if(checkState != 2 && staleState != 2 || true){
+            if(checkState != 2 && staleState != 2){
+                //몫 연산으로 인덱스를 구함
+                let offX = e.offsetX;
+                let offY = e.offsetY;
+                let temp = getCoord(offX, offY);
+                let file = temp[0];
+                let rank = temp[1];
+                let coord = temp[2];
+                let b = board[coord];
+                let x = board[coord].x;
+                let y = board[coord].y;
+                //이전 클릭없고 기물이 있다면 보드에 표시
+                if(board[coord].pieceName != "" && clickState == 0 && (turn == true && board[coord].side == "white" || turn == false && board[coord].side == "black")){
+                // if(board[coord].pieceName != "" && clickState == 0){
+                    b.movable = [];
+                    b.nextMovable = [];
+
+                    getMovableList();
+                    if(board[coord].pieceName == "king"){                   
+                        setCastling(coord);
+                    }
+                    clickedCoord = coord;
+                    clickedPieces = board[coord].pieceName;
+                    clickState = 1;
+                    checkForCheck(board[coord].side);
+                    circleDraw(coord);
+                    if(board[coord].pieceName == "king"){                   
+                        setCastling(coord);
+                    }
+                    b.fillSquare(markColor);
+                    b.setPiece();
+
+                    //이전 클릭있고 동일한 위치를 다시 클릭한 경우 표시 취소
+                }else if(clickedCoord == coord && clickState == 1){
+                    reDraw();
+                    clickedCoord = "";
+                    clickedPieces = "";
+                    clickState = 0;
+                    //이전 클릭있고 아군이면 취소, 적군이면 get
+                }else if(clickedCoord != coord && clickState == 1){
+                    if(board[clickedCoord].side != b.side || b.pieceName == ""){
+                        let check = 0;
+                        for(let i=0; i<board[clickedCoord].movable.length; i++){
+                            if(board[clickedCoord].movable[i] == coord){
+                                check = 1;
+                            }
+                        }
+                        if(check == 1){
+                            movePieces(coord, x, y);
+                            reDraw();
+                        }
+                    }else if(board[clickedCoord].side == b.side && b.pieceName != ""){
+                        board[clickedCoord].del();
+                        board[clickedCoord].fillSquare(board[clickedCoord].color);
+                        board[clickedCoord].setPiece();
+                        reDraw();
+                        clickedCoord = "";
+                        clickedPieces = "";
+                        clickState = 0;
+                    }
+                }
+            }
+        });
+        
+        
+        </script>
+</body>
+</html>
+
+
+

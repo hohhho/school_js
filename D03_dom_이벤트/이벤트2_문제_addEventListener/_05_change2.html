@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        change 와 select 를 사용한 이벤트를 만드시오.
+        addEventListener 를 사용하시오. 
+    -->
+
+    <select id="sel">
+        <option value="0">::선택하세요::</option>
+        <option value="1">java</option>
+        <option value="2">spring</option>
+        <option value="3">python</option>
+        <option value="4">c</option>
+    </select>
+
+    <div id="div">
+
+    </div>
+
+    <script>
+        let $sel = document.querySelector("#sel");
+        let $div = document.querySelector("#div");
+        $sel.addEventListener("change",changeEvent);
+
+        function changeEvent(){
+            $div.innerText = $sel.children[$sel.value].innerText;
+        }
+    
+    </script>
+</body>
+</html>

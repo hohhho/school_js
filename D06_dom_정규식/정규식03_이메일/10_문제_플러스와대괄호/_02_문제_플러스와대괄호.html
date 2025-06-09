@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            아래 실행결과를 예측한 후, 실행해보세요.
+        */
+
+        let exp = /^[0-9]+$/;   // 숫자 1번 이상
+
+        let value = "12345";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // true 
+
+        value = "7";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // true
+
+        value = "abc123";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");      // false
+
+        value = "";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // false
+
+    </script>
+</body>
+</html>

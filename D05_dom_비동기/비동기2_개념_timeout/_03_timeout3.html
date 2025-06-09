@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>타임아웃으로 셋인터벌과 같은효과를 내기 </h1>
+    <div id='clock'></div>
+    
+    <script>
+        function setClock() {
+            let now = new Date();
+            let s = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+            document.getElementById('clock').innerHTML = s;
+
+            setTimeout(setClock, 1000);
+        }
+
+        setClock();
+    </script>
+
+</body>
+</html>

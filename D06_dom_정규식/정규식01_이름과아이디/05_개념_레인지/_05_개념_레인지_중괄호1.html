@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^[a-c]{2}$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [a-c]       : 'a', 'b' 또는 'c' 중 하나의 문자와 매칭됩니다. 이는 [abc]와 동일한 의미를 가집니다.
+            (4) {2}         : [a-c] 패턴이 2번 반복되어야 함을 의미합니다.
+            (3) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 'a', 'b', 'c' 중 2개의 문자로 구성된 문자열과 정확히 매칭됩니다.
+        */
+        
+        let value = "ab";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "ac";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "aa";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+        
+        value = "abc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+    </script>
+</body>
+</html>

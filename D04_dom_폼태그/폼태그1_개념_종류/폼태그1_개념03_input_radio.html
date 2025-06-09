@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>value</title>
+</head>
+<body>
+    <!--
+        [input type="radio"]
+            [1] radio 는 여러그룹중에서 한가지만 선택할경우 사용한다. (비슷한기능으로 select가있다. )
+            [2] radio 는 같은그룹임을 표시하는방법은 속성 name값을 동일하게 사용한다.
+            [3] 아래는 두가지 그룹이 있다. gender 와 age 이다. 
+            [4] radio 는 name속성을 설정하지 않으면, radio 기능이 정상 동작하지 않는다.
+            -->
+    	<form >
+            <h3>설문조사</h3>
+            성별 : 
+            <input type="radio"  name="gender">남성
+            <input type="radio"  name="gender">여성 <br/>
+            연령 : 
+            <input type="radio" name="age">10대
+            <input type="radio" name="age">20대
+            <input type="radio" name="age">30대 이상 <br/>
+            이름 : 
+            <input type="text" > <br/>
+            <input type="submit">
+        </form>
+</body>
+</html>

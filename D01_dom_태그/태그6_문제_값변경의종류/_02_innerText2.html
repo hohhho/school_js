@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        아래 p태그의 이름은 김철수로 
+        나이는 10으로 변경하시오.
+    -->
+
+    <h4>학생 명단</h4>
+    <p>이름 : <span id="name"></span></p>
+    <p>나이 : <span id="age"></span></p>
+
+   
+    <script>
+        document.querySelector("#name").innerText = "김철수";
+        document.querySelector("#age").innerText = "10";
+
+        console.log(document.querySelector("#name").innerText);
+        console.log(document.querySelector("#age").innerText);
+        
+        
+    </script>
+</body>
+</html>

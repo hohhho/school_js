@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--
+    
+        아래 list에 stList의 데이터를 자식으로추가하시오.
+    -->
+
+    <h4>학생 명단</h4>
+    <div id="list"></div>
+
+    <script>
+        
+        let stList = [
+            {"name":"Hong", "age":21},
+            {"name":"Kim", "age":22},
+            {"name":"Park", "age":23}
+        ];
+
+        let $parent = document.querySelector("#list");
+        
+        let ul = document.createElement("ul");
+        $parent.append(ul);
+
+        stList.forEach((st)=>{
+            let li = document.createElement("li");
+            let str = `name : ${st["name"]}, age : ${st["age"]}`;
+            li.innerText = str;
+            ul.append(li);
+        })
+
+    </script>    
+</body>
+</html>

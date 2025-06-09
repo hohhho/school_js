@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            margin-bottom: 15px;
+        }
+
+        #timer{
+            font-size:40px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        setTimeout을 사용하여 타이머 기능을 만들어보세요.
+    -->
+    
+    <div align="center" id="main">
+        <h1>타이머</h1>
+        <div id="timer">
+            00:00:00
+        </div>
+
+        <div id="setTimeArea">
+            <input type="number" id="hour">
+            <input type="number" id="min">
+            <input type="number" id="sec">
+            <button onclick="setTime()">설정</button>
+        </div>
+
+        <div>
+            <button onclick="runTimer()">시작</button>
+            <button onclick="clearTimeout(run)">일시정지</button>
+            <button onclick="resetTimer()">리셋</button>
+        </div>
+    </div>
+
+
+    <script>
+        let run = null;
+        let h=0; m=0; s=0;
+        let $hour = document.querySelector("#hour");
+        let $min = document.querySelector("#min");
+        let $sec = document.querySelector("#sec");
+        let $timer = document.querySelector("#timer");
+        
+        function setTime(){
+            h = Number($hour.value) || 0;
+            m = Number($min.value) || 0;
+            s = Number($sec.value) || 0;
+
+            if($hour.value > 24){
+                alert("24시간 미만으로 설정해주세요");
+                return;
+            }
+            if($min.value > 60){
+                alert("60분 미만으로 설정해주세요");
+                return;
+            }
+            if($sec.value > 60){
+                alert("60초 미만으로 설정해주세요");
+                return;
+            }
+
+            $timer.style.backgroundColor = "";
+            $timer.innerHTML = printTime($hour.value,$min.value,$sec.value);
+        }
+
+        function resetTimer(){
+            clearTimeout(run);
+            h = m = s = 0;
+            $timer.innerHTML = "00:00:00";
+            $hour.value = "";
+            $min.value = "";
+            $sec.value = "";
+            $timer.style.backgroundColor = "";
+        }
+
+        function runTimer(){
+            clearTimeout(run);
+            decTime();
+        }
+
+        function decTime(){            
+            if(h==0 && m==0 && s==0){
+                timeOver();
+                return;
+            }
+
+            if(s>0){
+                s--;
+            }else{
+                if(m>0){
+                    m--;
+                    s = 59;
+                }else{
+                    if(h > 0){
+                        s--;
+                        m = 59;
+                        s = 59;
+                    }
+                }
+            }
+
+
+            $timer.innerHTML = printTime(h,m,s);
+
+            run = setTimeout(decTime,1000);
+        }
+
+        function printTime(hour,min,sec){
+            let hh = String(hour).padStart(2,"0");
+            let mm = String(min).padStart(2,"0");
+            let ss = String(sec).padStart(2,"0");
+            return `${hh}:${mm}:${ss}`;
+        }
+
+        function timeOver(){
+            clearTimeout(run);
+            $timer.innerHTML = "TimeOver";
+            $timer.style.backgroundColor = "red";
+        }
+    </script>
+
+</body>
+</html>

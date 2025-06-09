@@ -1,0 +1,34 @@
+<script>
+
+    // 배열.forEach(value, index, array)
+    /*
+        forEach 는 배열에서 반복문을 바로 연결해서 쓰는방법으로 
+
+        (1) 값만 꺼낼수도있고,
+
+        (2) 값 과 인덱스를 꺼낼수도있고,
+
+        (3) 값과 인덱스와 배열을 꺼낼수도 있다. 
+
+    */
+    let arr = [10, 20, 30];
+    arr.forEach((value) => {
+        document.write(value + " ");
+    });
+
+    document.write("<hr>");
+
+    arr.forEach((value, index) => {
+        document.write(value + " " + index + "<br>");
+    });
+
+    document.write("<hr>");
+
+    arr.forEach((value, index, array)=>{
+        document.write(value + " " + index + " " + array + "<br>");  
+    });
+
+    document.write("<hr>");
+
+
+</script>

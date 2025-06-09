@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            아래 결과를 예상하고, 실행하시오.
+        */
+
+        let exp = /^[abc]{2}[123]{2}$/;     // abc중 하나 *2로 시작, 123중 하나 * 2 로 끝남
+        
+        let value = "aaa1";
+        let check = exp.test(value);
+        document.write(check + "<br>");            // false
+
+        value = "bcc2";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+        value = "bc12";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "12ab";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+    </script>
+</body>
+</html>

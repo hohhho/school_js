@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #maintable {
+            border-collapse: collapse;
+            line-height: 30px;
+        }
+        #maintable td {
+            padding: 20px 15px;
+        }
+        button {
+            width: 120px;
+            height: 50px;
+            border-style: none;
+            border-radius: 5px;
+            font-size: 17px;
+            background-color: white;
+            border: 1px solid rgb(5, 80, 145);
+            color: rgb(5, 80, 145);
+            font-weight: bold;
+        }
+        button:hover {
+            color: white;
+            background-color:  rgb(5, 80, 145);
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <h1>정보처리기사 시험문제</h1>
+        <table style="width: 1000px;">
+            <tr>
+                <td align="right"><button onclick="checkAnwer()">제출하기</button></td>
+            </tr>
+        </table>
+        <br />
+        <table id="maintable" border="1" style="width: 1000px; height: 450px;">
+            <tr>
+                <th style="background-color: aliceblue;"><h3>문제</h3></th>
+                <th style="background-color: aliceblue;"><h3>확인</h3></th>
+            </tr>
+            <tr>
+                <td>
+                    <h3>1. 데이터베이스의 정의로 옳은 것은?</h3>
+                    <input type="radio" id="a" class="exam1" name="exam1" >
+                    <label for="a" style="cursor: pointer;">어느 조직의 여러 응용시스템들이 공유하며 사용할 수 있도록 통합, 저장된 운영데이터의 집합이다. <br /></label>
+                    <input type="radio" id="b" class="exam1" name="exam1" >
+                    <label for="b" style="cursor: pointer;">데이터의 저장소로서의 역할이 강조된다. <br /></label>
+                    <input type="radio" id="c" class="exam1" name="exam1" >
+                    <label for="c" style="cursor: pointer;">일반적으로 응용 프로그램과 DBMS(DataBase Management System)로 구성되어 있다. <br /></label>
+                </td>
+                <td align="center" style="width: 120px;"><img src="images/기사1.svg" width="100px" class="ansImg"></td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>2. 다음 중 고객의 니즈를 확인하고 설계 단계에서 반영하는 과정에 해당하는 것은?</h3>
+                    <input type="radio" id="d" class="exam2" name="exam2" >
+                    <label for="d" style="cursor: pointer;"> 품질보증(QA: Quality Assurance) <br /></label>
+                    <input type="radio" id="e" class="exam2" name="exam2" >
+                    <label for="e" style="cursor: pointer;"> 요구사항정의(RE: Requirements Engineering) <br /></label>
+                    <input type="radio" id="f" class="exam2" name="exam2" >
+                    <label for="f" style="cursor: pointer;"> 시스템통합(SI: System Integration) <br /></label>
+                </td>
+                <td align="center" style="width: 120px;"><img src="images/기사1.svg" width="100px" class="ansImg"></td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>3. 가용성, 신뢰성, 확장성을 향상시키기 위해 다수의 서버를 연결하고 자원을 공유하는 시스템 구조는?</h3>
+                    <input type="radio" id="g" class="exam3" name="exam3" >
+                    <label for="g" style="cursor: pointer;"> 단일 서버 아키텍처 <br /></label>
+                    <input type="radio" id="h" class="exam3" name="exam3" >
+                    <label for="h" style="cursor: pointer;"> 클라이언트/서버 아키텍처 <br /></label>
+                    <input type="radio" id="i" class="exam3" name="exam3" >
+                    <label for="i" style="cursor: pointer;"> 분산 시스템 아키텍처 <br /></label>
+                </td>
+                <td align="center" style="width: 120px;"><img src="images/기사1.svg" width="100px" class="ansImg"></td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let answerList = [1, 2, 2];
+        let myAnswerList = [];
+
+        let $ansImgList = document.querySelectorAll(".ansImg");
+        $ansImgList[0].style.display = "none";
+        $ansImgList[1].style.display = "none";
+        $ansImgList[2].style.display = "none";
+
+        function checkAnwer() {
+
+            let $exam1List = document.querySelectorAll(".exam1");
+            let $exam2List = document.querySelectorAll(".exam2");
+            let $exam3List = document.querySelectorAll(".exam3");
+
+            if($exam1List[0].checked == false && $exam1List[1].checked == false && $exam1List[2].checked == false) {
+                alert("모든 문제를 풀어주세요!");
+                return false;
+            }
+            if($exam2List[0].checked == false && $exam2List[1].checked == false && $exam2List[2].checked == false) {
+                alert("모든 문제를 풀어주세요!");
+                return false;
+            }
+            if($exam3List[0].checked == false && $exam3List[1].checked == false && $exam3List[2].checked == false) {
+                alert("모든 문제를 풀어주세요!");
+                return false;
+            }
+
+
+            for(let i=0; i<$exam1List.length; i++) {
+                if($exam1List[i].checked == true) {
+                    myAnswerList.push(i + 1);
+                }
+            }
+
+            for(let i=0; i<$exam2List.length; i++) {
+                if($exam2List[i].checked == true) {
+                    myAnswerList.push(i + 1);
+                }
+            }
+
+            for(let i=0; i<$exam3List.length; i++) {
+                if($exam3List[i].checked == true) {
+                    myAnswerList.push(i + 1);
+                }
+            }
+
+            console.log(myAnswerList);
+
+            if(answerList[0] == myAnswerList[0]) {
+                $ansImgList[0].src = "images/기사1.svg";
+                $ansImgList[0].style.display = "block";
+            } else {
+                $ansImgList[0].src = "images/기사2.svg";
+                $ansImgList[0].style.display = "block";
+            }
+
+            if(answerList[1] == myAnswerList[1]) {
+                $ansImgList[1].src = "images/기사1.svg";
+                $ansImgList[1].style.display = "block";
+            } else {
+                $ansImgList[1].src = "images/기사2.svg";
+                $ansImgList[1].style.display = "block";
+            }
+
+            if(answerList[2] == myAnswerList[2]) {
+                $ansImgList[2].src = "images/기사1.svg";
+                $ansImgList[2].style.display = "block";
+            } else {
+                $ansImgList[2].src = "images/기사2.svg";
+                $ansImgList[2].style.display = "block";
+            }
+
+        }
+    </script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+
+    <style>
+        #center {
+            margin: 0 auto;
+            text-align: center;
+        }
+        #myTetris {
+            border-collapse: collapse;
+        }
+        #myTetris td {
+            border: 1px solid black;
+            width: 30px;
+            height: 30px;
+        }
+        .gray    { background-color: gray; }
+        .green   { background-color: green; }
+        .red     { background-color: red; }
+        .purple  { background-color: purple; }
+        .orange  { background-color: orange; }
+        .blue    { background-color: blue; }
+        .yellow  { background-color: yellow; }
+        .skyblue { background-color: skyblue; }
+        .black   { background-color: black; }
+    </style>
+
+</head>
+<body>
+    <table id="center">
+        <tr>
+            <td>
+                <h1>테트리스</h1>
+            </td>
+        </tr>
+        <tr>
+            <td id="tetrisCenter"></td>
+        </tr>
+    </table>
+
+    <script src="tetris06.js"></script>
+</body>
+</html>

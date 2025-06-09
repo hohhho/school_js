@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+
+   <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+
+        div{
+            text-align: center;
+        }
+        table, tr, td {
+        border-collapse: collapse;
+        }
+        table {
+            margin: auto;
+        }
+        td {
+            font-weight: bold;
+            text-align: center;
+            border: 3px solid black;
+            width: 100px;
+            height: 100px;
+            font-size: 30px;
+        }
+        p {
+            text-align: center;
+            font-size: 40px;
+        }
+
+   </style>
+</head>
+<body onload="init()">
+    <!-- ---------------------------- header start ----------------------------- -->
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h3>틱택토</h3>
+    </div>
+    <div>   
+        <button id="reset" onclick="reset()">리셋</button>
+    </div>
+    <hr width="300px" color="coral" size="1">
+    <br>
+    <!-- ---------------------------- header finish ----------------------------- -->
+
+    <script>
+    
+    let size = 3;
+    let $body = document.body;
+    let $table = document.createElement("table");
+    let $tdList = [];
+    let dataList = [];  // player1(1), player2(2)
+    let turn = true;    // player1(true), player2(false)
+    let win = 0;        // player1(1), player2(2)
+    let count = 0;
+
+
+
+    function init() {
+
+        for(let i=0; i<size; i++) {
+            let temp = [0, 0, 0,0];
+            dataList.push(temp);
+            // dataList.push([0, 0, 0]);
+        }
+
+        for(let i=0; i<size; i++) {
+            let $tr = document.createElement("tr");
+            let $temp = [];
+            for(let j=0; j<size; j++) {
+                let $td = document.createElement("td");
+                $td.addEventListener("click", clickEvent);
+                $temp.push($td);
+                $tr.append($td);
+            }
+            $tdList.push($temp);
+            $table.append($tr);
+        } 
+        $body.append($table);
+        $body.append(document.createElement("p"));
+        console.log($tdList);
+    }
+
+
+    function clickEvent() {
+        if(win == 0){
+        for(let i=0; i<size; i++) {
+            for(let j=0; j<size; j++) {
+                if(this == $tdList[i][j]) {
+                    if(this.innerText == "") {
+                        if(turn) {
+                            this.innerText = "O";
+                            dataList[i][j] = 1;
+                            count += 1;
+                        } else {
+                            this.innerText = "X";
+                            dataList[i][j] = 2;
+                            count += 1;
+                        }
+                        turn = !turn;
+                    }
+                }
+            }
+        }
+
+
+        console.log(dataList);
+        if(winCheck(this) == 3){
+            document.querySelector("p").innerText="무승부"
+        }else if(win == 1){
+            document.querySelector("p").innerText="플레이어1 승리"
+        }else if(win == 2)
+            document.querySelector("p").innerText="플레이어2 승리"
+        }
+    }
+
+
+    function reset(){
+        $table.remove()
+        document.querySelector("p").remove()
+        $table = document.createElement("table");
+        $tdList = [];
+        dataList = [];  // player1(1), player2(2)
+        turn = true;    // player1(true), player2(false)
+        win = 0;        // player1(1), player2(2)
+        count = 0;
+        init()
+    }
+    function winCheck(obj){
+        let x = 0;
+        let y = 0;
+        // 클릭 index 구하기
+        for(let i=0; i<size; i++){
+            for(let j=0; j<size; j++){
+                if($tdList[i][j] == obj){
+                    y = i;
+                    x = j;
+                }
+            }
+        }
+        
+        
+        //인덱스에 따라 4가지 승리 조건인
+        //가로, 세로, 대각l, 대각r의 값을 저장할 배열
+        let p1 = [0,0,0,0];
+        let p2 = [0,0,0,0];
+        
+
+        //인덱스에 해당하는 가로 세로 체크
+        //가로
+        for(let i=0; i<size; i++){
+            if(dataList[y][i] == 1){
+                p1[0] += 1;
+                
+            }else if(dataList[y][i] == 2){
+                p2[0] += 1;
+            }
+        //세로
+            if(dataList[i][x] == 1){
+                p1[1] += 1;
+            }else if(dataList[i][x] == 2){
+                p2[1] += 1;
+            }
+        }
+        
+        //대각은 언제나 1개씩 이므로 인덱스가 필요없음
+        // 대각 \
+        let col = size-1;
+        for(let i=0; i<size; i++){
+            if(dataList[i][i] == 1){
+                p1[2] += 1;
+            }else if(dataList[i][i] == 2){
+                p2[2] += 1;
+            }
+
+        // 대각 /
+            if(dataList[i][col] == 1){
+                p1[3] += 1;
+            }else if(dataList[i][col] == 2){
+                p2[3] += 1;
+            }
+            col -= 1;
+        }
+        
+        
+        //승리한 플레이어가 있으면 return
+        if(p1[0] == size || p1[1] == size || p1[2] == size || p1[3] == size){
+            win = 1;
+            return win;
+        }else if(p2[0] == size || p2[1] == size || p2[2] == size || p2[3] == size){
+            win = 2;
+            return win;
+        }
+            
+    
+        // console.log("chx= " +check1x)
+        // console.log("chy= " +check1y)
+            
+        // 무승부
+        // 모든 칸 수 만큼 클릭 이벤트가 일어났고 win이 0인 상태이면 무승부로
+        if(count == size*size && win == 0){
+            win = 3;
+            return win;
+        }
+        
+    }
+    
+    </script>
+</body>
+</html>
+

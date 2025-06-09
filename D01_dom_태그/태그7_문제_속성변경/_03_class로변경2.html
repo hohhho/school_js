@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getElementsByClassName()</title>
+    <style>
+        div {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+ <!--
+        아래 태그중 두번째태그의  배경을 빨간색으로 변경하시오.
+    -->
+    <div class="content">
+        <p>getElementsByClassName() 메서드1</p>
+    </div>
+    <div class="content">
+        <p>getElementsByClassName() 메서드2</p>
+    </div>
+
+  
+    <script>
+
+        let $b = document.querySelectorAll(".content");
+
+        $b[1].style.backgroundColor = "red";
+    </script>
+</body>
+</html>

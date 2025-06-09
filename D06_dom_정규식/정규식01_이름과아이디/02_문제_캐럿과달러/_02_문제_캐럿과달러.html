@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            아래 결과를 예상하고, 실행하시오.
+        */
+        let exp = /ab/; // ab가 포함되어 있으면 ture
+        
+        let value = "aab";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "abbc";
+        check = exp.test(value);
+        document.write(check + "<br>");             // ture
+
+        value = "babca";
+        check = exp.test(value);
+        document.write(check + "<br>");             // true
+
+        value = "bacbad";
+        check = exp.test(value);
+        document.write(check + "<br>");             // false
+
+    </script>
+</body>
+</html>

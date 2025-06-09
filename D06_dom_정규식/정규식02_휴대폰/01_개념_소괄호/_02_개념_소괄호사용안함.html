@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            () 소괄호
+            - 중괄호가 없을 경우, 
+              소괄호 사용 여부는 정규식의 매칭 결과에 직접적인 영향을 미치지 않습니다.
+        */  
+
+
+        let exp = /^abc$/; 
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) abc         : 'abc' 문자와 매칭됩니다.
+            (3) $           : 문자열의 끝을 나타냅니다.
+
+            이 정규식은 전체 문자열이 'abc'와 정확히 일치할 때만 매칭됩니다.
+        */
+        
+        let value = "abc";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        value = "1abc2";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "ab123c";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+        value = "cabdabc";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+
+        // 위에 가 오타이다. 아래로 바뀌어야함.
+        let exp = /^01([016789])([0-9]{3,4})([0-9]{4})$/;
+        /*  
+            [정규식 휴대폰]
+            (1) ^                   : 문자열의 시작을 나타냅니다.
+            (2) 01                  : '01'로 시작하는 문자열을 의미합니다. 이는 한국의 휴대전화 번호가 '01'로 시작하기 때문입니다.
+            (3) ([016789])          : 0, 1, 6, 7, 8, 9 중 하나의 숫자가 이어져야 함을 의미합니다. 예를 들어, 010, 011, 016 등의 휴대전화 번호 앞자리를 허용합니다.
+            (4) ([0-9]{3,4})        : 3자리 또는 4자리의 숫자가 와야 함을 의미합니다. 이는 휴대전화 번호의 중간 자리(예: 123 또는 1234)에 해당합니다.
+            (5) ([0-9]{4})          : 4자리의 숫자가 와야 함을 의미합니다. 이는 휴대전화 번호의 마지막 자리(예: 5678)에 해당합니다.
+            (6) $                   : 문자열의 끝을 나타냅니다.
+        */
+
+        let value = "0131231234";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "01312341234";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "0101231234";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+        value = "01912341234";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+    </script>
+</body>
+</html>

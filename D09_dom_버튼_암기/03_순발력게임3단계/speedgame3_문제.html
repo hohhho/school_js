@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+        #timer { text-align: center; }
+        #header { text-align: center; }
+        #footer { text-align: center; }
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            margin: auto;
+        }
+        td {
+            width: 50px;
+            height: 50px;
+            border: 3px solid white;
+            text-align: center;
+            color: brown;
+            font-size: 20px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+    </style>
+<body onload="init()">
+
+    <div id="timer">0</div>
+    
+    <div id="header">
+        <h2>Speed Game</h2>
+        <button onclick="hintClick()">힌트</button>
+        <span id="nextNum">1</span>
+    </div>
+
+    <div id="center">
+
+    </div>
+
+    <div id="footer">
+        <button onclick="replayClick()">Replay</button>
+    </div>
+
+
+    <script>
+        let gameNum = 1;
+        let time = 0;
+        let timeId = null;
+
+        let size = 5;
+        let frontList = [];
+        let backList = [];
+        let $timer = document.querySelector("#timer");
+        let $center = document.querySelector("#center");
+        let $table = document.createElement("table");
+        let $tdList = [];
+
+        function init(){
+            // 숫자 리스트 생성
+            let num = 1;
+
+            for(let i=0; i<size; i++){
+                let frontTemp = [];
+                let backTemp = [];
+                for(let j=0; j<size; j++){
+                    frontTemp.push(num);
+                    backTemp.push(num + size*size);
+
+                    num++;
+                }
+                frontList.push(frontTemp);
+                backList.push(backTemp);
+            }
+
+            // 셔플
+            for(let i=0; i<100; i++){
+                let y1 = Math.floor(Math.random(size));
+                let x1 = Math.floor(Math.random(size));
+                let y2 = Math.floor(Math.random(size));
+                let x2 = Math.floor(Math.random(size));
+                
+                let temp = frontList[y1][x1];
+                frontList[y1][x1] = frontList[y2][x2];
+                frontList[y2][x2] = temp;
+
+                temp = backList[y1][x1];
+                backList[y1][x1] = backList[y2][x2];
+                backList[y2][x2] = temp;
+            }
+
+            // 테이블 생성
+            for(let i=0; i<frontList.length; i++){
+                let $tr = document.createElement("tr");
+                for(let j=0; j<frontList[i].length; j++){
+                    let $td = document.createElement("td");
+                    $td.innerText = frontList[i][j];
+
+                    $tr.append($td);
+                }
+                $table.append($tr);
+            }
+            $center.append($table);
+        }
+
+        function hintClick(){
+
+        }
+
+        function replayClick(){
+
+        }
+        
+    </script>
+</body>
+</html>

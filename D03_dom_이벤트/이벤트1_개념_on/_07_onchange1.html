@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!--
+        [개념] 이벤트 종류
+            (2) onchange : 내용이 변경 된 후 HTML 요소가 포커스를 잃으면 이벤트가 발생한다.
+    -->
+
+    <input type="text" id="msg" placeholder="소문자로 입력하세요." onchange="changeUpper()">
+
+    <script>
+        function changeUpper() {
+            let $element = document.querySelector("#msg");
+            $element.value = $element.value.toUpperCase();
+            $element.style.backgroundColor = "yellow";
+        }
+    </script>
+
+</body>
+</html>

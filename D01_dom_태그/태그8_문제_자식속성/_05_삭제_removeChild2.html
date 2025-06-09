@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        첫번째 자식을 삭제하시오.
+    -->
+
+    <div id="target">
+        <p id="p1">첫번째 단락</p>
+        <p id="p2">두번째 단락</p>
+    </div>
+
+    <script>
+        let $parent = document.querySelector("#target");
+        let $child = document.querySelector("#p1");
+        
+        $parent.removeChild($child);
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getElementById()</title>
+</head>
+<body>
+    <!-- 
+        js-dom : 화면을 제어(태그를 제어)
+    -->
+    
+    <!--
+        [개념] document.getElementById("id명")
+
+            (1) 해당 id의 요소를 선택
+
+            이름을 붙이는 것
+    -->
+
+
+    <p id="test">getElementById() </p>
+   
+
+    <script>
+        
+        // 태그를 선택해서 저장한 변수들은 $기호를 붙여, 일반 변수와 구분을 한다.
+        let $a = document.getElementById("test");
+        console.log($a);    // <p id="test">getElementById() </p>
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        아래 list의 모든자식을 출력하시오.
+    
+    -->
+
+    <h4>과일 목록</h4>
+    <ul id="list">
+        <li>사과</li>
+        <li>바나나</li>
+        <li>딸기</li>
+        <li>포도</li>
+    </ul>
+   
+    <script>
+        let $list = document.querySelector("#list");
+
+        for(let i=0; i<$list.children.length; i++){
+            console.log($list.children[i].innerText);
+        }
+
+        for(let child of $list.children){
+            console.log(child.innerText);
+        }
+    </script>
+</body>
+</html>

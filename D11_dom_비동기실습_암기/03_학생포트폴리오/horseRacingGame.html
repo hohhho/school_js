@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #header { text-align: center; }
+        a {
+            color: coral;
+            text-decoration: none;
+        }
+        h1{
+            text-align: center;
+        }
+        td{
+            border : solid black 1px;
+            width: 100px;
+            text-align: center;
+        }
+        img{
+            width: 100px;
+        }
+        #select{
+            display: table;
+            margin: auto;
+        }
+        #race, #result{
+            display: table;
+            margin: auto;
+            margin-top: 20px;
+        }
+        #race td{
+            width: 20px;
+            height: 20px;
+        }
+        #result td{
+            width: 50px;
+            height: 20px;
+        }
+
+    </style>
+</head>
+
+<body onload="race()">
+    <div id="header">
+        <h3><a href="index.html">MINI GAME PROJECT</a></h3>
+        <h1>경마 게임</h1>
+    </div>
+    <hr width="300px" color="coral" size="1">
+    <div id="select">
+    
+        <table>
+            <tr>
+                <td colspan="5">1등으로 도착하는 말은 몇 번일까요?</td>
+            </tr>
+            <tr>
+                <td class="num"><input type="radio" value="1" name="number">1번</td>
+                <td class="num"><input type="radio" value="2" name="number">2번</td>
+                <td class="num"><input type="radio" value="3" name="number">3번</td>
+                <td class="num"><input type="radio" value="4" name="number">4번</td>
+                <td class="num"><input type="radio" value="5" name="number">5번</td>
+                
+            </tr>
+            <tr>
+                <td><img src="images/red.png"></td>
+                <td><img src="images/orange.png"></td>
+                <td><img src="images/yellow.png"></td>
+                <td><img src="images/green.png"></td>
+                <td><img src="images/blue.png"></td>
+            </tr>
+            <tr>
+                <td colspan="5"><button onclick="start()">선택완료</button></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="race"></div>
+
+    <div id="result"></div>
+
+    <script>
+        let colors = ["red", "orange", "yellow", "green", "lightblue"];
+        let $numbers = document.querySelectorAll(".num");
+        let gameSpeed = 50;
+        let loc = [];
+        let rank =[];
+        let count = 1;
+        let player = 5;
+        let size = 41;
+        let state = null;
+        let select = 0;
+        let $raceTrList = [];
+        let $resultTrList = [];
+
+        // 레이스 표 출력
+        function race(){
+            for(let i=0; i<$numbers.length; i++){
+                $numbers[i].style.background = colors[i];
+            }
+            let $table = document.createElement("table");
+            for(let i=0; i<player; i++){
+                let $tr = document.createElement("tr");
+                let $temp = [];
+                for(let j=0; j<size; j++){
+                    let $td = document.createElement("td");
+                    if(j==0){
+                        $td.innerText = i+1;
+                        $td.style.background = colors[i];
+                        $td.id = `loc${i}`
+                        loc.push(0);
+                        rank.push(0);
+                    }
+                    $temp.push($td);
+                    $tr.append($td);
+                }
+                $table.append($tr);
+                $raceTrList.push($temp);
+            }
+
+            document.querySelector("#race").append($table);
+        }
+
+        //시작 버튼
+        function start(){
+            let sel = document.querySelectorAll("input")
+
+            //미선택시 경고
+            let check = 0;
+            for(let i=0; i<player; i++){
+                if(sel[i].checked == true){
+                    check = 1;
+                }
+            }
+            if(check == 0){
+                alert("기수를 선택하세요")
+            }else{
+                if(state == null){
+                    for(let i=0; i<player; i++){
+                        if(sel[i].checked == true){
+                            select = i;
+                        }
+                    }
+                state = setInterval(run, gameSpeed);
+                }
+            }
+        }
+        
+        //레이스 시작
+        function run(){
+            let tempRank = 0; //동시 도착을 위한 임시 랭크
+            for(let i=0; i<player; i++){// 랜덤 한 값 만큼 이동
+                let speed = Math.floor(Math.random()*2)+1;
+                let ind = loc[i];
+                let end = size-1;
+                if(ind + speed < size-1){
+                    $raceTrList[i][ind].id = "";
+                    $raceTrList[i][ind+speed].id = `loc${i}`;
+                    $raceTrList[i][ind].style.background = "";
+                    $raceTrList[i][ind+speed].style.background = colors[i];
+                    loc[i] += speed;
+                }else if(ind + speed >= size-1 && loc[i] != size-1){ // 끝에 닿으면 rank배열에 등수 push, 이후로 무시
+                    console.log(loc[i])
+                    $raceTrList[i][ind].id = "";
+                    $raceTrList[i][end].id = `loc${i}`;
+                    $raceTrList[i][ind].style.background = "";
+                    $raceTrList[i][end].style.background = colors[i];
+                    loc[i] = size-1;
+                    tempRank += 1;
+                    rank[i] = count;
+                }
+            }
+            
+            count += tempRank;
+            //레이스 종료 조건
+            final=0;
+            for(let i=0; i<player; i++){
+                if(loc[i] == size-1){
+                    final += 1;
+                }
+                if(final == player){
+                    clearInterval(state);
+                    result()
+                }
+            }
+      
+        }
+        
+        function result(){//결과표
+            let $table = document.createElement("table");
+            for(let i=0; i<2; i++){//번호, 등수 출력
+                let $tr = document.createElement("tr");
+                let $temp = [];
+                for(let j=0; j<player; j++){
+                    let $td = document.createElement("td");
+                    if(i==0){
+                        $td.innerText = j+1+"번";
+                        if(j==select){
+                            $td.style.background = colors[j];
+                        }
+                    }else if(i==1){
+                        $td.innerText = rank[j]+"등";
+                        if(rank[j] == 1){
+                            $td.style.background = colors[j];
+                        }
+                    }
+                    $temp.push($td);
+                    $tr.append($td);
+                }
+                $table.append($tr);
+                $resultTrList.push($temp);
+            }
+            // 정답, 리셋버튼 출력
+            for(let i=0; i<2; i++){
+                let $tr = document.createElement("tr");
+                let $temp = [];
+                let $td = document.createElement("td");
+                $td.colSpan = player;
+                //선택, 결과 1등 비교
+                if(i==0){
+                    for(let j=0; j<player; j++){
+                        //console.log(j+" "+ select +" "+rank[j])
+                        if(rank[j] == 1 && j == select){
+                            $td.innerText = "정답입니다"
+                            break;
+                        }else{
+                            $td.innerText = "오답입니다"
+                        }
+                    }
+                }else if(i==1){
+                    let $button = document.createElement("button");
+                    $button.setAttribute("onclick", "reset()");
+                    $button.innerText = "다시하기"
+                    $td.append($button);
+                }
+
+                $temp.push($td);
+                $tr.append($td);
+                $table.append($tr);
+                $resultTrList.push($temp);
+            }
+            document.querySelector("#result").append($table);
+        }
+        
+
+        function reset(){//리셋
+            document.querySelectorAll("input")[select].checked = false;
+            document.querySelector("#race").textContent="";
+            document.querySelector("#result").textContent="";
+            loc = [];
+            rank =[];
+            count = 1;
+            state = null;
+            select = 0;
+            $raceTrList = [];
+            $resultTrList = [];
+            race()
+        }
+
+    </script>
+</body>
+</html>

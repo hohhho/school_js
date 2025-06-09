@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getElementsByName()</title>
+</head>
+<body>
+
+    <!--
+        아래 모든 체크박스를 체크한채로 시작하도록 만드시오. 
+    -->
+
+    <h3 id="target">과목 선택</h3>
+
+    HTML<input type="checkbox" name="subject" value="html">
+    CSS<input type="checkbox" name="subject" value="css">
+    JavaScript<input type="checkbox" name="subject" value="javascript">
+    
+    <script>
+        $a = document.getElementsByName("subject");
+
+        $a.forEach((element)=>{
+            element.checked = true;
+        })
+    </script>
+</body>
+</html>

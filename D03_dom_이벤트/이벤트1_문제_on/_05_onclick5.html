@@ -1,0 +1,41 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <!--
+        셀렉트를 하나만들고 셀렉트 내용을 선택하지않으면 경고창을 띄우는 이벤트를 만드시오.
+    
+    -->
+
+    <select id="sel">
+        <option value="0">선택하세요</option>
+        <option value="1">사과</option>
+        <option value="2">배</option>
+        <option value="3">바나나</option>
+        <option value="4">달걀</option>
+    </select>
+
+    <button onclick="check()">확인</button>
+
+    <script>
+        function check(){
+            let $sel = document.querySelector("#sel");
+
+            if($sel.value == 0){
+                alert("경고!");
+            }else{
+                let str = "선택하신 과일은 ";
+                str = str.concat($sel.children[$sel.value].innerText).concat("입니다");
+                alert(str);
+            }
+        }
+    </script>
+
+</body>
+</html>

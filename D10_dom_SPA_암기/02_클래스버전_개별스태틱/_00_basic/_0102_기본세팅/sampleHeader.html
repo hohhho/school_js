@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #header-header {
+            margin: 0 auto;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        button 기능
+        (1) 페이지 이동 : page
+        (2) 페이지 이동 + 데이터 처리 : pro(=process)
+        (3) 이벤트처리 : 이벤트명(clic, input, blur, ...)
+    -->
+    <table id="header-header">
+        <tr>
+            <td><button id="button-memberJoinPage">회원가입</button></td>
+            <td><button id="button-memberLoginPage">로그인</button></td>
+        </tr>
+    </table>
+
+    <script>
+        let buttonMemberJoinPageClick = (event) => { 
+            
+        }
+        let buttonMemberLoginPageClick = (event) => {  
+
+        }
+
+        //--------------------------------------------------------------
+
+        let $buttonMemberJoinPage = document.querySelector("#button-memberJoinPage");
+        let $buttonMemberLoginPage = document.querySelector("#button-memberLoginPage");
+        
+        $buttonMemberJoinPage.addEventListener("click", buttonMemberJoinPageClick);
+        $buttonMemberLoginPage.addEventListener("click", buttonMemberLoginPageClick);
+
+    </script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

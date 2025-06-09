@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td {
+            border: 1px solid black;
+            width: 40px;
+            height: 40px;
+            text-align: center;     /* 가로 중앙정렬 */
+        }
+    </style>
+</head>
+<body>
+    
+    <script>
+        let num = 1;
+        let func1 = function(e){
+            if(e.target.innerText == ""){
+                e.target.innerText = num;
+                num++;
+            }else{
+                alert("빈 인덱스가 아닙니다");
+            }
+        }
+
+
+        let $body = document.body;
+        let $table = document.createElement("table");
+        
+        for(let i=0; i<10; i++){
+            let $tr = document.createElement("tr");
+
+            for(let j=0; j<10; j++){
+                let $td = document.createElement("td");
+                $td.addEventListener("click",func1);
+
+                $tr.append($td);
+            }
+            $table.append($tr);
+        }
+        $body.append($table);
+
+    </script>
+
+</body>
+</html>

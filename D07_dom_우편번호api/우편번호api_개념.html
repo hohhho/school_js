@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+     <!-- Daum 우편번호 -->
+     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <style>
+        table, tr, td  {
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        #content-join {
+            margin: 0 auto;
+            width: 600px;
+        }
+        #title, #joinPro {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <table id="content-join">
+        <tr>
+            <td colspan="3" id="title"><h2>회원가입</h2></td>
+        </tr>
+   
+        <tr>
+            <td rowspan="2">우편번호</td>
+            <td><input id="input-memberZonecode" type="text" placeholder="우편번호를 입력해주세요"></td>
+            <td><button onclick="execDaumPostcode()">우편번호검색</button></td>
+        </tr>
+        <tr>
+            <td id="msg-memberZonecode" colspan="2"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">도로명 주소</td>
+            <td colspan="2"><input id="input-memberAddress" type="text" placeholder="도로명 주소를 입력해주세요" ></td>
+        </tr>
+        <tr>
+            <td id="msg-memberAddress" colspan="2"></td>
+        </tr>
+        <tr>
+            <td rowspan="2">남은 주소</td>
+            <td colspan="2"><input id="input-memberAddressDetail" type="text" placeholder="남은 주소를 입력해주세요" ></td>
+        </tr>
+        <tr>
+            <td id="msg-memberAddressDetail" colspan="2"></td>
+        </tr>
+       
+        <tr>
+            <td colspan="3" id="joinPro">
+                <button id="button-memberJoinPro">가입하기</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+
+        let idCheck = false;
+        let emailCheck = false;
+
+       
+        let $inputMemberZonecode = document.querySelector("#input-memberZonecode");
+        let $inputMemberAddress = document.querySelector("#input-memberAddress");
+        let $inputMemberAddressDetail = document.querySelector("#input-memberAddressDetail");
+        let $inputMemberGender = document.querySelector("#input-memberGender");
+
+       
+
+        let $btnMemberJoinPro = document.querySelector("#button-memberJoinPro");
+        $btnMemberJoinPro.addEventListener("click", buttonMemberJoinProClick);
+       
+        /* 
+            우편번호 검색 기능
+            1. 아래 함수 모양은 특이한 형태로 되어있다.
+            이 형태 이외의 다른 형태로는 사용되지 않으니, 그냥 암기해서 사용한다.
+            2. new daum.Postcode({옵션}).open();
+         */
+        function execDaumPostcode() {
+
+            let themeObj = {
+                bgColor: "#162525", //바탕 배경색
+                searchBgColor: "#162525", //검색창 배경색
+                contentBgColor: "#162525", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+                pageBgColor: "#162525", //페이지 배경색
+                textColor: "#FFFFFF", //기본 글자색
+                queryTextColor: "#FFFFFF", //검색창 글자색
+                //postcodeTextColor: "", //우편번호 글자색
+                //emphTextColor: "", //강조 글자색
+                outlineColor: "#444444" //테두리
+            };
+
+            new daum.Postcode( {
+                oncomplete: function( data ) {  // 주소를 선택했을 때
+
+                    document.querySelector("#input-memberZonecode").value = data.zonecode;
+                    document.querySelector("#input-memberAddress").value = data.address;
+
+                    document.querySelector("#input-memberAddressDetail").focus();
+                },
+                theme: themeObj
+            }).open();
+        }
+
+      
+        /* 가입하기 */
+        function buttonMemberJoinProClick() {
+           
+            // 우편번호 입력 확인
+            if($inputMemberZonecode.value == "") {
+                alert("우편번호를 입력해주세요.");
+                return false;
+            }
+            // 도로명 입력 확인
+            if($inputMemberAddress.value == "") {
+                alert("도로명을 입력해주세요.");
+                return false;
+            }
+            // 남은 주소 입력 확인
+            if($inputMemberAddressDetail.value == "") {
+                alert("남은 주소를 입력해주세요.");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+
+</body>
+</html>

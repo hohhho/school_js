@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마켓컬리</title>
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+    <style>
+        
+        .slidewrap{
+            width: 100%;
+            height: 370px;
+
+            position: relative;
+            overflow: hidden;
+
+        }
+        .slides{
+            display: flex;
+
+        }
+        .slide{
+            width: 100%;
+            height: 370px;
+
+            flex: 0 0 100%;
+            display: flex;     
+            overflow: hidden;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div align="center">
+        <table width="1050px" >
+            <tr height="50px">
+                <td width="800px"></td>
+                <td align="center"><a href="#" style="text-decoration: none; color:black; font-size:13px;">회원가입</a></td>
+                <td align="center">|</td>
+                <td align="center"><a href="#" style="text-decoration: none; color:black; font-size:13px;">로그인</a></td>
+                <td align="center">|</td>
+                <td align="center"><a href="#" style="text-decoration: none; color:black; font-size:13px;">고객센터</a></td>
+            </tr>
+
+        </table>
+    </div>
+    
+    <div align="center">
+        <table width="1050px" >
+            <tr height="50px">
+                <td width="200px"><img src="img/logo.svg"></td>
+                <td width="180px" style="color: #5f0080; font-weight: bold; ">마켓컬리</td>
+                <td width="400px"><input type="text" placeholder="검색어를 입력해주세요"
+                    style="border:1px solid #5f0080; width: 350px; height: 35px; border-radius: 3.5px;"></td>
+                <td align="right"><img src="img/location.svg"></td>
+                <td align="right"><img src="img/location.svg"></td>
+                <td align="right"><img src="img/location.svg"></td>
+            </tr>
+
+        </table>
+    </div>
+
+
+    <div align="center">
+        <table width="1050px" >
+            <tr height="50px">
+                <td width="250px"><a href="#" style="text-decoration: none; color:black; font-weight: bold;">신상품</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color:black; font-weight: bold;">베스트</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color:black; font-weight: bold;">알뜰쇼핑</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color:black; font-weight: bold;">특가/혜택</a></td>
+                <td width="250px"><a href="#" style="text-decoration: none; color:black; font-weight: bold;">샛별·하루배송안내</a></td>
+            </tr>
+
+        </table>
+    </div>
+   
+    <div>
+        <div class="slidewrap">
+            <div class="slides">
+                <div class="slide"><img src="img/banner01.png" ></div>
+                <div class="slide"><img src="img/banner02.png" ></div>
+                <div class="slide"><img src="img/banner03.png" ></div>
+                <div class="slide"><img src="img/banner01.png" ></div>
+                <div class="slide"><img src="img/banner02.png" ></div>
+                <div class="slide"><img src="img/banner03.png" ></div>
+            </div>
+        </div>
+       
+    </div>
+
+    <script>
+
+        //기본적인 슬라이드 정보 얻어두기
+        const slidewrap = document.querySelector(".slidewrap");
+        const slidescnt = document.querySelectorAll(".slide").length;
+        const slideContainer = document.getElementsByClassName("slides");
+        const slideWidth = slidewrap.offsetWidth;
+
+        console.log(slidewrap);
+        console.log(slidescnt);
+        console.log(slideContainer);
+        console.log(slideWidth);
+
+        let currentSlide = 0; // 이미지 인덱스 
+
+        setInterval(autoslide, 3000); //일정 시간마다 호출
+
+        function autoslide(){
+            // 다음이 있으면 다음으로 , 없으면 0으로 
+            if(currentSlide + 1 < slidescnt){
+                currentSlide = currentSlide + 1;
+            }else{
+                currentSlide = 0; 
+            }
+            slideContainer[0].style.transition = '0.5s';
+            slideContainer[0].style.transform = `translateX(-${slideWidth * currentSlide}px)`;
+        }
+    
+    </script>
+</body>
+</html>

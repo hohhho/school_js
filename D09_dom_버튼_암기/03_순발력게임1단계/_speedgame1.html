@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #header { text-align: center; }
+        table {
+            border-collapse: collapse;
+            border: 1px solid black;
+            margin: auto;
+        }
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body onload="init()">
+
+    <div id="header">
+        <h3>Speed Game</h3>
+    </div>
+
+    <div id="center"></div>
+    
+    <div id="footer"></div>
+    
+    <script>
+        let size = 5;
+        
+        let frontList = []; // 1 ~ 25 수를 저장하는 2차배열
+        let backList = [];  // 26 ~ 50 수를 저장하는 2차배열
+        let $center = document.querySelector("#center");
+        let $table = document.createElement("table");
+        let $tdList = [];
+
+        function init() {
+            let num = 1;
+            for(let i=0; i<size; i++) {
+                let frontTemp = [];
+                let backTemp = [];
+                for(let j=0; j<size; j++) {
+                    frontTemp.push(num);
+                    backTemp.push(num + 25);
+
+                    num += 1;
+                }
+
+                frontList.push(frontTemp);
+                backList.push(backTemp);
+            }
+
+            console.log("frontList = " + frontList);
+            console.log("backList = " + backList);
+
+            for(let i=0; i<size; i++) {
+                let $tr = document.createElement("tr");
+                
+                let $tempTdList = [];
+                for(let j=0; j<size; j++) {
+                    let $td = document.createElement("td");
+                    $td.addEventListener("click", clickEvent);
+                    $td.innerText = frontList[i][j];
+                    
+                    $tr.append($td);
+                    $tempTdList.push($td);
+                }
+                
+                $tdList.push($tempTdList);
+                $table.append($tr);
+            }
+            $center.append($table);
+        }
+
+        function clickEvent() {
+        }
+
+    </script>
+
+</body>
+</html>

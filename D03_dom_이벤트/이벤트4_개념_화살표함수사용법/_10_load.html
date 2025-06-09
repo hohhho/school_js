@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+    <!--
+        [개념] 이벤트 종류
+            (6) load
+                1) 페이지가 로드되었을 때 이벤트가 발생한다.
+                2) 웹 페이지가 모든 콘텐츠를 완전히 로드한 후 스크립트를 실행하기 위해 
+                    <body> 요소 내에서 가장 자주 사용한다.
+    -->      
+
+<body>
+    <script>
+        // window => 브라우저 창을 의미함
+        window.addEventListener("load", () => {
+            alert("페이지가 로드되었습니다!");
+        });
+    </script>
+</body>
+</html>

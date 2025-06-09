@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문자열 교체 - replace()</title>
+</head>
+<body>
+    
+    <script>
+        /*
+            다음결과를 예측하시오.
+
+            Hello, HTML!
+            Hello, JavaScript!
+            Hello, HTML!
+        */
+       
+
+        let text = "Hello, JavaScript!";
+
+        document.write(text.replace("JavaScript", "HTML") + "<br>");
+        document.write(text + "<br>");
+        text = text.replace("JavaScript", "HTML")
+        document.write(text);
+
+    </script>
+    
+</body>
+</html>

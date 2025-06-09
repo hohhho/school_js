@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*  
+            * (애스터리스크)
+            - 정규식에서 *은 앞에 있는 문자가 0번 이상 반복될 수 있음을 의미합니다.
+        */
+
+        let exp = /^ab*$/;
+        /*
+            (1) a      : 'a'라는 문자로 시작해야 함을 의미합니다.
+            (2) b*     : 'b'가 0번 이상 반복될 수 있음을 의미합니다. 
+                          즉, 'b'가 없거나, 한 번 또는 여러 번 반복될 수 있습니다.
+        */
+
+        let value = "a";
+        let check = exp.test(value);
+        document.write(check + "<br>");         // t
+
+        value = "ab";
+        check = exp.test(value);
+        document.write(check + "<br>");         // t
+
+        value = "acb";
+        check = exp.test(value);
+        document.write(check + "<br>");         // f
+
+        value = "ac";
+        check = exp.test(value);
+        document.write(check + "<br>");         // f
+
+        value = "ba";
+        check = exp.test(value);
+        document.write(check + "<br>");         // f
+
+        value = "bcas";
+        check = exp.test(value);
+        document.write(check + "<br>");         // f
+
+    </script>
+</body>
+</html>

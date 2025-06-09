@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onclick</title>
+</head>
+<body>
+	<!--
+		빨간배경에 마우스가 들어가거나 나올때마다 화면에 내용이 출력되는 
+		이벤트를 만드시오.
+
+	-->
+
+	<style>
+		#my_div {
+			background: red;
+			height: 300px;
+			width: 1000px;
+		}
+	</style>
+
+	<div id='my_div' onmouseenter="enter()" onmouseleave="leave()">
+	</div>
+	
+	<div id="a">
+
+	</div>
+
+	<script>
+		function enter(){
+			let $a = document.querySelector("#a");
+			// $a.innerHTML += "<div>mouse In</div>";
+			let result = document.createElement("span");
+			result.innerHTML = "mouse In<br>";
+			$a.append(result);
+			
+		}
+
+		function leave(){
+			let $a = document.querySelector("#a");
+			// $a.innerHTML += "<div>mouse Out</div>";
+			let result = document.createElement("span");
+			result.innerHTML = "mouse Out<br>";
+			$a.append(result);
+			
+		}
+	</script>
+</body>
+
+</html>

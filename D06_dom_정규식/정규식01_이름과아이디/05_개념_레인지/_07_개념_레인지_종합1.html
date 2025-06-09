@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let exp = /^[A-C]{2}[0-9]{3}$/;
+
+        /*  
+            (1) ^           : 문자열의 시작을 나타냅니다.
+            (2) [A-C]{2}    : 'A', 'B', 'C' 중 2개의 대문자와 매칭
+            (3) [0-9]{3}    : '0', '1', ..., '9' 중 3개의 숫자와 매칭
+            (4) $           : 문자열의 끝을 나타냅니다.
+
+            - 이 정규식은 처음 두 글자는 'A', 'B', 'C' 중에서 2개의 대문자로 이루어짐
+            - 그 뒤에 3개의 숫자(0부터 9까지의 숫자)로 이루어짐
+        */
+        
+        let value = "AB123";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t  
+
+        value = "AC456";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t         
+
+        value = "ab189";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t       
+
+        value = "ABC23";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f       
+
+    </script>
+</body>
+</html>

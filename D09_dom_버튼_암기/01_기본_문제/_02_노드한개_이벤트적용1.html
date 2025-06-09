@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td {
+            border: 1px solid black;
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+
+        let $body = document.body;
+        let $td = document.createElement("td");
+        $td.addEventListener("click",func1);
+        $body.append($td);
+
+        let check = false;
+        function func1(){
+            if(check){
+                $td.innerText = "hello";
+            }else{
+                $td.innerText = "";
+            }
+            check = !check;
+        }
+
+    </script>
+
+</body>
+</html>

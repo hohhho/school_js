@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <!--
+        keydown 과 keyup 과 addEventListener를 사용한 이벤트를 만드시오.
+    -->      
+
+    <input type="text" id="msg">
+
+    <script>
+        let $msg = document.querySelector("#msg");
+        $msg.addEventListener("keydown",keydownEvent);
+        $msg.addEventListener("keyup",keyupEvent);
+
+        function keydownEvent(){
+            $msg.style.backgroundColor = "red";
+        }
+
+        function keyupEvent(){
+            $msg.style.backgroundColor = "green";
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>    
+        /*
+            ?=.* 
+            1. 위 특수기호 4개가 하나의 뜻으로 전방 탐색을 의미합니다.
+            2. 전방 탐색이란 다음에 오는 내용 중 적어도 하나 이상 존재해야 한다는 의미입니다.
+            3. 전방 탐색을 사용할 때에는 반드시 .{n,m}를 통해 개수를 특정지어야 합니다.
+            4. 전방 탐색은 그냥 중괄호가 아닌 반드시 .중괄호이어야 합니다.
+        */
+
+        let exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^*()\-_=+\\\|\[\]{};:\'",.<>\/?]).{8,16}$/;
+
+        /*
+            (1) ^                                      : 문자열의 시작을 나타냅니다.
+            (2) (?=.*[a-z])                             : 소문자 알파벳(a-z)이 최소 1개 이상 포함되어야 함을 의미합니다.
+            (3) (?=.*[A-Z])                             : 대문자 알파벳(A-Z)이 최소 1개 이상 포함되어야 함을 의미합니다.
+            (4) (?=.*[0-9])                             : 숫자(0-9)가 최소 1개 이상 포함되어야 함을 의미합니다.
+            (5) (?=.*[!@#$%^*()\-_=+\\\|\[\]{};:'",.<>\/?])  : 
+                1) 특수 문자 중 하나 이상이 포함되어야 함을 의미합니다. 
+                2) 특수 문자에는 !, @, #, $, %, ^, *, (, ), -, _, =, +, \, |, [, ], {, }, ;, :, ', ", ,, ., <, >, /, ? 등이 포함됩니다.
+            (6) .{8,16}                                 : 
+                1) 전체 문자열의 길이가 8자에서 16자 사이여야 함을 의미합니다.
+                2) 주의할점 : 그냥 중괄호는 바로 앞에 있는 내용의 글자수 제한이나, 중괄호 앞에 .이 붙으면 전체의 개수를 뜻한다.
+            (7) $                                      : 문자열의 끝을 나타냅니다.
+
+        */
+
+
+        let value = "StrongP@ss9";
+        let check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+        value = "abcdef12@";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "PASSWORD123!";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "Abcdefghijklmnop";
+        check = exp.test(value);
+        document.write(check + "<br>");             // f
+
+        value = "securE1$Password";
+        check = exp.test(value);
+        document.write(check + "<br>");             // t
+
+
+      
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            대괄호 안에서 or연산자(|)는 소괄호 때와 달리 연산자로 쓰이지 않고,
+            특수문자(|) 로서 사용됩니다.
+            즉, 대괄호 자체가 or의 개념이기 때문에 | 기호를 사용하지 않도록 주의합시다.
+        */
+
+        let exp = /^[a|b|c]$/; 
+
+        let value = "|";
+        let check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // t
+
+        exp = /^[abc]$/;
+
+        value = "|";
+        check = exp.test(value);
+        document.write(value + " ==> " + check + "<br>");       // f
+
+    </script>
+</body>
+</html>
