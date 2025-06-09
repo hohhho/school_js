@@ -6,7 +6,9 @@ export let ControllerMain = {
     pageList : {},
 
     start(){
-
+        this.setPageList();
+        this.changePage("page-header",null);
+        this.changePage("page-main",null);
     },
 
     setPageList(){
@@ -15,8 +17,8 @@ export let ControllerMain = {
 
     },
 
-    changePage(){
-        
+    changePage(pageName, data){
+        this.pageList[pageName].execute(data);
     }
 
 }
