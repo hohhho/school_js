@@ -1,9 +1,9 @@
-let size = 15;
-let snakeSize = 4;
+let size = 15;  // 전체 가로 세로
+let snakeSize = 4;  // 시작 뱀 사이즈 4칸
 
 let data = [];
 let yList = [0, 0, 0, 0];
-let xList = [0, 1, 2, 3];
+let xList = [0, 1, 2, 3]; // 방향 리스트
 let item = 9;
 let itemCount = 0;
 let dir = 1;    // 북(0) 동(1) 남(2) 서(3)
