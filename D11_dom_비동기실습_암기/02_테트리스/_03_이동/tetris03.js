@@ -197,11 +197,16 @@ function left() {
     let nextX = -1;
 
     let shape = curBlock.shape;
+    
+    // realBolock : 실제 블럭이 있는 공간
     let realBlock = getRealBlock(shape);
+
+    // 이제 진자 왼쪽으로 갈 수 있는지
     let movable = isMovable(realBlock, nextY, nextX);
 
     if(movable == true) {
         // dataList 값을 전부 WHITE로 변경
+        // 현재 위치 모두 지우기
         setData(realBlock, 0, 0, WHITE);
         // 이동 후의 위치로 dataList 값 변경
         setData(realBlock, nextY, nextX, curBlock.color);
